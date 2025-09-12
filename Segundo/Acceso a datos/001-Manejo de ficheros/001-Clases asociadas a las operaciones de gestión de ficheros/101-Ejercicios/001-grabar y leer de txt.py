@@ -1,7 +1,7 @@
 # Primero escribimos un archivo
 
 archivo = open("clientes.txt",'w')
-archivo.write("Esto es un texto")
+archivo.write("Esto es un texto de prueba")
 archivo.close()
 
 # Ahora vamos a leer archivos
@@ -14,7 +14,7 @@ for linea in lineas:
 # Ahora apendizamos en archivos
 
 archivo = open("clientes.txt",'a')
-archivo.write("Esto es otro texto")
+archivo.write("  Esto es otro texto de prueba")
 archivo.close()
 
 # Ahora vamos a leer archivos

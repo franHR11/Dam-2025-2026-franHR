@@ -1,20 +1,38 @@
 [
     {
-        "nombre": "Jose Vicente",
+        "nombre": "Francisco Jose",
         "telefono": [
-            "543534",
-            "543534",
-            "543534"
+            "612345678",
+            "623456789",
+            "634567890"
         ],
-        "email": "info@jocarsa.com"
+        "email": "desarrollo@pcprogramacion.es"
     },
     {
         "nombre": "Juan",
         "telefono": [
-            "543534",
-            "543534",
-            "543534"
+            "645678901",
+            "656789012",
+            "667890123"
         ],
-        "email": "info@jocarsa.com"
+        "email": "contacto@mariacompany.com"
+    },
+    {
+        "nombre": "Ana",
+        "telefono": [
+            "678901234",
+            "689012345",
+            "690123456"
+        ],
+        "email": "ventas@anacompany.com"
+    },
+    {
+        "nombre": "Luis",
+        "telefono": [
+            "690123456",
+            "689012345",
+            "678901234"
+        ],
+        "email": "info@luiscompany.com"
     }
 ]

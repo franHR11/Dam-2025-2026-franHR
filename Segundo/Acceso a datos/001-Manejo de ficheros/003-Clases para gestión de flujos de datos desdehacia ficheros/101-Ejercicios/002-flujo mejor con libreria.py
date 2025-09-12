@@ -1,6 +1,6 @@
 import pickle
 
-datos = "soy un texto"
+datos = "soy un texto  de prueba"
 
 # Primero voy a guardar
 

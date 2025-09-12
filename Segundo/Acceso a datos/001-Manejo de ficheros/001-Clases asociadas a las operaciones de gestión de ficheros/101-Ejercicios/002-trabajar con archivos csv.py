@@ -4,10 +4,10 @@ import csv
 
 datos = [
     ['nombre','apellidos','telefono'],
-    ['Juan','Lopez','5325345'],
-    ['Jorge','Garcia','5124535'],
-    ['Jaime','Martinez','52345435'],
-    ['Jose','Sancho','52345345'],
+    ['Pedro','Gomez','612345678'],
+    ['Maria','Rodriguez','623456789'],
+    ['Ana','Fernandez','634567890'],
+    ['Carlos','Lopez','645678901'],
 ]
 
 archivo = open("datos.csv",'w')

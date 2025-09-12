@@ -2,39 +2,39 @@ import json
 
 personas = [
     {
-        "nombre": "Carlos",
-        "apellido": "Martínez",
-        "edad": 28,
-        "ciudad": "Madrid",
-        "profesion": "Ingeniero"
+        "nombre": "Ana",
+        "apellido": "González",
+        "edad": 25,
+        "ciudad": "Zaragoza",
+        "profesion": "Diseñadora"
     },
     {
-        "nombre": "Lucía",
-        "apellido": "Fernández",
-        "edad": 34,
-        "ciudad": "Barcelona",
-        "profesion": "Doctora"
+        "nombre": "Pedro",
+        "apellido": "Ramírez",
+        "edad": 35,
+        "ciudad": "Málaga",
+        "profesion": "Abogado"
     },
     {
-        "nombre": "Andrés",
-        "apellido": "García",
-        "edad": 22,
-        "ciudad": "Valencia",
-        "profesion": "Estudiante"
+        "nombre": "Sofía",
+        "apellido": "Hernández",
+        "edad": 29,
+        "ciudad": "Granada",
+        "profesion": "Enfermera"
     },
     {
-        "nombre": "María",
-        "apellido": "López",
-        "edad": 41,
-        "ciudad": "Sevilla",
-        "profesion": "Arquitecta"
+        "nombre": "Miguel",
+        "apellido": "Torres",
+        "edad": 42,
+        "ciudad": "Córdoba",
+        "profesion": "Chef"
     },
     {
-        "nombre": "Javier",
-        "apellido": "Sánchez",
-        "edad": 30,
-        "ciudad": "Bilbao",
-        "profesion": "Profesor"
+        "nombre": "Elena",
+        "apellido": "Díaz",
+        "edad": 31,
+        "ciudad": "Valladolid",
+        "profesion": "Periodista"
     }
 ]
 

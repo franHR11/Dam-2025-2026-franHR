@@ -1,5 +1,5 @@
 archivo = open("clientes.bin",'wb')
 
-archivo.write(b"soy un cliente")
+archivo.write(b"Hola soy un cliente de prueba")
 
 archivo.close()

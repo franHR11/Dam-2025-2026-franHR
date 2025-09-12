@@ -10,39 +10,39 @@ except:
 # Lista de personas ficticias
 personas = [
     {
-        "nombre": "Carlos",
-        "apellido": "Martínez",
-        "edad": 28,
-        "ciudad": "Madrid",
+        "nombre": "Francisco",
+        "apellido": "Hernández",
+        "edad": 35,
+        "ciudad": "Granada",
+        "profesion": "Programador"
+    },
+    {
+        "nombre": "Isabel",
+        "apellido": "González",
+        "edad": 29,
+        "ciudad": "Málaga",
+        "profesion": "Diseñadora"
+    },
+    {
+        "nombre": "Miguel",
+        "apellido": "Ramírez",
+        "edad": 42,
+        "ciudad": "Zaragoza",
+        "profesion": "Médico"
+    },
+    {
+        "nombre": "Carmen",
+        "apellido": "Torres",
+        "edad": 26,
+        "ciudad": "Córdoba",
+        "profesion": "Enfermera"
+    },
+    {
+        "nombre": "Antonio",
+        "apellido": "Navarro",
+        "edad": 31,
+        "ciudad": "Valladolid",
         "profesion": "Ingeniero"
-    },
-    {
-        "nombre": "Lucía",
-        "apellido": "Fernández",
-        "edad": 34,
-        "ciudad": "Barcelona",
-        "profesion": "Doctora"
-    },
-    {
-        "nombre": "Andrés",
-        "apellido": "García",
-        "edad": 22,
-        "ciudad": "Valencia",
-        "profesion": "Estudiante"
-    },
-    {
-        "nombre": "María",
-        "apellido": "López",
-        "edad": 41,
-        "ciudad": "Sevilla",
-        "profesion": "Arquitecta"
-    },
-    {
-        "nombre": "Javier",
-        "apellido": "Sánchez",
-        "edad": 30,
-        "ciudad": "Bilbao",
-        "profesion": "Profesor"
     }
 ]
 
@@ -56,7 +56,8 @@ for persona in personas:
 
 # Ahora busco entre esos hashes
 
-cadena = "Lucía"+"Fernández"+"34"
+
+cadena = "Antonio"+"Navarro"+"31"
 picadillo = hashlib.md5(cadena.encode()).hexdigest()
 archivo = open("hash/"+picadillo+".json",'r')
 contenido = json.load(archivo)
