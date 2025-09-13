@@ -1,0 +1,1 @@
+INSERT INTO `usuarios` (`Identificador`, `usuario`, `contrasena`, `nombrecompleto`, `email`, `telefono`) VALUES (NULL, 'franHR', 'franHR', 'Francisco Jose', 'franhr1113@gmail.com', '666666666');

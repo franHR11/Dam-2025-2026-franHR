@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    # Activa el motor de reescritura
+    RewriteEngine On
+    
+    # Redirige la solicitud a /login/login.php si la URL es la raíz
+    RewriteRule ^$ /login/login.php [L]
+</IfModule>

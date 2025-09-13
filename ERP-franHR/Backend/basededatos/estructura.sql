@@ -1,0 +1,1 @@
+CREATE TABLE `erp-dam`.`usuarios` (`Identificador` INT NOT NULL AUTO_INCREMENT , `usuario` VARCHAR(100) NOT NULL , `contrasena` VARCHAR(100) NOT NULL , `nombrecompleto` VARCHAR(255) NOT NULL , `email` VARCHAR(100) NOT NULL , `telefono` INT NOT NULL , PRIMARY KEY (`Identificador`)) ENGINE = InnoDB;
