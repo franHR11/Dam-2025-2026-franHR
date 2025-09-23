@@ -1,9 +1,9 @@
 <?php
 // Configuración de headers CORS primero
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://frontend.test');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Credentials: true');
 
 // Manejar peticiones OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -62,7 +62,7 @@ if (empty($username) || empty($password)) {
 try {
     // Obtener conexión a la base de datos
     $pdo = getConnection();
-    
+
     if (!$pdo) {
         http_response_code(500);
         echo json_encode([
@@ -71,49 +71,51 @@ try {
         ]);
         exit();
     }
-    
+
     // Preparar consulta para buscar el usuario
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE usuario = :username");
+    $stmt = $pdo->prepare("SELECT Identificador, usuario, email, contrasena FROM usuarios WHERE usuario = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
-    
+
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Verificar si el usuario existe y la contraseña es correcta
+    // NOTA: En un entorno de producción, las contraseñas deben estar hasheadas.
+    // Se usaría password_verify($password, $user['contrasena'])
     if ($user && $user['contrasena'] === $password) {
-        // Iniciar sesión
-        session_start();
-        $_SESSION['user_id'] = $user['Identificador'];
-        $_SESSION['username'] = $user['usuario'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['logged_in'] = true;
-        
-        // Respuesta exitosa
+        // La contraseña es correcta. Devolver datos del usuario.
+        unset($user['contrasena']); // No devolver el hash de la contraseña
+
         http_response_code(200);
         echo json_encode([
             'success' => true,
-            'message' => 'Inicio de sesión exitoso',
-            'user' => [
-                'id' => $user['Identificador'],
-                'usuario' => $user['usuario'],
-                'nombre' => $user['nombrecompleto'],
-                'email' => $user['email']
-            ]
+            'message' => 'Login correcto',
+            'user' => $user
         ]);
+        exit();
     } else {
+        // Usuario o contraseña incorrectos
         http_response_code(401);
         echo json_encode([
             'success' => false,
             'message' => 'Usuario o contraseña incorrectos'
         ]);
+        exit();
     }
-    
-} catch (Exception $e) {
-    error_log("Error en login: " . $e->getMessage());
+} catch (PDOException $e) {
+    error_log("Error en la base de datos durante el login: " . $e->getMessage());
     http_response_code(500);
     echo json_encode([
         'success' => false,
-        'message' => 'Error interno del servidor'
+        'message' => 'Error interno del servidor (BD)'
     ]);
+    exit();
+} catch (Exception $e) {
+    error_log("Error general en login: " . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error inesperado en el servidor'
+    ]);
+    exit();
 }
-?>

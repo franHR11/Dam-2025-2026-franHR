@@ -1,68 +1,53 @@
-document.querySelector('button').onclick = async function () {
-    // Obtener el elemento para mostrar errores
-    const errorElement = document.getElementById('error-message');
+document.querySelector('button').addEventListener('click', async function () {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const errorMessage = document.getElementById('error-message');
 
-    // Limpiar mensaje de error anterior
-    errorElement.innerText = '';
-
-    // Obtener los valores de los campos
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
-
-    // Validar que los campos no estén vacíos
-    if (!username.trim() || !password.trim()) {
-        errorElement.innerText = 'Por favor, complete todos los campos';
+    if (!username || !password) {
+        errorMessage.textContent = 'Por favor, complete todos los campos.';
         return;
     }
 
-    // Crear objeto con los datos
-    let objeto = {
-        username: username,
-        password: password
-    };
-
-    // Deshabilitar el botón durante la petición
-    const button = document.querySelector('button');
-    button.disabled = true;
-    button.textContent = 'Iniciando sesión...';
-
     try {
-        // Enviar petición al backend
-        const response = await fetch(window.API_BASE_URL + '/login/login.php', {
+        // Paso 1: Autenticar contra el backend
+        const loginResponse = await fetch(window.API_BASE_URL + 'login/login.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(objeto)
+            body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
+        const loginData = await loginResponse.json();
 
-        if (data.success) {
-            // Login exitoso
-            
-            console.log('Usuario logueado:', data.user);
+        if (loginData.success) {
+            // Paso 2: Crear la sesión en el frontend
+            const sessionResponse = await fetch('../componentes/Auth/create_session.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
 
-            // Redirigir a la página de escritorio
-            window.location.href = '../escritorio/index.html';
+            const sessionData = await sessionResponse.json();
 
+            if (sessionData.success) {
+                window.location.href = '../escritorio/escritorio.php';
+            } else {
+                errorMessage.textContent = sessionData.message || 'Error al crear la sesión.';
+            }
         } else {
-            // Error en el login
-            errorElement.innerText = data.message;
+            errorMessage.textContent = loginData.message || 'Error en el inicio de sesión.';
         }
-
     } catch (error) {
-        console.error('Error en la petición:', error);
-        errorElement.innerText = 'Error de conexión. Por favor, intente nuevamente.';
-    } finally {
-        // Rehabilitar el botón
-        button.disabled = false;
-        button.textContent = 'Iniciar sesión';
+        errorMessage.textContent = 'Error de conexión con el servidor.';
+        console.error('Error en la solicitud de login:', error);
     }
-};
+});
 
 // Permitir envío con Enter
-document.addEventListener('keypress', function(event) {
+document.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         document.querySelector('button').click();
     }

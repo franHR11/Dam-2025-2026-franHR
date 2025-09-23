@@ -16,7 +16,8 @@ define('DB_PASS', getenv('DB_PASS') ?: 'erp-dam2');
 define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
 
 // Función para obtener la conexión a la base de datos
-function getConnection() {
+function getConnection()
+{
     try {
         $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $pdo = new PDO($dsn, DB_USER, DB_PASS);
@@ -30,7 +31,8 @@ function getConnection() {
 }
 
 // Configuración de CORS para permitir peticiones desde el frontend
-header('Access-Control-Allow-Origin: *');
+$frontendUrl = getenv('API_FRONT_URL') ?: 'http://frontend.test';
+header("Access-Control-Allow-Origin: $frontendUrl");
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
@@ -40,4 +42,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
-?>

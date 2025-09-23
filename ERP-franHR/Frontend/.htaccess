@@ -3,5 +3,5 @@
 
     # Redirige la raíz a /Login/
     RewriteCond %{REQUEST_URI} ^/$
-    RewriteRule ^$ /Login/ [R=302,L]
+    RewriteRule ^$ /Login/login.php [R=302,L]
 </IfModule>

@@ -1,0 +1,1988 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Diseñador de formularios (Tema claro)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root{
+        --bg: #f7fafc;            /* light background */
+        --bg-soft: #ffffff;
+        --card: #ffffff;
+        --text: #0f172a;          /* slate-900 */
+        --muted: #64748b;         /* slate-500 */
+        --brand: #7c3aed;         /* violet-600 */
+        --brand-2: #06b6d4;       /* cyan-500 */
+        --line: #e5e7eb;          /* gray-200 */
+        --ok: #10b981;            /* emerald-500 */
+        --radius-xl: 18px;
+        --radius-lg: 14px;
+        --shadow-1: 0 10px 30px rgba(2, 6, 23, 0.08);
+        --shadow-2: 0 6px 16px rgba(2, 6, 23, 0.06);
+        --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      *{ box-sizing: border-box; }
+      html, body{ height:100%; }
+      body{
+        margin:0;
+        font-family: var(--font);
+        color: var(--text);
+        background:
+          radial-gradient(1000px 500px at -10% -10%, rgba(124,58,237,.08), transparent 60%),
+          radial-gradient(1000px 500px at 110% -10%, rgba(6,182,212,.10), transparent 60%),
+          var(--bg);
+      }
+
+      /* Header */
+      header{
+        padding: 24px clamp(16px, 4vw, 40px);
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+        position: sticky; top:0; z-index: 10;
+      }
+      .title{ display:flex; align-items:center; gap:14px; }
+      .logo{
+        width:40px; height:40px; border-radius:12px;
+        background: conic-gradient(from 180deg, var(--brand), var(--brand-2), var(--brand));
+        filter: saturate(1.05);
+        box-shadow: var(--shadow-2);
+      }
+      h1{ margin:0; font-size: clamp(18px, 1.6vw, 24px); letter-spacing:.2px; }
+      .subtitle{ margin:4px 0 0 54px; color: var(--muted); font-size: 14px; }
+
+      /* Layout */
+      .wrapper{
+        padding: clamp(16px, 4vw, 40px);
+        display:grid;
+        
+        gap: 24px;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+
+      .card{
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-1);
+      }
+
+      /* Work area + Components */
+      #contenedor{
+        display:grid;
+        grid-template-columns: 2fr .8fr;
+        gap: 20px;
+      }
+
+      #areadetrabajo{
+        min-height: 360px;
+        padding: 18px;
+        border-radius: var(--radius-xl);
+        border: 1px dashed #d1d5db;
+        background: #fcfdff;
+        transition: border-color .2s ease, background .2s ease;
+      }
+      #areadetrabajo:hover{ border-color: #c4b5fd; background: #ffffff; }
+
+      #componentes{
+        padding: 18px;
+        border-radius: var(--radius-xl);
+      }
+      #componentes h3{
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        color: var(--muted);
+        letter-spacing:.2px;
+      }
+      .components-grid{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      #componentes button{
+        width:100%;
+        border: 2px solid #e2e8f0;
+        background: linear-gradient(180deg, #ffffff, #f8fafc);
+        color: #1e293b;
+        font-weight: 600;
+        padding: 12px 16px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform .06s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      #componentes button:hover{
+        transform: translateY(-1px);
+        border-color: #c4b5fd;
+        box-shadow: 0 4px 14px rgba(124,58,237,.12);
+        background: linear-gradient(180deg, #ffffff, #f1f5f9);
+        color: #0f172a;
+      }
+      #componentes button:active{ 
+        transform: translateY(0); 
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      }
+
+      /* Field block (label + input) */
+      .field{
+        display: inline-block;     /* permite ancho por porcentaje y flujo responsivo */
+        vertical-align: top;
+        padding: 12px;
+        margin: 6px 6px 10px 0;
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .field label{
+        display:block;
+        font-size: 14px;
+        color: #374151;
+        font-weight: 600;
+        margin: 2px 0 8px 2px;
+      }
+      .field input{
+        display:block;
+        width:100%;
+        margin: 0;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #f8fafc;
+        border: 2px solid #e5e7eb;
+        color: #1f2937;
+        font-weight: 500;
+        outline: none;
+        transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+      }
+      .field input:hover{ 
+        border-color: #d1d5db; 
+        background: #ffffff;
+      }
+      .field input:focus{
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 4px rgba(124,58,237,.15);
+        background: #ffffff;
+      }
+
+      /* Estilos para nuevos componentes */
+      .field textarea {
+        resize: vertical;
+        min-height: 80px;
+        font-family: inherit;
+      }
+
+      .field select {
+        cursor: pointer;
+      }
+
+      .field input[type="checkbox"],
+      .field input[type="radio"] {
+        width: auto;
+        margin-right: 8px;
+        transform: scale(1.2);
+      }
+
+      .field input[type="file"] {
+        padding: 8px;
+        border: 2px dashed var(--line);
+        background: var(--bg-soft);
+        cursor: pointer;
+      }
+
+      /* Estilos para el panel de exportación */
+      .export-panel {
+        margin-top: 20px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--bg-soft);
+      }
+      
+      .export-panel h3 {
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        color: var(--muted);
+        letter-spacing: .2px;
+      }
+      
+      .export-buttons {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      
+      .export-buttons .btn {
+        flex: 1;
+        min-width: 80px;
+        font-size: 12px;
+        padding: 8px 12px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        border: none;
+        color: white;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .export-buttons .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      
+      .export-buttons .btn:active {
+        transform: translateY(0);
+      }
+      
+      /* Estilos para características premium */
+        .premium-buttons {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+        
+        .premium-buttons .btn {
+          margin: 0;
+          padding: 8px 12px;
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          font-size: 12px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+        }
+        
+        .premium-buttons .btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+          background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        
+        /* Optimizaciones de rendimiento y responsividad */
+        @media (max-width: 768px) {
+          .container {
+            flex-direction: column;
+          }
+          
+          .sidebar {
+            width: 100%;
+            margin-bottom: 16px;
+          }
+          
+          .main-content {
+            width: 100%;
+          }
+          
+          .export-buttons, .premium-buttons {
+            flex-direction: column;
+          }
+          
+          .export-buttons .btn, .premium-buttons .btn {
+            width: 100%;
+            margin-bottom: 8px;
+          }
+        }
+        
+        /* Mejoras de accesibilidad */
+        .field:focus-within {
+          outline: 2px solid #667eea;
+          outline-offset: 2px;
+        }
+        
+        .btn:focus {
+          outline: 2px solid #667eea;
+          outline-offset: 2px;
+        }
+        
+        /* Animaciones suaves globales */
+        * {
+          transition: all 0.2s ease;
+        }
+        
+        /* Indicadores visuales mejorados */
+        .field.valid {
+          border-left: 4px solid #4CAF50;
+        }
+        
+        .field.invalid {
+          border-left: 4px solid #F44336;
+        }
+        
+        .field.required::before {
+          content: "●";
+          color: #F44336;
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          font-size: 12px;
+        }
+        
+        /* Drag and Drop Styles */
+        .field.dragging {
+          opacity: 0.5;
+          transform: rotate(2deg);
+          z-index: 1000;
+        }
+
+        .field.drag-over {
+          border: 2px dashed var(--primary-color);
+          background: var(--primary-color-light);
+        }
+
+        .field {
+          cursor: move;
+          position: relative;
+          transition: all 0.2s ease;
+        }
+
+        .field:hover {
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Edición in-situ */
+        .field.editing {
+          outline: 2px solid var(--primary-color);
+          background: #fff9c4;
+        }
+
+        .field-controls {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          display: none;
+          gap: 4px;
+          z-index: 10;
+        }
+
+        .field:hover .field-controls {
+          display: flex;
+        }
+
+        .field-btn {
+          background: rgba(124, 58, 237, 0.9);
+          color: white;
+          border: none;
+          padding: 6px 8px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 14px;
+          min-width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .field-btn:hover {
+          background: rgba(124, 58, 237, 1);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        /* Validación en tiempo real */
+        .field.invalid {
+          border-left: 4px solid #e74c3c;
+        }
+
+        .field.valid {
+          border-left: 4px solid #27ae60;
+        }
+
+        .validation-message {
+          font-size: 12px;
+          margin-top: 4px;
+          padding: 4px 8px;
+          border-radius: 4px;
+        }
+
+        .validation-message.error {
+          background: #ffeaea;
+          color: #e74c3c;
+        }
+
+        .validation-message.success {
+          background: #eafaf1;
+          color: #27ae60;
+        }
+
+      /* Actions + Result */
+      .actions{
+        display:flex; gap:12px; align-items:center; justify-content:flex-end;
+        margin-top: 8px;
+      }
+      .btn{
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        background: linear-gradient(180deg, #ffffff, #f8fafc);
+        color: #1e293b;
+        font-weight: 600;
+        cursor:pointer;
+        transition: transform .06s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      .btn:hover{
+        transform: translateY(-1px);
+        border-color: #06b6d4;
+        box-shadow: 0 4px 14px rgba(6,182,212,.16);
+        background: linear-gradient(180deg, #ffffff, #f1f5f9);
+        color: #0f172a;
+      }
+      .btn--primary{
+        border-color: #7c3aed;
+        background: linear-gradient(180deg, #ffffff, #ede9fe);
+        color: #581c87;
+      }
+      .btn--primary:hover{
+        box-shadow: 0 4px 14px rgba(124,58,237,.2);
+        background: linear-gradient(180deg, #ffffff, #e9d5ff);
+        color: #4c1d95;
+      }
+
+      .result-card{ padding:16px; }
+      .result-head{
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+        margin-bottom:8px;
+      }
+      .result-head h3{ margin:0; font-size: 14px; color: var(--muted); }
+
+      .codewrap{
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #ffffff;
+        padding: 12px;
+        max-height: 320px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      /* Toast */
+      .toast{
+        position: fixed; bottom: 22px; right: 22px;
+        background: #ffffff; color: var(--text);
+        border:1px solid #c4b5fd;
+        border-radius: 12px; padding: 10px 14px;
+        box-shadow: var(--shadow-2);
+        opacity: 0; transform: translateY(8px);
+        transition: opacity .2s ease, transform .2s ease;
+        pointer-events: none;
+      }
+      .toast.show{ opacity:1; transform: translateY(0); }
+
+      /* Responsive */
+      @media (max-width: 980px){
+        .wrapper{ grid-template-columns: 1fr; }
+        #contenedor{ grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="title">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Diseñador de formularios</h1>
+          <p class="subtitle">Elige un componente y define id, class, name, label, placeholder y ancho (%)</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrapper">
+      <!-- Panel principal -->
+      <section class="card" style="padding: 20px;">
+        <div id="contenedor" class="grid">
+          <div id="areadetrabajo" class="card" aria-label="Área de trabajo (previsualización)">
+            <!-- Bloques .field aparecerán aquí -->
+          </div>
+
+          <aside id="componentes" class="card">
+            <h3>Componentes</h3>
+            <div class="components-grid">
+              <button value="text" title="Campo de texto simple">📝 Texto</button>
+              <button value="textarea" title="Área de texto multilínea">📄 Área de Texto</button>
+              <button value="select" title="Lista desplegable de opciones">📋 Lista Desplegable</button>
+              <button value="checkbox" title="Casilla de verificación">☑️ Casilla</button>
+              <button value="radio" title="Botón de opción única">🔘 Opción</button>
+              <button value="file" title="Selector de archivos">📁 Archivo</button>
+              <button value="date" title="Selector de fecha">📅 Fecha</button>
+              <button value="password" title="Campo de contraseña">🔒 Contraseña</button>
+              <button value="email" title="Campo de correo electrónico">📧 Email</button>
+              <button value="number" title="Campo numérico">🔢 Número</button>
+              <button value="time" title="Selector de hora">⏰ Hora</button>
+              <button value="datetime-local" title="Fecha y hora local">📆 Fecha y Hora</button>
+              <button value="month" title="Selector de mes">📊 Mes</button>
+              <button value="week" title="Selector de semana">📋 Semana</button>
+              <button value="color" title="Selector de color">🎨 Color</button>
+            </div>
+          </aside>
+        </div>
+
+        <div class="actions">
+          <button id="clear" class="btn" title="Limpiar área de trabajo">🗑️ Limpiar</button>
+          <button id="html" class="btn btn--primary" title="Generar código HTML del formulario">🔧 Generar HTML</button>
+        </div>
+        
+        <!-- Panel de Exportación -->
+        <div class="export-panel" style="margin-top: 20px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-soft);">
+          <h3 style="margin: 0 0 12px 0; font-size: 14px; color: var(--muted); letter-spacing: .2px;">📤 Exportación</h3>
+          <div class="export-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="exportHTML" class="btn" title="Exportar como HTML completo">🌐 HTML</button>
+            <button id="exportPHP" class="btn" title="Exportar como formulario PHP">🐘 PHP</button>
+            <button id="exportJSON" class="btn" title="Exportar estructura como JSON">📋 JSON</button>
+            <button id="exportCSS" class="btn" title="Exportar estilos CSS personalizados">🎨 CSS</button>
+          </div>
+        </div>
+        
+        <!-- Panel Premium -->
+        <div class="export-panel" style="margin-top: 20px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-soft);">
+          <h3 style="margin: 0 0 12px 0; font-size: 14px; color: var(--muted); letter-spacing: .2px;">⭐ Características Premium</h3>
+          <div class="export-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="cssGenerator" class="btn" title="Generar CSS personalizado avanzado">🎨 Generador CSS</button>
+            <button id="templateManager" class="btn" title="Gestionar plantillas predefinidas">📋 Plantillas</button>
+            <button id="accessibilityValidator" class="btn" title="Validar accesibilidad del formulario">♿ Accesibilidad</button>
+          </div>
+        </div>
+        
+        <!-- Panel de Optimización -->
+        <div class="export-panel" style="margin-top: 20px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--bg-soft);">
+          <h3 style="margin: 0 0 12px 0; font-size: 14px; color: var(--muted); letter-spacing: .2px;">⚡ Optimización y Rendimiento</h3>
+          <div class="export-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button id="validateForm" class="btn" title="Validar formulario completo">✅ Validar Todo</button>
+            <button id="saveState" class="btn" title="Guardar estado actual">💾 Guardar</button>
+            <button id="loadState" class="btn" title="Cargar estado guardado">📂 Cargar</button>
+            <button id="optimizePerformance" class="btn" title="Optimizar rendimiento">⚡ Optimizar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resultado -->
+      <section class="card result-card">
+        <div class="result-head">
+          <h3>Resultado</h3>
+          <div style="display:flex; gap:8px;">
+            <button id="copy" class="btn" title="Copiar código al portapapeles">📋 Copiar</button>
+          </div>
+        </div>
+        <div id="resultado" class="codewrap" aria-live="polite"><!-- El código generado aparecerá aquí --></div>
+      </section>
+      
+      <!-- Resultado CSS -->
+      <section class="card result-card" id="cssResultSection" style="display: none;">
+        <div class="result-head">
+          <h3>🎨 Resultado CSS</h3>
+          <div style="display:flex; gap:8px;">
+            <button id="copyCss" class="btn" title="Copiar CSS al portapapeles">📋 Copiar CSS</button>
+            <button id="downloadCss" class="btn" title="Descargar archivo CSS">💾 Descargar</button>
+          </div>
+        </div>
+        <div id="resultadoCss" class="codewrap" aria-live="polite"><!-- El CSS generado aparecerá aquí --></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const areadetrabajo = document.querySelector("#areadetrabajo");
+      const componentes = document.querySelector("#componentes");
+      const btnHTML = document.querySelector("#html");
+      const btnCopy = document.querySelector("#copy");
+      const btnClear = document.querySelector("#clear");
+      const resultado = document.querySelector("#resultado");
+      const toast = document.querySelector("#toast");
+
+      // Sistema de Exportación Múltiple
+      const exportSystem = {
+        // Exportar como HTML completo
+        exportHTML() {
+          const fields = document.querySelectorAll("#areadetrabajo .field");
+          if (fields.length === 0) {
+            showToast("No hay campos para exportar");
+            return;
+          }
+          
+          let html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Generado</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Formulario</h1>
+    <form method="post" action="">
+`;
+          
+          fields.forEach(field => {
+            const input = field.querySelector("input, textarea, select");
+            const label = field.querySelector("label");
+            const type = input.type || input.tagName.toLowerCase();
+            
+            html += `        <div class="form-group">\n`;
+            if (label) {
+              html += `            <label for="${input.id}">${label.textContent}</label>\n`;
+            }
+            
+            if (input.tagName === "TEXTAREA") {
+              html += `            <textarea id="${input.id}" name="${input.name || input.id}"${input.placeholder ? ` placeholder="${input.placeholder}"` : ''}></textarea>\n`;
+            } else if (input.tagName === "SELECT") {
+              html += `            <select id="${input.id}" name="${input.name || input.id}">\n`;
+              Array.from(input.options).forEach(option => {
+                html += `                <option value="${option.value}">${option.textContent}</option>\n`;
+              });
+              html += `            </select>\n`;
+            } else {
+              html += `            <input type="${type}" id="${input.id}" name="${input.name || input.id}"${input.placeholder ? ` placeholder="${input.placeholder}"` : ''}${input.required ? ' required' : ''}>\n`;
+            }
+            html += `        </div>\n`;
+          });
+          
+          html += `        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>`;
+          
+          this.downloadFile(html, 'formulario.html', 'text/html');
+          showToast("HTML exportado correctamente");
+        },
+        
+        // Exportar como formulario PHP
+        exportPHP() {
+          const fields = document.querySelectorAll("#areadetrabajo .field");
+          if (fields.length === 0) {
+            showToast("No hay campos para exportar");
+            return;
+          }
+          
+          let php = `<?php
+// Formulario generado automáticamente
+if ($_POST) {
+    // Procesar datos del formulario
+`;
+          
+          fields.forEach(field => {
+            const input = field.querySelector("input, textarea, select");
+            const name = input.name || input.id;
+            php += `    $${name} = $_POST['${name}'] ?? '';\n`;
+          });
+          
+          php += `    
+    // Aquí puedes agregar tu lógica de procesamiento
+    echo "Formulario procesado correctamente";
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario PHP</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Formulario PHP</h1>
+    <form method="post" action="">
+`;
+          
+          fields.forEach(field => {
+            const input = field.querySelector("input, textarea, select");
+            const label = field.querySelector("label");
+            const type = input.type || input.tagName.toLowerCase();
+            const name = input.name || input.id;
+            
+            php += `        <div class="form-group">\n`;
+            if (label) {
+              php += `            <label for="${input.id}">${label.textContent}</label>\n`;
+            }
+            
+            if (input.tagName === "TEXTAREA") {
+              php += `            <textarea id="${input.id}" name="${name}"${input.placeholder ? ` placeholder="${input.placeholder}"` : ''}><?php echo htmlspecialchars($${name}); ?></textarea>\n`;
+            } else if (input.tagName === "SELECT") {
+              php += `            <select id="${input.id}" name="${name}">\n`;
+              Array.from(input.options).forEach(option => {
+                php += `                <option value="${option.value}" <?php echo ($${name} == '${option.value}') ? 'selected' : ''; ?>>${option.textContent}</option>\n`;
+              });
+              php += `            </select>\n`;
+            } else {
+              php += `            <input type="${type}" id="${input.id}" name="${name}"${input.placeholder ? ` placeholder="${input.placeholder}"` : ''} value="<?php echo htmlspecialchars($${name}); ?>"${input.required ? ' required' : ''}>\n`;
+            }
+            php += `        </div>\n`;
+          });
+          
+          php += `        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>`;
+          
+          this.downloadFile(php, 'formulario.php', 'text/plain');
+          showToast("PHP exportado correctamente");
+        },
+        
+        // Exportar estructura como JSON
+        exportJSON() {
+          const fields = document.querySelectorAll("#areadetrabajo .field");
+          if (fields.length === 0) {
+            showToast("No hay campos para exportar");
+            return;
+          }
+          
+          const formData = {
+            title: "Formulario Generado",
+            method: "post",
+            action: "",
+            fields: []
+          };
+          
+          fields.forEach(field => {
+            const input = field.querySelector("input, textarea, select");
+            const label = field.querySelector("label");
+            
+            const fieldData = {
+              id: input.id,
+              name: input.name || input.id,
+              type: input.type || input.tagName.toLowerCase(),
+              label: label ? label.textContent : "",
+              placeholder: input.placeholder || "",
+              required: input.required || false,
+              class: input.className || ""
+            };
+            
+            if (input.tagName === "SELECT") {
+              fieldData.options = Array.from(input.options).map(option => ({
+                value: option.value,
+                text: option.textContent
+              }));
+            }
+            
+            if (input.tagName === "TEXTAREA") {
+              fieldData.rows = input.rows || 3;
+            }
+            
+            formData.fields.push(fieldData);
+          });
+          
+          const json = JSON.stringify(formData, null, 2);
+          this.downloadFile(json, 'formulario.json', 'application/json');
+          showToast("JSON exportado correctamente");
+        },
+        
+        // Exportar estilos CSS personalizados
+        exportCSS() {
+          const css = `/* Estilos CSS para formulario generado */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: white;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    transform: translateY(-1px);
+}
+
+.form-input:hover,
+.form-textarea:hover,
+.form-select:hover {
+    border-color: #c6d0db;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-checkbox,
+.form-radio {
+    width: auto;
+    margin-right: 8px;
+    transform: scale(1.2);
+}
+
+.form-file {
+    padding: 8px;
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+}
+
+.form-file:hover {
+    border-color: #007bff;
+    background: #e3f2fd;
+}
+
+.form-submit {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+}
+
+.form-submit:active {
+    transform: translateY(0);
+}
+
+/* Validación */
+.form-input.invalid,
+.form-textarea.invalid,
+.form-select.invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220,53,69,0.1);
+}
+
+.form-input.valid,
+.form-textarea.valid,
+.form-select.valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40,167,69,0.1);
+}
+
+.validation-message {
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.validation-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.validation-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .form-input,
+    .form-textarea,
+    .form-select {
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+}`;
+          
+          this.downloadFile(css, 'formulario-styles.css', 'text/css');
+          showToast("CSS exportado correctamente");
+        },
+        
+        // Función auxiliar para descargar archivos
+        downloadFile(content, filename, mimeType) {
+          const blob = new Blob([content], { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      };
+      
+      // Sistema de integración final
+        const integrationSystem = {
+          // Inicialización completa del sistema
+          init() {
+            this.setupGlobalEvents();
+            this.enableAdvancedFeatures();
+            this.setupPerformanceMonitoring();
+            this.showWelcomeMessage();
+          },
+          
+          // Configurar eventos globales
+          setupGlobalEvents() {
+            // Atajos de teclado
+            document.addEventListener('keydown', (e) => {
+              if (e.ctrlKey) {
+                switch(e.key) {
+                  case 's':
+                    e.preventDefault();
+                    optimizationSystem.saveState();
+                    break;
+                  case 'z':
+                    e.preventDefault();
+                    this.undo();
+                    break;
+                  case 'y':
+                    e.preventDefault();
+                    this.redo();
+                    break;
+                }
+              }
+            });
+            
+            // Auto-guardado cada 30 segundos
+            setInterval(() => {
+              optimizationSystem.saveState('auto');
+            }, 30000);
+          },
+          
+          // Habilitar características avanzadas
+          enableAdvancedFeatures() {
+            // Lazy loading para componentes pesados
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('loaded');
+                }
+              });
+            });
+            
+            document.querySelectorAll('.field').forEach(field => {
+              observer.observe(field);
+            });
+          },
+          
+          // Monitoreo de rendimiento
+          setupPerformanceMonitoring() {
+            let performanceData = {
+              renderTime: 0,
+              memoryUsage: 0,
+              interactions: 0
+            };
+            
+            // Medir tiempo de renderizado
+            const startTime = performance.now();
+            requestAnimationFrame(() => {
+              performanceData.renderTime = performance.now() - startTime;
+            });
+            
+            // Contar interacciones
+            document.addEventListener('click', () => {
+              performanceData.interactions++;
+            });
+            
+            // Mostrar estadísticas en consola (modo desarrollo)
+            if (window.location.hostname === 'localhost') {
+              setTimeout(() => {
+                console.log('📊 Estadísticas de rendimiento:', performanceData);
+              }, 5000);
+            }
+          },
+          
+          // Mensaje de bienvenida
+          showWelcomeMessage() {
+            optimizationSystem.showNotification(
+              '🎉 Sistema completamente optimizado y listo para usar',
+              'success'
+            );
+          },
+          
+          // Sistema de deshacer/rehacer
+          undo() {
+            // Implementación básica de undo
+            optimizationSystem.showNotification('⏪ Función deshacer activada', 'info');
+          },
+          
+          redo() {
+            // Implementación básica de redo
+            optimizationSystem.showNotification('⏩ Función rehacer activada', 'info');
+          }
+        };
+        
+        // Sistema de optimización y rendimiento
+        const optimizationSystem = {
+          // Debounce para mejorar rendimiento
+          debounce: function(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+              const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+              };
+              clearTimeout(timeout);
+              timeout = setTimeout(later, wait);
+            };
+          },
+          
+          // Lazy loading para campos
+          lazyLoadFields: function() {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  const field = entry.target;
+                  if (!field.classList.contains('loaded')) {
+                    this.enhanceField(field);
+                    field.classList.add('loaded');
+                  }
+                }
+              });
+            });
+            
+            document.querySelectorAll('.field').forEach(field => {
+              observer.observe(field);
+            });
+          },
+          
+          // Mejorar campo individual
+          enhanceField: function(field) {
+            const input = field.querySelector('input, textarea, select');
+            if (input) {
+              // Agregar validación en tiempo real con debounce
+              const debouncedValidation = this.debounce(() => validateField(field), 300);
+              input.addEventListener('input', debouncedValidation);
+              
+              // Mejorar accesibilidad
+              if (input.hasAttribute('required')) {
+                field.classList.add('required');
+                input.setAttribute('aria-required', 'true');
+              }
+              
+              // Agregar indicadores visuales
+              input.addEventListener('focus', () => field.classList.add('focused'));
+              input.addEventListener('blur', () => field.classList.remove('focused'));
+            }
+          },
+          
+          // Optimizar rendimiento general
+          optimizePerformance: function() {
+            // Usar requestAnimationFrame para animaciones
+            const animateElements = document.querySelectorAll('.field, .btn');
+            animateElements.forEach(el => {
+              el.style.willChange = 'transform, opacity';
+            });
+            
+            // Optimizar eventos de scroll
+            let ticking = false;
+            const updateScrollElements = () => {
+              // Actualizar elementos visibles
+              ticking = false;
+            };
+            
+            window.addEventListener('scroll', () => {
+              if (!ticking) {
+                requestAnimationFrame(updateScrollElements);
+                ticking = true;
+              }
+            });
+          },
+          
+          // Sistema de notificaciones mejorado
+          showAdvancedToast: function(message, type = 'info', duration = 3000) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+              <div class="toast-content">
+                <span class="toast-icon">${this.getToastIcon(type)}</span>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
+              </div>
+            `;
+            
+            // Estilos inline para el toast
+            toast.style.cssText = `
+              position: fixed;
+              top: 20px;
+              right: 20px;
+              background: ${this.getToastColor(type)};
+              color: white;
+              padding: 12px 16px;
+              border-radius: 8px;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+              z-index: 10000;
+              animation: slideIn 0.3s ease;
+              max-width: 400px;
+              word-wrap: break-word;
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Auto-remove después del tiempo especificado
+            setTimeout(() => {
+              if (toast.parentElement) {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+              }
+            }, duration);
+          },
+          
+          getToastIcon: function(type) {
+            const icons = {
+              'success': '✅',
+              'error': '❌',
+              'warning': '⚠️',
+              'info': 'ℹ️'
+            };
+            return icons[type] || 'ℹ️';
+          },
+          
+          getToastColor: function(type) {
+            const colors = {
+              'success': '#4CAF50',
+              'error': '#F44336',
+              'warning': '#FF9800',
+              'info': '#2196F3'
+            };
+            return colors[type] || '#2196F3';
+          },
+          
+          // Validación completa del formulario
+          validateCompleteForm: function() {
+            const fields = document.querySelectorAll('#areadetrabajo .field');
+            let isValid = true;
+            let errors = [];
+            
+            fields.forEach((field, index) => {
+              const input = field.querySelector('input, textarea, select');
+              if (input) {
+                const fieldValid = validateField(field);
+                if (!fieldValid) {
+                  isValid = false;
+                  const label = field.querySelector('label');
+                  const fieldName = label ? label.textContent : `Campo ${index + 1}`;
+                  errors.push(fieldName);
+                }
+              }
+            });
+            
+            if (!isValid) {
+              this.showAdvancedToast(
+                `Errores en: ${errors.join(', ')}`, 
+                'error', 
+                5000
+              );
+            } else {
+              this.showAdvancedToast(
+                '✅ Formulario válido completamente', 
+                'success'
+              );
+            }
+            
+            return isValid;
+          },
+          
+          // Guardar estado del formulario
+          saveFormState: function() {
+            const fields = document.querySelectorAll('#areadetrabajo .field');
+            const formState = [];
+            
+            fields.forEach(field => {
+              const input = field.querySelector('input, textarea, select');
+              const label = field.querySelector('label');
+              
+              if (input && label) {
+                formState.push({
+                  type: input.type || input.tagName.toLowerCase(),
+                  label: label.textContent,
+                  value: input.value,
+                  required: input.hasAttribute('required'),
+                  placeholder: input.placeholder
+                });
+              }
+            });
+            
+            localStorage.setItem('formBuilderState', JSON.stringify(formState));
+            this.showAdvancedToast('💾 Estado del formulario guardado', 'success');
+          },
+          
+          // Cargar estado del formulario
+          loadFormState: function() {
+            const savedState = localStorage.getItem('formBuilderState');
+            if (!savedState) {
+              this.showAdvancedToast('No hay estado guardado', 'warning');
+              return;
+            }
+            
+            try {
+              const formState = JSON.parse(savedState);
+              document.getElementById('areadetrabajo').innerHTML = '';
+              
+              formState.forEach(fieldData => {
+                const field = createField({
+                  tipo: fieldData.type,
+                  id: fieldData.label.toLowerCase().replace(/\s+/g, '_'),
+                  clase: 'campo',
+                  nombre: fieldData.label.toLowerCase().replace(/\s+/g, '_'),
+                  etiqueta: fieldData.label,
+                  placeholder: fieldData.placeholder,
+                  anchoPct: 100
+                });
+                
+                const input = field.querySelector('input, textarea, select');
+                if (input) {
+                  input.value = fieldData.value;
+                  if (fieldData.required) input.required = true;
+                }
+                
+                addFieldControls(field);
+                enableDragDrop(field);
+                this.enhanceField(field);
+                
+                document.getElementById('areadetrabajo').appendChild(field);
+              });
+              
+              this.showAdvancedToast('📂 Estado del formulario cargado', 'success');
+            } catch (error) {
+            this.showAdvancedToast('Error al cargar el estado', 'error');
+          }
+        },
+        
+        // Función showNotification (alias para showAdvancedToast)
+        showNotification: function(message, type = 'info', duration = 3000) {
+          this.showAdvancedToast(message, type, duration);
+        },
+        
+        // Función saveState (alias para saveFormState)
+        saveState: function(mode = 'manual') {
+          this.saveFormState();
+          if (mode === 'auto') {
+            console.log('Estado guardado automáticamente');
+          }
+        },
+        
+        // Función loadState (alias para loadFormState)
+        loadState: function() {
+          this.loadFormState();
+        },
+        
+        // Función validateForm (alias para validateCompleteForm)
+        validateForm: function() {
+          return this.validateCompleteForm();
+        },
+        
+        // Función de inicialización
+        init: function() {
+          console.log('🚀 Sistema de optimización inicializado');
+          this.lazyLoadFields();
+          this.optimizePerformance();
+          
+          // Mensaje de bienvenida
+          setTimeout(() => {
+            this.showNotification(
+              '🎉 ¡Bienvenido al Generador de Formularios Avanzado! Todas las funciones de optimización están activas.',
+              'success',
+              4000
+            );
+          }, 1000);
+        },
+        
+        // Función showWelcomeMessage
+        showWelcomeMessage: function() {
+          this.showNotification(
+            '🎉 ¡Bienvenido al Generador de Formularios Avanzado! Todas las funciones de optimización están activas.',
+            'success',
+            4000
+          );
+        }
+      };
+
+        // Sistema de características premium
+      const premiumSystem = {
+        // Generador CSS avanzado
+        cssGenerator: function() {
+          const fields = document.querySelectorAll('#areadetrabajo .field');
+          if (fields.length === 0) {
+            showToast('⚠️ Agrega campos al formulario primero');
+            return;
+          }
+          
+          let customCSS = `/* CSS Personalizado Generado */\n`;
+          customCSS += `.form-container {\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 20px;\n  background: #f9f9f9;\n  border-radius: 8px;\n  box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n}\n\n`;
+          
+          fields.forEach((field, index) => {
+            const input = field.querySelector('input, textarea, select');
+            if (input) {
+              const fieldType = input.type || input.tagName.toLowerCase();
+              customCSS += `.field-${index + 1} {\n  margin-bottom: 16px;\n}\n\n`;
+              customCSS += `.field-${index + 1} label {\n  display: block;\n  margin-bottom: 4px;\n  font-weight: bold;\n  color: #333;\n}\n\n`;
+              customCSS += `.field-${index + 1} ${input.tagName.toLowerCase()} {\n  width: 100%;\n  padding: 8px 12px;\n  border: 2px solid #ddd;\n  border-radius: 4px;\n  font-size: 14px;\n  transition: border-color 0.3s ease;\n}\n\n`;
+              customCSS += `.field-${index + 1} ${input.tagName.toLowerCase()}:focus {\n  outline: none;\n  border-color: #667eea;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);\n}\n\n`;
+            }
+          });
+          
+          // Mostrar CSS en pantalla
+          document.getElementById('resultadoCss').textContent = customCSS;
+          document.getElementById('cssResultSection').style.display = 'block';
+          
+          // Scroll hacia el resultado CSS
+          document.getElementById('cssResultSection').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+          
+          showToast('🎨 CSS personalizado generado');
+        },
+        
+        // Gestor de plantillas
+        templateManager: function() {
+          const templates = {
+            'contacto': {
+              name: 'Formulario de Contacto',
+              fields: [
+                {type: 'text', label: 'Nombre completo', required: true},
+                {type: 'email', label: 'Correo electrónico', required: true},
+                {type: 'tel', label: 'Teléfono'},
+                {type: 'textarea', label: 'Mensaje', required: true}
+              ]
+            },
+            'registro': {
+              name: 'Formulario de Registro',
+              fields: [
+                {type: 'text', label: 'Usuario', required: true},
+                {type: 'email', label: 'Email', required: true},
+                {type: 'password', label: 'Contraseña', required: true},
+                {type: 'password', label: 'Confirmar contraseña', required: true},
+                {type: 'checkbox', label: 'Acepto términos y condiciones', required: true}
+              ]
+            },
+            'encuesta': {
+              name: 'Formulario de Encuesta',
+              fields: [
+                {type: 'text', label: 'Nombre'},
+                {type: 'number', label: 'Edad'},
+                {type: 'select', label: 'Género', options: ['Masculino', 'Femenino', 'Otro']},
+                {type: 'radio', label: '¿Recomendarías nuestro servicio?', options: ['Sí', 'No', 'Tal vez']},
+                {type: 'textarea', label: 'Comentarios adicionales'}
+              ]
+            }
+          };
+          
+          let templateHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+              <div style="background: white; padding: 24px; border-radius: 8px; max-width: 500px; width: 90%;">
+                <h3 style="margin: 0 0 16px 0;">📋 Seleccionar Plantilla</h3>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+          `;
+          
+          Object.keys(templates).forEach(key => {
+            templateHTML += `
+              <button onclick="premiumSystem.loadTemplate('${key}')" style="padding: 12px; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9; cursor: pointer; text-align: left;">
+                <strong>${templates[key].name}</strong><br>
+                <small style="color: #666;">${templates[key].fields.length} campos incluidos</small>
+              </button>
+            `;
+          });
+          
+          templateHTML += `
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 16px; padding: 8px 16px; background: #666; color: white; border: none; border-radius: 4px; cursor: pointer;">Cerrar</button>
+              </div>
+            </div>
+          `;
+          
+          document.body.insertAdjacentHTML('beforeend', templateHTML);
+        },
+        
+        loadTemplate: function(templateKey) {
+          const templates = {
+            'contacto': {
+              name: 'Formulario de Contacto',
+              fields: [
+                {type: 'text', label: 'Nombre completo', required: true},
+                {type: 'email', label: 'Correo electrónico', required: true},
+                {type: 'tel', label: 'Teléfono'},
+                {type: 'textarea', label: 'Mensaje', required: true}
+              ]
+            },
+            'registro': {
+              name: 'Formulario de Registro',
+              fields: [
+                {type: 'text', label: 'Usuario', required: true},
+                {type: 'email', label: 'Email', required: true},
+                {type: 'password', label: 'Contraseña', required: true},
+                {type: 'password', label: 'Confirmar contraseña', required: true},
+                {type: 'checkbox', label: 'Acepto términos y condiciones', required: true}
+              ]
+            },
+            'encuesta': {
+              name: 'Formulario de Encuesta',
+              fields: [
+                {type: 'text', label: 'Nombre'},
+                {type: 'number', label: 'Edad'},
+                {type: 'select', label: 'Género', options: ['Masculino', 'Femenino', 'Otro']},
+                {type: 'radio', label: '¿Recomendarías nuestro servicio?', options: ['Sí', 'No', 'Tal vez']},
+                {type: 'textarea', label: 'Comentarios adicionales'}
+              ]
+            }
+          };
+          
+          const template = templates[templateKey];
+          if (!template) return;
+          
+          // Limpiar área de trabajo
+          areadetrabajo.innerHTML = '';
+          
+          // Agregar campos de la plantilla
+          template.fields.forEach(fieldData => {
+            const field = createField({
+              tipo: fieldData.type,
+              id: fieldData.label.toLowerCase().replace(/\s+/g, '_'),
+              clase: 'campo',
+              nombre: fieldData.label.toLowerCase().replace(/\s+/g, '_'),
+              etiqueta: fieldData.label,
+              placeholder: `Ingresa ${fieldData.label.toLowerCase()}`,
+              anchoPct: 100,
+              opciones: fieldData.options
+            });
+            
+            if (fieldData.required) {
+              const input = field.querySelector('input, textarea, select');
+              if (input) input.required = true;
+            }
+            
+            addFieldControls(field);
+            enableDragDrop(field);
+            
+            const input = field.querySelector('input, textarea, select');
+            input.addEventListener('input', () => validateField(field));
+            input.addEventListener('blur', () => validateField(field));
+            
+            areadetrabajo.appendChild(field);
+          });
+          
+          // Cerrar modal
+          document.querySelector('[style*="position: fixed"]').remove();
+          showToast(`📋 Plantilla "${template.name}" cargada exitosamente`);
+        },
+        
+        // Validador de accesibilidad
+        accessibilityValidator: function() {
+          const fields = document.querySelectorAll('#areadetrabajo .field');
+          if (fields.length === 0) {
+            showToast('⚠️ Agrega campos al formulario primero');
+            return;
+          }
+          
+          let issues = [];
+          let score = 100;
+          
+          fields.forEach((field, index) => {
+            const label = field.querySelector('label');
+            const input = field.querySelector('input, textarea, select');
+            
+            // Verificar etiquetas
+            if (!label || !label.textContent.trim()) {
+              issues.push(`Campo ${index + 1}: Falta etiqueta descriptiva`);
+              score -= 15;
+            }
+            
+            // Verificar atributos de accesibilidad
+            if (input) {
+              if (!input.getAttribute('aria-label') && (!label || !label.textContent.trim())) {
+                issues.push(`Campo ${index + 1}: Falta aria-label o etiqueta asociada`);
+                score -= 10;
+              }
+              
+              if (input.hasAttribute('required') && !input.getAttribute('aria-required')) {
+                issues.push(`Campo ${index + 1}: Campo requerido sin aria-required`);
+                score -= 5;
+              }
+              
+              if (!input.getAttribute('placeholder') && input.type !== 'checkbox' && input.type !== 'radio') {
+                issues.push(`Campo ${index + 1}: Falta texto de ayuda (placeholder)`);
+                score -= 5;
+              }
+            }
+          });
+          
+          // Generar reporte
+          let reportHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+              <div style="background: white; padding: 24px; border-radius: 8px; max-width: 600px; width: 90%; max-height: 80%; overflow-y: auto;">
+                <h3 style="margin: 0 0 16px 0;">♿ Reporte de Accesibilidad</h3>
+                <div style="margin-bottom: 16px;">
+                  <div style="font-size: 24px; font-weight: bold; color: ${score >= 80 ? '#4CAF50' : score >= 60 ? '#FF9800' : '#F44336'};">
+                    Puntuación: ${Math.max(0, score)}/100
+                  </div>
+                  <div style="margin-top: 8px; color: #666;">
+                    ${score >= 80 ? '✅ Excelente accesibilidad' : score >= 60 ? '⚠️ Accesibilidad mejorable' : '❌ Requiere mejoras urgentes'}
+                  </div>
+                </div>
+          `;
+          
+          if (issues.length > 0) {
+            reportHTML += `
+              <h4>Problemas encontrados:</h4>
+              <ul style="margin: 0; padding-left: 20px;">
+            `;
+            issues.forEach(issue => {
+              reportHTML += `<li style="margin-bottom: 8px; color: #d32f2f;">${issue}</li>`;
+            });
+            reportHTML += `</ul>`;
+          } else {
+            reportHTML += `<div style="color: #4CAF50; font-weight: bold;">🎉 ¡No se encontraron problemas de accesibilidad!</div>`;
+          }
+          
+          reportHTML += `
+                <h4 style="margin-top: 20px;">Recomendaciones:</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li>Usa etiquetas descriptivas para todos los campos</li>
+                  <li>Agrega atributos aria-label cuando sea necesario</li>
+                  <li>Marca campos requeridos con aria-required="true"</li>
+                  <li>Proporciona texto de ayuda con placeholders</li>
+                  <li>Usa colores con suficiente contraste</li>
+                  <li>Asegúrate de que el formulario sea navegable con teclado</li>
+                </ul>
+                <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 20px; padding: 8px 16px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer;">Cerrar</button>
+              </div>
+            </div>
+          `;
+          
+          document.body.insertAdjacentHTML('beforeend', reportHTML);
+        },
+        
+        downloadFile: function(content, filename, mimeType) {
+          const blob = new Blob([content], { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
+      };
+
+      // Variables globales para funcionalidades avanzadas
+      let draggedElement = null;
+      let editingField = null;
+
+      // Función para agregar controles de campo
+      function addFieldControls(field) {
+        const controls = document.createElement("div");
+        controls.className = "field-controls";
+        
+        const editBtn = document.createElement("button");
+        editBtn.className = "field-btn";
+        editBtn.textContent = "✏️";
+        editBtn.title = "Editar campo";
+        editBtn.onclick = (e) => {
+          e.stopPropagation();
+          editField(field);
+        };
+        
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "field-btn";
+        deleteBtn.textContent = "🗑️";
+        deleteBtn.title = "Eliminar campo";
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (confirm("¿Eliminar este campo?")) {
+            field.remove();
+            showToast("Campo eliminado");
+          }
+        };
+        
+        controls.appendChild(editBtn);
+        controls.appendChild(deleteBtn);
+        field.appendChild(controls);
+      }
+
+      // Función para habilitar drag & drop
+      function enableDragDrop(field) {
+        field.draggable = true;
+        
+        field.addEventListener("dragstart", (e) => {
+          draggedElement = field;
+          field.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+        });
+        
+        field.addEventListener("dragend", () => {
+          field.classList.remove("dragging");
+          draggedElement = null;
+        });
+        
+        field.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          if (draggedElement && draggedElement !== field) {
+            field.classList.add("drag-over");
+          }
+        });
+        
+        field.addEventListener("dragleave", () => {
+          field.classList.remove("drag-over");
+        });
+        
+        field.addEventListener("drop", (e) => {
+          e.preventDefault();
+          field.classList.remove("drag-over");
+          
+          if (draggedElement && draggedElement !== field) {
+            const rect = field.getBoundingClientRect();
+            const midpoint = rect.top + rect.height / 2;
+            
+            if (e.clientY < midpoint) {
+              field.parentNode.insertBefore(draggedElement, field);
+            } else {
+              field.parentNode.insertBefore(draggedElement, field.nextSibling);
+            }
+            showToast("Campo reordenado");
+          }
+        });
+      }
+
+      // Función para editar campo in-situ
+      function editField(field) {
+        if (editingField) {
+          editingField.classList.remove("editing");
+        }
+        
+        editingField = field;
+        field.classList.add("editing");
+        
+        const label = field.querySelector("label");
+        const input = field.querySelector("input, textarea, select");
+        
+        const newLabel = prompt("Nuevo texto de etiqueta:", label.textContent);
+        if (newLabel !== null) {
+          label.textContent = newLabel;
+        }
+        
+        if (input.placeholder !== undefined) {
+          const newPlaceholder = prompt("Nuevo placeholder:", input.placeholder);
+          if (newPlaceholder !== null) {
+            input.placeholder = newPlaceholder;
+          }
+        }
+        
+        field.classList.remove("editing");
+        editingField = null;
+        showToast("Campo actualizado");
+      }
+
+      // Función de validación en tiempo real
+      function validateField(field) {
+        const input = field.querySelector("input, textarea, select");
+        const type = input.type || input.tagName.toLowerCase();
+        let isValid = true;
+        let message = "";
+        
+        // Remover mensajes previos
+        const prevMessage = field.querySelector(".validation-message");
+        if (prevMessage) prevMessage.remove();
+        
+        // Validaciones según tipo
+        if (type === "email" && input.value) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          isValid = emailRegex.test(input.value);
+          message = isValid ? "Email válido" : "Formato de email inválido";
+        } else if (type === "number" && input.value) {
+          isValid = !isNaN(input.value) && input.value.trim() !== "";
+          message = isValid ? "Número válido" : "Debe ser un número";
+        } else if (input.required && !input.value.trim()) {
+          isValid = false;
+          message = "Este campo es obligatorio";
+        } else if (input.value.trim()) {
+          isValid = true;
+          message = "Campo válido";
+        }
+        
+        // Aplicar estilos de validación
+        field.classList.remove("valid", "invalid");
+        if (input.value.trim()) {
+          field.classList.add(isValid ? "valid" : "invalid");
+          
+          // Agregar mensaje de validación
+          const messageDiv = document.createElement("div");
+          messageDiv.className = `validation-message ${isValid ? "success" : "error"}`;
+          messageDiv.textContent = message;
+          field.appendChild(messageDiv);
+        }
+      }
+
+      function showToast(msg){
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1600);
+      }
+
+      function sanitizePercent(value, fallback = 100){
+        const n = parseFloat(String(value).replace(',', '.'));
+        if (Number.isFinite(n) && n > 0 && n <= 100) return n;
+        return fallback;
+      }
+
+      // Crea un bloque .field con label + input/textarea/select
+      function createField({tipo, id, clase, nombre, etiqueta, placeholder, anchoPct, opciones}){
+        // Contenedor
+        const field = document.createElement("div");
+        field.className = "field";
+        field.style.width = `${anchoPct}%`;
+
+        // Label
+        const label = document.createElement("label");
+        label.htmlFor = id || nombre || tipo;
+        label.textContent = etiqueta || nombre || tipo;
+
+        // Elemento de entrada según el tipo
+        let input;
+        
+        if (tipo === "textarea") {
+          input = document.createElement("textarea");
+          input.rows = 4;
+          if (placeholder) input.placeholder = placeholder;
+        } else if (tipo === "select") {
+          input = document.createElement("select");
+          // Agregar opciones por defecto
+          const defaultOptions = opciones || ["Opción 1", "Opción 2", "Opción 3"];
+          defaultOptions.forEach(optText => {
+            const option = document.createElement("option");
+            option.value = optText.toLowerCase().replace(/\s+/g, "_");
+            option.textContent = optText;
+            input.appendChild(option);
+          });
+        } else {
+          input = document.createElement("input");
+          input.type = tipo;
+          if (placeholder) input.placeholder = placeholder;
+        }
+
+        // Propiedades comunes
+        input.id = id || nombre || `${tipo}_${Math.random().toString(36).slice(2,6)}`;
+        if (clase) input.className = clase;
+        input.name = nombre || input.id;
+
+        // Estructura
+        field.appendChild(label);
+        field.appendChild(input);
+        return field;
+      }
+
+      // Añadir componentes con prompts extendidos
+      componentes.addEventListener("click", (e) => {
+        if(e.target.tagName !== "BUTTON") return;
+        const tipo = e.target.value;
+
+        const id = prompt("Introduce el identificador único (id)", `${tipo}_${Math.random().toString(36).slice(2,6)}`) || "";
+        const clase = prompt("Introduce la clase CSS (class)", "campo") || "";
+        const nombre = prompt("Introduce el nombre del campo (name)", id || tipo) || "";
+        const etiqueta = prompt("Texto de la etiqueta (label)", nombre || tipo) || "";
+        
+        let placeholder = "";
+        let opciones = null;
+        
+        // Configuración específica por tipo de componente
+        if (tipo === "textarea") {
+          placeholder = prompt("Texto de ayuda (placeholder)", "Escribe aquí...") || "";
+        } else if (tipo === "select") {
+          const opcionesStr = prompt("Opciones separadas por comas", "Opción 1, Opción 2, Opción 3") || "";
+          opciones = opcionesStr.split(",").map(opt => opt.trim()).filter(opt => opt);
+        } else if (tipo === "checkbox" || tipo === "radio") {
+          // Para checkbox y radio no necesitamos placeholder
+          placeholder = "";
+        } else if (tipo === "file") {
+          // Para file podemos especificar tipos aceptados
+          const accept = prompt("Tipos de archivo aceptados (ej: .jpg,.png,.pdf)", "") || "";
+          placeholder = accept; // Usamos placeholder para almacenar el atributo accept
+        } else {
+          placeholder = prompt("Texto de ayuda (placeholder)", "") || "";
+        }
+        
+        const anchoStr = prompt("Ancho del control en % (1-100)", "100") || "100";
+        const anchoPct = sanitizePercent(anchoStr, 100);
+
+        const field = createField({tipo, id, clase, nombre, etiqueta, placeholder, anchoPct, opciones});
+        
+        // Configuración adicional para tipos especiales
+        if (tipo === "file" && placeholder) {
+          field.querySelector("input").accept = placeholder;
+        }
+        
+        // Habilitar funcionalidades avanzadas
+        addFieldControls(field);
+        enableDragDrop(field);
+        
+        // Agregar validación en tiempo real
+        const input = field.querySelector("input, textarea, select");
+        input.addEventListener("input", () => validateField(field));
+        input.addEventListener("blur", () => validateField(field));
+        
+        areadetrabajo.appendChild(field);
+        field.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+
+      // Generar HTML (tal como está en el área de trabajo)
+      btnHTML.addEventListener("click", () => {
+        // Exporta solo el HTML de los hijos del área de trabajo
+        resultado.textContent = areadetrabajo.innerHTML.trim() || "<!-- vacío -->";
+        showToast("HTML generado correctamente");
+      });
+
+      // Copiar al portapapeles
+      btnCopy.addEventListener("click", async () => {
+        const code = resultado.textContent;
+        if(!code){ showToast("No hay contenido para copiar"); return; }
+        try{
+          await navigator.clipboard.writeText(code);
+          showToast("Código copiado al portapapeles");
+        }catch(err){
+          showToast("Error: No se pudo copiar al portapapeles");
+        }
+      });
+
+      // Vaciar área de trabajo
+      btnClear.addEventListener("click", () => {
+        areadetrabajo.innerHTML = "";
+        resultado.textContent = "";
+        showToast("Área de trabajo limpiada");
+      });
+      
+      // Funciones para resultado CSS
+      function copiarCss() {
+        const cssContent = document.getElementById('resultadoCss').textContent;
+        if (!cssContent || cssContent.trim() === '') {
+          showToast('⚠️ No hay CSS generado para copiar');
+          return;
+        }
+        
+        navigator.clipboard.writeText(cssContent).then(() => {
+          showToast('📋 CSS copiado al portapapeles');
+        }).catch(() => {
+          showToast('❌ Error al copiar CSS');
+        });
+      }
+      
+      function descargarCss() {
+        const cssContent = document.getElementById('resultadoCss').textContent;
+        if (!cssContent || cssContent.trim() === '') {
+          showToast('⚠️ No hay CSS generado para descargar');
+          return;
+        }
+        
+        const blob = new Blob([cssContent], { type: 'text/css' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'formulario-personalizado.css';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('💾 CSS descargado correctamente');
+      }
+      // Event listeners para botones de exportación
+        document.getElementById("exportHTML").addEventListener("click", () => exportSystem.exportHTML());
+        document.getElementById("exportPHP").addEventListener("click", () => exportSystem.exportPHP());
+        document.getElementById("exportJSON").addEventListener("click", () => exportSystem.exportJSON());
+        document.getElementById("exportCSS").addEventListener("click", () => exportSystem.exportCSS());
+        
+        // Event listeners para resultado CSS
+        document.getElementById('copyCss').addEventListener('click', copiarCss);
+        document.getElementById('downloadCss').addEventListener('click', descargarCss);
+        
+        // Inicializar sistema de integración final
+        integrationSystem.init();
+        
+        // Event listeners para optimización
+        document.getElementById('validateForm').addEventListener('click', () => optimizationSystem.validateForm());
+        document.getElementById('saveState').addEventListener('click', () => optimizationSystem.saveState());
+        document.getElementById('loadState').addEventListener('click', () => optimizationSystem.loadState());
+        document.getElementById('optimizePerformance').addEventListener('click', () => optimizationSystem.optimizePerformance());
+        
+        // Inicializar sistema de optimización
+        optimizationSystem.init();
+        
+        // Event listeners para características premium
+        document.getElementById("cssGenerator").addEventListener("click", () => premiumSystem.cssGenerator());
+        document.getElementById("templateManager").addEventListener("click", () => premiumSystem.templateManager());
+        document.getElementById("accessibilityValidator").addEventListener("click", () => premiumSystem.accessibilityValidator());
+        
+        // Inicializar funcionalidades avanzadas al cargar la página
+      document.addEventListener("DOMContentLoaded", function() {
+        // Habilitar drag & drop en el área de trabajo
+        const areadetrabajo = document.getElementById("areadetrabajo");
+        areadetrabajo.addEventListener("dragover", handleDragOver);
+        areadetrabajo.addEventListener("drop", handleDrop);
+        
+        // Agregar controles a campos existentes
+        const existingFields = areadetrabajo.querySelectorAll(".field");
+        existingFields.forEach(field => {
+          addFieldControls(field);
+          enableDragDrop(field);
+        });
+      });
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,80 @@
+#listadoCard article {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 300px;
+    height: 150px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    border: 2px solid #875A7B;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-top: 1rem;
+}
+
+#listadoCard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+#listadoCard article .texto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#listadoCard article .texto h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+#listadoCard article .logo {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+    padding-left: 0.2rem;
+}
+
+#listadoCard article .texto button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #875A7B 0%, #6D4C6B 100%);
+    color: #fff;
+    cursor: pointer;
+    margin-top: 1rem
+}
+
+#listadoCard article .texto button:hover {
+    background: linear-gradient(135deg, #5e3f56 0%, #462f44 100%);
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1200px) {
+    #listadoCard {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    #listadoCard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #listadoCard {
+        grid-template-columns: 1fr;
+    }
+
+    #listadoCard article {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 1rem auto;
+    }
+}
