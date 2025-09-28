@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #8e44ad;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const miLienzo = document.querySelector("canvas");
+            const dibujo = miLienzo.getContext("2d");
+            
+            let posicionX = 256
+            let posicionY = 256
+            
+            let temporizadorAnimacion = setTimeout("animarParticula()", 1000)
+            
+            function animarParticula() { 
+                dibujo.clearRect(0, 0, 512, 512)
+                
+                // Actualizar posición
+                posicionX++
+                posicionY++
+                
+                // Dibujar partícula
+                dibujo.beginPath();
+                dibujo.arc(posicionX, posicionY, 20, 0, Math.PI * 2)
+                dibujo.fillStyle = "#9b59b6";
+                dibujo.fill()
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnimacion)
+                temporizadorAnimacion = setTimeout("animarParticula()", 100)
+            }
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,115 @@
+{
+    "clientes":[
+        {
+            "id":1,
+            "nombre":"Miguel Sánchez",
+            "historial_compras":[
+                {
+                    "id_compra":"CMP-2025-001",
+                    "fecha":"2025-03-15",
+                    "total":1499.98,
+                    "productos":[
+                        {
+                            "id_producto":101,
+                            "nombre":"Portátil Ultrabook",
+                            "cantidad":1,
+                            "precio_unitario":1399.99
+                        },
+                        {
+                            "id_producto":205,
+                            "nombre":"Auriculares Bluetooth",
+                            "cantidad":2,
+                            "precio_unitario":49.99
+                        }
+                    ]
+                },
+                {
+                    "id_compra":"CMP-2025-002",
+                    "fecha":"2025-07-20",
+                    "total":449.99,
+                    "productos":{
+                        "id_producto":307,
+                        "nombre":"Monitor 24\"",
+                        "cantidad":1,
+                        "precio_unitario":449.99
+                    }
+                }
+            ],
+            "informacion_contacto":{
+                "email":"miguel.sanchez@email.com",
+                "direccion":{
+                    "calle":"Calle Real",
+                    "numero":78,
+                    "piso":"5º C",
+                    "ciudad":"Sevilla",
+                    "codigo_postal":"41001",
+                    "pais":"España"
+                },
+                "telefonos":[
+                    {
+                        "tipo":"móvil",
+                        "numero":"+34 633 456 789"
+                    },
+                    {
+                        "tipo":"fijo",
+                        "numero":"+34 954 123 456"
+                    }
+                ]
+            },
+            "preferencias":{
+                "idioma":"español",
+                "categorias_interes":[
+                    "tecnología",
+                    "videojuegos"
+                ],
+                "notificaciones":{
+                    "email":1,
+                    "sms":0,
+                    "push":1
+                }
+            }
+        },
+        {
+            "id":2,
+            "nombre":"Isabel Martín",
+            "historial_compras":{
+                "id_compra":"CMP-2025-003",
+                "fecha":"2025-05-10",
+                "total":549.99,
+                "productos":{
+                    "id_producto":402,
+                    "nombre":"Tablet Pro",
+                    "cantidad":1,
+                    "precio_unitario":549.99
+                }
+            },
+            "informacion_contacto":{
+                "email":"isabel.martin@email.com",
+                "direccion":{
+                    "calle":"Avenida Libertad",
+                    "numero":156,
+                    "piso":"2º D",
+                    "ciudad":"Zaragoza",
+                    "codigo_postal":"50001",
+                    "pais":"España"
+                },
+                "telefonos":{
+                    "tipo":"móvil",
+                    "numero":"+34 644 567 890"
+                }
+            },
+            "preferencias":{
+                "idioma":"español",
+                "categorias_interes":[
+                    "fotografía",
+                    "arte"
+                ],
+                "notificaciones":{
+                    "email":1,
+                    "sms":1,
+                    "push":0
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #4a90e2;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const miLienzo = document.querySelector("canvas");
+            const ctx = miLienzo.getContext("2d");
+            
+            ctx.beginPath();
+            ctx.arc(256, 256, 20, 0, Math.PI * 2)
+            ctx.fillStyle = "#3498db";
+            ctx.fill()
+        </script>
+    </body>
+</html>
+

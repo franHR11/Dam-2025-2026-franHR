@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="output"></div>
+    <script>
+      let worker;
+
+      worker = new Worker("003worker.js");
+      // Canal de retorno
+        worker.onmessage = e => {
+          console.log(e.data);
+        };
+        // Canal de envío
+        worker.postMessage("Saludo del hilo principal hacia el worker");
+      
+    </script>
+  </body>
+</html>
+

@@ -19,3 +19,18 @@ UPDATE `categorias_aplicaciones` SET icono = 'fa-solid fa-handshake' WHERE ident
 UPDATE `categorias_aplicaciones` SET icono = 'fa-solid fa-bullhorn' WHERE identificador = 8; -- Marketing
 UPDATE `categorias_aplicaciones` SET icono = 'fa-solid fa-headset' WHERE identificador = 9; -- Soporte
 UPDATE `categorias_aplicaciones` SET icono = 'fa-solid fa-gears' WHERE identificador = 10; -- Administración
+
+
+ALTER TABLE `categorias_aplicaciones`
+ADD COLUMN `enlace` VARCHAR(255) NOT NULL AFTER `icono`;
+
+UPDATE `categorias_aplicaciones` SET enlace = '/ventas' WHERE identificador = 1;
+UPDATE `categorias_aplicaciones` SET enlace = '/compras' WHERE identificador = 2;
+UPDATE `categorias_aplicaciones` SET enlace = '/inventario' WHERE identificador = 3;
+UPDATE `categorias_aplicaciones` SET enlace = '/contabilidad' WHERE identificador = 4;
+UPDATE `categorias_aplicaciones` SET enlace = '/rrhh' WHERE identificador = 5;
+UPDATE `categorias_aplicaciones` SET enlace = '/proyectos' WHERE identificador = 6;
+UPDATE `categorias_aplicaciones` SET enlace = '/crm' WHERE identificador = 7;
+UPDATE `categorias_aplicaciones` SET enlace = '/marketing' WHERE identificador = 8;
+UPDATE `categorias_aplicaciones` SET enlace = '/soporte' WHERE identificador = 9;
+UPDATE `categorias_aplicaciones` SET enlace = '/administracion' WHERE identificador = 10;

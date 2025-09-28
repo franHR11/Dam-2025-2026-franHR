@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="output"></div>
+    <script>
+      const worker = new Worker('004worker.js');
+     
+      worker.onmessage = function(e) {
+        console.log('Mensaje recibido del worker:', e.data);
+        document.getElementById('output').innerHTML = e.data;
+      };
+     
+      worker.postMessage('¡Iniciar conteo!');
+    </script>
+  </body>
+</html>
+

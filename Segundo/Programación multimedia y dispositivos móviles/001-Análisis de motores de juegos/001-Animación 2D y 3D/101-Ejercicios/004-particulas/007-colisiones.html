@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #2980b9;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const miCanvas = document.querySelector("canvas");
+            const contexto = miCanvas.getContext("2d");
+            
+            let posicionX = 256
+            let posicionY = 256
+            let direccionAngulo = 0
+            
+            let temporizadorAnim = setTimeout("actualizarParticula()", 1000)
+            
+            function actualizarParticula() { 
+                contexto.clearRect(0, 0, 512, 512)
+                
+                // Actualizar dirección y posición
+                direccionAngulo += (Math.random() - 0.5) * 0.5
+                posicionX += Math.cos(direccionAngulo)
+                posicionY += Math.sin(direccionAngulo)
+                
+                // Dibujar partícula
+                contexto.beginPath();
+                contexto.arc(posicionX, posicionY, 5, 0, Math.PI * 2)
+                contexto.fillStyle = "#3498db";
+                contexto.fill()
+                
+                // Detectar colisiones con bordes
+                if(posicionX < 0 || posicionX > 512 || posicionY < 0 || posicionY > 512) {
+                    direccionAngulo += Math.PI
+                }
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnim)
+                temporizadorAnim = setTimeout("actualizarParticula()", 10)
+            }
+        </script>
+    </body>
+</html>
+

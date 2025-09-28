@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas width=512 height=512>
+        </canvas>
+        <script>
+            const canvas = document.querySelector("canvas");
+            const dibujo = canvas.getContext("2d");
+            dibujo.fillStyle = "#27ae60";
+            dibujo.beginPath();
+            dibujo.arc(55, 55, 25, 0, Math.PI * 2, true);
+            dibujo.fill();
+        </script>
+    </body>
+</html>

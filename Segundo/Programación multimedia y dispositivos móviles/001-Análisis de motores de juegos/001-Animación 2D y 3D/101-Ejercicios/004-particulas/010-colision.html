@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #8e44ad;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const lienzo = document.querySelector("canvas");
+            const contexto = lienzo.getContext("2d");
+            
+            class Particula {
+                constructor() {
+                    this.posicionX = Math.random() * 512;
+                    this.posicionY = Math.random() * 512;
+                    this.angulo = Math.random() * Math.PI * 2;
+                }
+                
+                dibujar() {
+                    contexto.beginPath();
+                    contexto.arc(this.posicionX, this.posicionY, 5, 0, Math.PI * 2)
+                    contexto.fillStyle = "#9b59b6";
+                    contexto.fill()
+                }
+                
+                mover() {
+                    // Actualizar dirección y posición
+                    this.angulo += (Math.random() - 0.5) * 0.5
+                    this.posicionX += Math.cos(this.angulo)
+                    this.posicionY += Math.sin(this.angulo)
+                }
+                
+                detectarColision() {
+                    // Comprobar colisiones con los bordes del canvas
+                    if(
+                        this.posicionX < 0 || 
+                        this.posicionX > 512 || 
+                        this.posicionY < 0 || 
+                        this.posicionY > 512
+                    ) {
+                        this.angulo += Math.PI
+                    }
+                }
+            }
+            
+            let arrayParticulas = []
+            let cantidadParticulas = 100;
+            
+            // Crear partículas iniciales
+            for(let i = 0; i < cantidadParticulas; i++) {
+                arrayParticulas.push(new Particula())
+            }
+            
+            let temporizadorAnim = setTimeout("actualizarEscena()", 1000)
+            
+            function actualizarEscena() { 
+                contexto.clearRect(0, 0, 512, 512)
+                
+                // Actualizar y dibujar todas las partículas
+                arrayParticulas.forEach(function(particula) {
+                    particula.detectarColision();
+                    particula.mover();
+                    particula.dibujar();
+                })
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnim)
+                temporizadorAnim = setTimeout("actualizarEscena()", 10)
+            }
+        </script>
+    </body>
+</html>
+

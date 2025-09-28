@@ -16,10 +16,10 @@ fetch(window.API_BASE_URL + 'componentes/listado-de-modulos/listadoModulos.php?r
                 nav.innerHTML = `
                     <ul>
             <li>
-                <a href="#">
-                    <i class="${listadoMenu.icono}"></i>
-                    <span>${listadoMenu.nombre}</span>
-                </a>
+                <a href="${listadoMenu.enlace}">
+                        <i class="${listadoMenu.icono}"></i>
+                        <span>${listadoMenu.nombre}</span>
+                    </a>
             </li>
             </ul>
                 `;

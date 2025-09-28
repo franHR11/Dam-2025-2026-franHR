@@ -1,0 +1,118 @@
+{
+    "clientes":[
+        {
+            "id":1,
+            "nombre":"Carlos Rodríguez",
+            "informacion_contacto":{
+                "email":"carlos.rodriguez@email.com",
+                "telefonos":[
+                    {
+                        "tipo":"móvil",
+                        "numero":"+34 611 234 567"
+                    },
+                    {
+                        "tipo":"fijo",
+                        "numero":"+34 912 345 678"
+                    }
+                ],
+                "direccion":{
+                    "calle":"Calle del Sol",
+                    "numero":23,
+                    "piso":"4º A",
+                    "ciudad":"Madrid",
+                    "codigo_postal":"28001",
+                    "pais":"España"
+                }
+            },
+            "historial_compras":[
+                {
+                    "id_compra":"CMP-2025-001",
+                    "fecha":"2025-02-15",
+                    "productos":[
+                        {
+                            "id_producto":101,
+                            "nombre":"Ordenador Portátil",
+                            "cantidad":1,
+                            "precio_unitario":1199.99
+                        },
+                        {
+                            "id_producto":205,
+                            "nombre":"Teclado Mecánico",
+                            "cantidad":1,
+                            "precio_unitario":89.99
+                        }
+                    ],
+                    "total":1289.98
+                },
+                {
+                    "id_compra":"CMP-2025-002",
+                    "fecha":"2025-06-20",
+                    "productos":[
+                        {
+                            "id_producto":307,
+                            "nombre":"Monitor 32\"",
+                            "cantidad":1,
+                            "precio_unitario":399.99
+                        }
+                    ],
+                    "total":399.99
+                }
+            ],
+            "preferencias":{
+                "notificaciones":{
+                    "email":true,
+                    "sms":true,
+                    "push":false
+                },
+                "idioma":"español",
+                "categorias_interes":["informática","música"]
+            }
+        },
+        {
+            "id":2,
+            "nombre":"Laura Fernández",
+            "informacion_contacto":{
+                "email":"laura.fernandez@email.com",
+                "telefonos":[
+                    {
+                        "tipo":"móvil",
+                        "numero":"+34 622 345 678"
+                    }
+                ],
+                "direccion":{
+                    "calle":"Avenida Principal",
+                    "numero":45,
+                    "piso":"2º B",
+                    "ciudad":"Valencia",
+                    "codigo_postal":"46001",
+                    "pais":"España"
+                }
+            },
+            "historial_compras":[
+                {
+                    "id_compra":"CMP-2025-003",
+                    "fecha":"2025-04-10",
+                    "productos":[
+                        {
+                            "id_producto":402,
+                            "nombre":"Smartphone",
+                            "cantidad":1,
+                            "precio_unitario":699.99
+                        }
+                    ],
+                    "total":699.99
+                }
+            ],
+            "preferencias":{
+                "notificaciones":{
+                    "email":true,
+                    "sms":false,
+                    "push":true
+                },
+                "idioma":"español",
+                "categorias_interes":["tecnología","deportes"]
+            }
+        }
+    ]
+}
+

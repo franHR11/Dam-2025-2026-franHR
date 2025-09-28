@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #e74c3c;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const miCanvas = document.querySelector("canvas");
+            const contexto = miCanvas.getContext("2d");
+            
+            let posicionX = 256
+            let posicionY = 256
+            
+            contexto.beginPath();
+            contexto.arc(posicionX, posicionY, 20, 0, Math.PI * 2)
+            contexto.fillStyle = "#c0392b";
+            contexto.fill()
+        </script>
+    </body>
+</html>
+

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+  <meta charset="utf-8" />
+  <title>Reconocimiento de Voz (simple)</title>
+  <button id="start" style="background-color: #008CBA; color: white; padding: 12px;">🎤 Iniciar Grabación</button>
+  <div id="out" style="margin-top: 15px; padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9;"></div>
+  <script>
+    const ReconocimientoVoz = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const reconocedor = new ReconocimientoVoz();
+    reconocedor.lang = "es-ES";
+    reconocedor.interimResults = false;
+    
+    reconocedor.onresult = function(evento){ 
+      document.getElementById("out").textContent = evento.results[0][0].transcript;
+    }
+    
+    document.getElementById("start").onclick = () => reconocedor.start();
+  </script>
+</html>
+

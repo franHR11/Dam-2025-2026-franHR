@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #c0392b;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const lienzo = document.querySelector("canvas");
+            const contexto = lienzo.getContext("2d");
+            
+            class Particula {
+                constructor() {
+                    this.posicionX = Math.random() * 512;
+                    this.posicionY = Math.random() * 512;
+                    this.angulo = Math.random() * Math.PI * 2;
+                }
+                
+                dibujar() {
+                    contexto.beginPath();
+                    contexto.arc(this.posicionX, this.posicionY, 5, 0, Math.PI * 2)
+                    contexto.fillStyle = "#e74c3c";
+                    contexto.fill()
+                }
+            }
+            
+            let arrayParticulas = []
+            let cantidadParticulas = 100;
+            
+            for(let i = 0; i < cantidadParticulas; i++) {
+                arrayParticulas.push(new Particula())
+            }
+            
+            let temporizadorAnim = setTimeout("actualizarEscena()", 1000)
+            
+            function actualizarEscena() { 
+                contexto.clearRect(0, 0, 512, 512)
+                
+                // Dibujar todas las partículas
+                arrayParticulas.forEach(function(particula) {
+                    particula.dibujar();
+                })
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnim)
+                temporizadorAnim = setTimeout("actualizarEscena()", 10)
+            }
+        </script>
+    </body>
+</html>
+

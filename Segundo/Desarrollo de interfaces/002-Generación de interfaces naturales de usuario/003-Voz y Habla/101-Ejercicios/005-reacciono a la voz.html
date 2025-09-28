@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <meta charset="utf-8" />
+  <title>Sistema de Gestión por Voz</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #2196F3; color: white; }
+    tr:hover { background-color: #f5f5f5; }
+    button { background-color: #673AB7; color: white; padding: 15px; margin: 10px; border-radius: 6px; border: none; cursor: pointer; }
+    #out { margin: 15px; padding: 12px; background-color: #e3f2fd; border-radius: 6px; font-family: Arial; }
+  </style>
+  <button id="start">🎤 Comandos por Voz</button>
+  <div id="out"></div>
+  <div id="contenedor"></div>
+  <script>
+    const personas = [
+      {"nombre":"Laura","apellidos":"Rodríguez Navarro","email":"laura.rodriguez@empresa.es"},
+      {"nombre":"Pablo","apellidos":"González Moreno","email":"pablo.gonzalez@empresa.es"},
+      {"nombre":"Elena","apellidos":"Pérez Castro","email":"elena.perez@empresa.es"}
+    ]
+    
+    function actualizarTabla(){
+      let contenidoHTML = "<table><tr><th>Nombre</th><th>Apellidos</th><th>Email</th></tr>"
+      personas.forEach(function(persona){
+        contenidoHTML += "<tr><td>"+persona.nombre+"</td><td>"+persona.apellidos+"</td><td>"+persona.email+"</td></tr>"
+      })
+      contenidoHTML += "</table>"
+      document.querySelector("#contenedor").innerHTML = contenidoHTML
+    }
+    actualizarTabla()
+
+    let voces = [];
+    function buscarVozEspañola() {
+      const vozSeleccionada = voces.find(v => /es-|Spanish/i.test(v.lang)) || voces[0];
+      return vozSeleccionada || null;
+    }
+    function inicializarVoces() {
+      voces = speechSynthesis.getVoices();
+    }
+    inicializarVoces();
+    speechSynthesis.onvoiceschanged = inicializarVoces;
+
+    const ReconocimientoVoz = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const reconocedor = new ReconocimientoVoz();
+    reconocedor.lang = "es-ES";
+    reconocedor.interimResults = false;
+    
+    reconocedor.onresult = function(evento){ 
+      let textoReconocido = evento.results[0][0].transcript
+      document.getElementById("out").textContent = textoReconocido;
+      
+      const mensajeVoz = new SpeechSynthesisUtterance(textoReconocido);
+      const vozElegida = buscarVozEspañola();
+      if (vozElegida) mensajeVoz.voice = vozElegida;
+      mensajeVoz.lang = (vozElegida && vozElegida.lang) || 'es-ES';
+      speechSynthesis.cancel();
+      speechSynthesis.speak(mensajeVoz);
+
+      const comando = textoReconocido.split(" ")[0]
+      switch(comando){
+        case "eliminar":
+          const posicion = textoReconocido.split(" ")[1]
+          switch(posicion){
+            case "cero": personas.splice(0,1); break;
+            case "uno": personas.splice(1,1); break;
+            case "dos": personas.splice(2,1); break;
+            case "tres": personas.splice(3,1); break;
+            case "cuatro": personas.splice(4,1); break;
+            case "cinco": personas.splice(5,1); break;
+          }
+          actualizarTabla()
+          break;
+        case "insertar": console.log("Iniciando inserción"); break;
+        case "actualizar": console.log("Iniciando actualización"); break;
+        case "consultar": console.log("Iniciando consulta"); break;
+      }
+    }
+    
+    document.getElementById("start").onclick = () => reconocedor.start();
+  </script>
+</html>
+

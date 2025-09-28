@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <meta charset="utf-8" />
+  <title>Asistente de Voz Interactivo</title>
+  <button id="start" style="background-color: #9C27B0; color: white; padding: 15px; border-radius: 8px;">🎤 Activar Asistente</button>
+  <div id="out" style="margin: 20px; padding: 15px; border: 2px solid #e0e0e0; border-radius: 5px; background-color: #fafafa;"></div>
+  <script>
+    let voces = [];
+    function buscarVozEspañola() {
+      const vozSeleccionada = voces.find(v => /es-|Spanish/i.test(v.lang)) || voces[0];
+      return vozSeleccionada || null;
+    }
+    function inicializarVoces() {
+      voces = speechSynthesis.getVoices();
+    }
+    inicializarVoces();
+    speechSynthesis.onvoiceschanged = inicializarVoces;
+
+    const ReconocimientoVoz = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const reconocedor = new ReconocimientoVoz();
+    reconocedor.lang = "es-ES";
+    reconocedor.interimResults = false;
+    
+    reconocedor.onresult = function(evento){ 
+      const textoReconocido = evento.results[0][0].transcript;
+      document.getElementById("out").textContent = textoReconocido;
+      
+      const mensajeVoz = new SpeechSynthesisUtterance(textoReconocido);
+      const vozElegida = buscarVozEspañola();
+      if (vozElegida) mensajeVoz.voice = vozElegida;
+      mensajeVoz.lang = (vozElegida && vozElegida.lang) || 'es-ES';
+      speechSynthesis.cancel();
+      speechSynthesis.speak(mensajeVoz);
+    }
+    
+    document.getElementById("start").onclick = () => reconocedor.start();
+  </script>
+</html>
+

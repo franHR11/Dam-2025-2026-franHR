@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 0px solid #8e44ad;
+            }
+            html, body {
+                padding: 0px;
+                margin: 0px;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            // Obtener dimensiones de la ventana
+            const anchuraVentana = window.innerWidth;
+            const alturaVentana = window.innerHeight;
+            const lienzo = document.querySelector("canvas");
+            
+            // Ajustar canvas al tamaño de la ventana
+            lienzo.width = anchuraVentana;
+            lienzo.height = alturaVentana;
+            const contexto = lienzo.getContext("2d");
+            
+            class Particula {
+                constructor() {
+                    this.posicionX = Math.random() * anchuraVentana;
+                    this.posicionY = Math.random() * alturaVentana;
+                    this.angulo = Math.random() * Math.PI * 2;
+                    this.colorRojo = Math.round(Math.random() * 255);
+                    this.colorVerde = Math.round(Math.random() * 255);
+                    this.colorAzul = Math.round(Math.random() * 255);
+                    this.velocidad = Math.random() * 0.5;
+                    this.tamanio = Math.random() * 10 + 1;
+                }
+                
+                dibujar() {
+                    // Establecer color aleatorio único para cada partícula
+                    contexto.fillStyle = "rgb(" + this.colorRojo + "," + this.colorVerde + "," + this.colorAzul + ")";
+                    contexto.beginPath();
+                    contexto.arc(this.posicionX, this.posicionY, this.tamanio, 0, Math.PI * 2);
+                    contexto.fill();
+                }
+                
+                mover() {
+                    // Actualizar dirección y posición según velocidad
+                    this.angulo += (Math.random() - 0.5) * 0.5;
+                    this.posicionX += Math.cos(this.angulo) * this.velocidad;
+                    this.posicionY += Math.sin(this.angulo) * this.velocidad;
+                }
+                
+                detectarColision() {
+                    // Comprobar colisiones con los bordes de la ventana
+                    if(
+                        this.posicionX < 0 || 
+                        this.posicionX > anchuraVentana || 
+                        this.posicionY < 0 || 
+                        this.posicionY > alturaVentana
+                    ) {
+                        this.angulo += Math.PI;
+                    }
+                }
+                
+                obtenerPosicion() {
+                    // Devolver objeto con coordenadas actuales
+                    return {
+                        "x": this.posicionX,
+                        "y": this.posicionY
+                    };
+                }
+            }
+            
+            let arrayParticulas = [];
+            let cantidadParticulas = 100;
+            
+            // Crear partículas iniciales
+            for(let i = 0; i < cantidadParticulas; i++) {
+                arrayParticulas.push(new Particula());
+            }
+            
+            let temporizadorAnim = setTimeout("actualizarEscena()", 1000);
+            
+            function actualizarEscena() { 
+                // Aplicar efecto de motion blur
+                contexto.fillStyle = "rgba(255, 255, 255, 0.1)";
+                contexto.fillRect(0, 0, anchuraVentana, alturaVentana);
+                
+                // Actualizar y dibujar todas las partículas
+                arrayParticulas.forEach(function(particula) {
+                    particula.detectarColision();
+                    particula.mover();
+                    particula.dibujar();
+                });
+                
+                // Detectar colisiones y dibujar líneas entre partículas cercanas
+                for(let i = 0; i < arrayParticulas.length; i++) {
+                    for(let j = 0; j < arrayParticulas.length; j++) {
+                        if(i != j) {
+                            let distanciaX = Math.abs(arrayParticulas[i].obtenerPosicion().x - arrayParticulas[j].obtenerPosicion().x);
+                            let distanciaY = Math.abs(arrayParticulas[i].obtenerPosicion().y - arrayParticulas[j].obtenerPosicion().y);
+                            
+                            // Detectar colisión entre partículas
+                            if(distanciaX < 10 && distanciaY < 10) {
+                                arrayParticulas[i].angulo += Math.PI;
+                                arrayParticulas[j].angulo += Math.PI;
+                            }
+                            
+                            // Dibujar líneas entre partículas cercanas
+                            if(distanciaX < 50 && distanciaY < 50) {
+                                contexto.strokeStyle = "#9b59b6";
+                                contexto.beginPath();
+                                contexto.moveTo(
+                                    arrayParticulas[i].obtenerPosicion().x,
+                                    arrayParticulas[i].obtenerPosicion().y
+                                );
+                                contexto.lineTo(
+                                    arrayParticulas[j].obtenerPosicion().x,
+                                    arrayParticulas[j].obtenerPosicion().y
+                                );
+                                contexto.stroke();
+                            }
+                        }
+                    }
+                }
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnim);
+                temporizadorAnim = setTimeout("actualizarEscena()", 10);
+            }
+            
+            // Manejar interacción con el canvas
+            lienzo.onclick = function(evento) {
+                // Crear nueva partícula en la posición del clic
+                let nuevaParticula = new Particula();
+                nuevaParticula.posicionX = evento.x;
+                nuevaParticula.posicionY = evento.y;
+                arrayParticulas.push(nuevaParticula);
+            }
+            
+            // Manejar movimiento del ratón
+            lienzo.onmousemove = function(evento) {
+                arrayParticulas.forEach(function(particula) {
+                    // Detectar partículas cercanas al cursor
+                    if(
+                        Math.abs(evento.x - particula.posicionX) < 100 &&
+                        Math.abs(evento.y - particula.posicionY) < 100
+                    ) {
+                        // Calcular ángulo entre el cursor y la partícula
+                        let anguloCalculado = calcularAngulo(
+                            evento.x, 
+                            evento.y, 
+                            particula.posicionX, 
+                            particula.posicionY
+                        );
+                        
+                        // Actualizar dirección y posición de la partícula
+                        particula.angulo = anguloCalculado.radianes;
+                        particula.posicionX += Math.cos(particula.angulo) * 1;
+                        particula.posicionY += Math.sin(particula.angulo) * 1;
+                    }
+                });
+            }
+            
+            // Función para calcular el ángulo entre dos puntos
+            function calcularAngulo(x1, y1, x2, y2) {
+                // Calcular diferencias
+                let diferenciaX = x2 - x1;
+                let diferenciaY = y2 - y1;
+                
+                // Calcular ángulo en radianes entre -π y π
+                let anguloRadianes = Math.atan2(diferenciaY, diferenciaX);
+                
+                // Convertir a grados (opcional)
+                let anguloGrados = anguloRadianes * (180 / Math.PI);
+                
+                return {
+                    radianes: anguloRadianes,
+                    grados: anguloGrados
+                };
+            }
+        </script>
+    </body>
+</html>
+

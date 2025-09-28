@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+  <meta charset="utf-8" />
+  <title>Síntesis de Voz (básico)</title>
+  <textarea id="t" rows="4" style="width:98%; background-color: #f0f8ff;">¡Buenos días! Me llamo María García y vivo en Barcelona. Me encanta pasear por las Ramblas.</textarea>
+  <br>
+  <button id="s" style="background-color: #4CAF50; color: white; padding: 10px;">🎤 Reproducir</button>
+  <script>
+    let voices = [];
+    function seleccionarVoz() {
+      const v = voices.find(v => /es-|Spanish/i.test(v.lang)) || voices[0];
+      return v || null;
+    }
+    function cargarVoces() {
+      voices = speechSynthesis.getVoices();
+    }
+    cargarVoces();
+    speechSynthesis.onvoiceschanged = cargarVoces;
+
+    document.getElementById('s').onclick = () => {
+      const u = new SpeechSynthesisUtterance(document.getElementById('t').value);
+      const v = seleccionarVoz();
+      if (v) u.voice = v;
+      u.lang = (v && v.lang) || 'es-ES';
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    };
+  </script>
+</html>
+

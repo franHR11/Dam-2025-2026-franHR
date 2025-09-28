@@ -46,14 +46,5 @@ Este proyecto implementa un sistema ERP (Enterprise Resource Planning) con una a
 4. Accede a `http://frontend.test/Login/login.php` en tu navegador.
 
 ### Buenas Prácticas
-
-#### Uso de Variables de Entorno para URLs
-
-Este proyecto sigue la buena práctica de no hardcodear URLs en el código. En su lugar, todas las URLs se obtienen de variables de entorno definidas en los archivos `.env`.
-
-- En el backend, las variables se cargan con `parse_ini_file()` y se acceden con `getenv()`.
-- En el frontend, las variables se cargan en `config.php` y se asignan al objeto `window` para su uso en JavaScript.
-
-#### Configuración CORS
-
-La configuración CORS se maneja de forma segura utilizando las variables de entorno para especificar los orígenes permitidos. Esto permite un control preciso sobre qué dominios pueden acceder a los recursos del backend.
+- El sistema utiliza variables de entorno para todas las URLs, evitando el uso de URLs hardcodeadas en el código.
+- La configuración CORS se maneja automáticamente utilizando las variables de entorno definidas en los archivos `.env`.

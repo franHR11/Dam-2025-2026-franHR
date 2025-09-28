@@ -1,39 +1,29 @@
 <?php
 // Cargar variables de entorno desde .env
-$envPath = __DIR__ . '/../../../.env';
-if (file_exists($envPath)) {
-    $env = parse_ini_file($envPath);
+if (file_exists(__DIR__ . '/../../../../.env')) {
+    $env = parse_ini_file(__DIR__ . '/../../../../.env');
     foreach ($env as $key => $value) {
         putenv("$key=$value");
         $_ENV[$key] = $value;
     }
 }
 
-// Para depuración
-file_put_contents(__DIR__ . '/debug_cors.log', 'Ruta .env: ' . $envPath . "\n", FILE_APPEND);
-file_put_contents(__DIR__ . '/debug_cors.log', 'API_FRONT_URL: ' . getenv('API_FRONT_URL') . "\n", FILE_APPEND);
-file_put_contents(__DIR__ . '/debug_cors.log', 'Método HTTP: ' . $_SERVER['REQUEST_METHOD'] . "\n", FILE_APPEND);
-file_put_contents(__DIR__ . '/debug_cors.log', 'Origin: ' . (isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : 'No definido') . "\n", FILE_APPEND);
-
 // Obtener la URL del frontend desde las variables de entorno
 $frontendUrl = getenv('API_FRONT_URL') ?: 'http://frontend.test/';
 $frontendUrl = rtrim($frontendUrl, '/');
 
 // Manejar preflight OPTIONS
-header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Max-Age: 86400'); // 24 horas
-
-// Registrar cabeceras enviadas
-file_put_contents(__DIR__ . '/debug_cors.log', 'Cabeceras enviadas: Access-Control-Allow-Origin: *' . "\n", FILE_APPEND);
-
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    http_response_code(200);
+    header("Access-Control-Allow-Origin: $frontendUrl");
+    header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type');
     exit(0);
 }
 
-header('Content-Type: application/json; charset=utf-8');
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: $frontendUrl");
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
 // Verificar si se solicita la ruta de categorías o aplicaciones
 if (isset($_GET['ruta']) && ($_GET['ruta'] == 'categorias' || $_GET['ruta'] == 'aplicaciones')) {

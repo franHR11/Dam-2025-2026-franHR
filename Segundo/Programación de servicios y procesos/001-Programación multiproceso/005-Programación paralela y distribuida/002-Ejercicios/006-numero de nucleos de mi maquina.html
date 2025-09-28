@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <body>
+    <div id="output"></div>
+    <script>
+      const numWorkers = navigator.hardwareConcurrency;
+      
+      console.log(`Número de procesadores: ${numWorkers}`);
+      
+      for(let i=0;i<numWorkers;i++){
+        const worker = new Worker('006worker.js');
+        
+        worker.onmessage = function(e) {
+          console.log('Datos del trabajador:', e.data);
+        };
+        
+        worker.postMessage('¡Comenzar!');
+      }
+    </script>
+  </body>
+</html>
+

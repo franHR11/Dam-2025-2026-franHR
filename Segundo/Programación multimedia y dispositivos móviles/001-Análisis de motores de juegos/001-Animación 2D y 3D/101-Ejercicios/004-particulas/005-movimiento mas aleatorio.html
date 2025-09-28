@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #d35400;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const elCanvas = document.querySelector("canvas");
+            const pincel = elCanvas.getContext("2d");
+            
+            let coordenadaX = 256
+            let coordenadaY = 256
+            
+            let temporizadorLoop = setTimeout("moverParticula()", 1000)
+            
+            function moverParticula() { 
+                pincel.clearRect(0, 0, 512, 512)
+                
+                // Actualizar posiciones aleatoriamente
+                coordenadaX += Math.random() - 0.5
+                coordenadaY += Math.random() - 0.5
+                
+                // Dibujar partícula
+                pincel.beginPath();
+                pincel.arc(coordenadaX, coordenadaY, 20, 0, Math.PI * 2)
+                pincel.fillStyle = "#e67e22";
+                pincel.fill()
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorLoop)
+                temporizadorLoop = setTimeout("moverParticula()", 10)
+            }
+        </script>
+    </body>
+</html>
+

@@ -1,46 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <body>
-    <canvas width=512 height=512> 
-    </canvas>
-    <script>
-      // Cargo imagen en Javascript
-      let rejilla = new Image();
-      rejilla.src = "spritesheet.png";
-      // Coordenadas del jugador
-      let x = 200;
-      let y = 200;
-      // Atrapo el lienzo y el contexto
-      const lienzo = document.querySelector("canvas");
-      const contexto = lienzo.getContext("2d");
-      contexto.fillStyle = "red";
-      
-      // Función reutilizable de pintar 
-      function pinta(){
-        contexto.clearRect(0,0,512,512);
-        contexto.drawImage(rejilla,x,y)
-      }
-      
-      // Atrapo la pulsación de teclas y actualizo el pintado
-      document.querySelector("body").onkeydown = function(e){
-        switch(e.key){
-          case "w":
-            y -= 10;
-            break;
-          case "s":
-            y += 10;
-            break;
-          case "a":
-            x -= 10;
-            break;
-          case "d":
-            x += 10;
-            break;
-        }
-        pinta();
-      }
-      
-    </script>
-  </body>
+    <body>
+        <canvas width=512 height=512>
+        </canvas>
+        <script>
+            // Cargar la imagen del personaje
+            let personaje = new Image();
+            personaje.src = "spritesheet.png";
+            
+            // Posición inicial del personaje
+            let posicionX = 220;
+            let posicionY = 220;
+            
+            // Configuración del canvas
+            const miCanvas = document.querySelector("canvas");
+            const dibujo = miCanvas.getContext("2d");
+            dibujo.fillStyle = "#d35400";
+            
+            // Función para actualizar el dibujo
+            function actualizar() {
+                dibujo.clearRect(0, 0, 512, 512);
+                dibujo.drawImage(personaje, posicionX, posicionY);
+            }
+            
+            // Controles del teclado
+            document.querySelector("body").onkeydown = function(evento) {
+                switch(evento.key) {
+                    case "w":
+                        posicionY -= 15;
+                        break;
+                    case "s":
+                        posicionY += 15;
+                        break;
+                    case "a":
+                        posicionX -= 15;
+                        break;
+                    case "d":
+                        posicionX += 15;
+                        break;
+                }
+                actualizar();
+            }
+        </script>
+    </body>
 </html>
 

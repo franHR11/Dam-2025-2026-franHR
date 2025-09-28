@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 0px solid #27ae60;
+            }
+            html, body {
+                padding: 0px;
+                margin: 0px;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            // Obtener dimensiones de la ventana
+            const anchuraVentana = window.innerWidth;
+            const alturaVentana = window.innerHeight;
+            const lienzo = document.querySelector("canvas");
+            
+            // Ajustar canvas al tamaño de la ventana
+            lienzo.width = anchuraVentana;
+            lienzo.height = alturaVentana;
+            const contexto = lienzo.getContext("2d");
+            
+            class Particula {
+                constructor() {
+                    this.posicionX = Math.random() * anchuraVentana;
+                    this.posicionY = Math.random() * alturaVentana;
+                    this.angulo = Math.random() * Math.PI * 2;
+                    this.colorRojo = Math.round(Math.random() * 255);
+                    this.colorVerde = Math.round(Math.random() * 255);
+                    this.colorAzul = Math.round(Math.random() * 255);
+                    this.velocidad = 0.4;
+                }
+                
+                dibujar() {
+                    // Establecer color aleatorio único para cada partícula
+                    contexto.fillStyle = "rgb(" + this.colorRojo + "," + this.colorVerde + "," + this.colorAzul + ")";
+                    contexto.beginPath();
+                    contexto.arc(this.posicionX, this.posicionY, 5, 0, Math.PI * 2);
+                    contexto.fill();
+                }
+                
+                mover() {
+                    // Actualizar dirección y posición según velocidad
+                    this.angulo += (Math.random() - 0.5) * 0.5;
+                    this.posicionX += Math.cos(this.angulo) * this.velocidad;
+                    this.posicionY += Math.sin(this.angulo) * this.velocidad;
+                }
+                
+                detectarColision() {
+                    // Comprobar colisiones con los bordes de la ventana
+                    if(
+                        this.posicionX < 0 || 
+                        this.posicionX > anchuraVentana || 
+                        this.posicionY < 0 || 
+                        this.posicionY > alturaVentana
+                    ) {
+                        this.angulo += Math.PI;
+                    }
+                }
+                
+                obtenerPosicion() {
+                    // Devolver objeto con coordenadas actuales
+                    return {
+                        "x": this.posicionX,
+                        "y": this.posicionY
+                    };
+                }
+            }
+            
+            let arrayParticulas = [];
+            let cantidadParticulas = 100;
+            
+            // Crear partículas iniciales
+            for(let i = 0; i < cantidadParticulas; i++) {
+                arrayParticulas.push(new Particula());
+            }
+            
+            let temporizadorAnim = setTimeout("actualizarEscena()", 1000);
+            
+            function actualizarEscena() { 
+                // Aplicar efecto de motion blur
+                contexto.fillStyle = "rgba(255, 255, 255, 0.1)";
+                contexto.fillRect(0, 0, anchuraVentana, alturaVentana);
+                
+                // Actualizar y dibujar todas las partículas
+                arrayParticulas.forEach(function(particula) {
+                    particula.detectarColision();
+                    particula.mover();
+                    particula.dibujar();
+                });
+                
+                // Detectar colisiones y dibujar líneas entre partículas cercanas
+                for(let i = 0; i < arrayParticulas.length; i++) {
+                    for(let j = 0; j < arrayParticulas.length; j++) {
+                        if(i != j) {
+                            let distanciaX = Math.abs(arrayParticulas[i].obtenerPosicion().x - arrayParticulas[j].obtenerPosicion().x);
+                            let distanciaY = Math.abs(arrayParticulas[i].obtenerPosicion().y - arrayParticulas[j].obtenerPosicion().y);
+                            
+                            // Detectar colisión entre partículas
+                            if(distanciaX < 10 && distanciaY < 10) {
+                                arrayParticulas[i].angulo += Math.PI;
+                                arrayParticulas[j].angulo += Math.PI;
+                            }
+                            
+                            // Dibujar líneas entre partículas cercanas
+                            if(distanciaX < 50 && distanciaY < 50) {
+                                contexto.strokeStyle = "#2ecc71";
+                                contexto.beginPath();
+                                contexto.moveTo(
+                                    arrayParticulas[i].obtenerPosicion().x,
+                                    arrayParticulas[i].obtenerPosicion().y
+                                );
+                                contexto.lineTo(
+                                    arrayParticulas[j].obtenerPosicion().x,
+                                    arrayParticulas[j].obtenerPosicion().y
+                                );
+                                contexto.stroke();
+                            }
+                        }
+                    }
+                }
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorAnim);
+                temporizadorAnim = setTimeout("actualizarEscena()", 10);
+            }
+        </script>
+    </body>
+</html>
+

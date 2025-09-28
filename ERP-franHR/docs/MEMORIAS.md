@@ -2,21 +2,20 @@
 
 ## Registro de Cambios y Decisiones Clave
 
-### 2024
-- 15/01/2024: Refactorización del sistema de autenticación para mejorar la seguridad.
-- 28/02/2024: Simplificación del código en los componentes principales.
+### **Fecha:** 25/05/2024
+- **Cambio:** Refactorización del sistema de autenticación a una arquitectura desacoplada.
+### **Fecha:** 22/09/2025
+- **Cambio:** Separación de rutas en `listadoModulos.php` para categorías y aplicaciones, con funcionalidad de búsqueda.
+- **Simplificación del código:** Se eliminaron variables intermedias y alias complejos para facilitar la lectura a estudiantes de DAM, manteniendo la funcionalidad intacta.
+- **Decisión:** Se modificó el endpoint para manejar rutas separadas (?ruta=categorias y ?ruta=aplicaciones), consultando tablas específicas. Se agregó parámetro opcional 'busqueda' para filtrar categorías. Las aplicaciones ahora incluyen el nombre de la categoría mediante JOIN. Esto facilita la expansión futura de rutas y mejora la organización de datos.
+- **Decisión:** Se elimina la gestión de sesiones del backend. El backend (`Backend/login/login.php`) ahora solo valida credenciales y devuelve datos de usuario en formato JSON. El frontend (`Frontend/Login/login.php` y su `javascript.js`) maneja un flujo de dos pasos: primero autentica contra el backend y, si tiene éxito, crea una sesión local a través de un nuevo endpoint (`Frontend/componentes/Auth/create_session.php`) que utiliza `SessionManager.php`. Esta solución resuelve el bucle de redirección y crea un módulo de autenticación más robusto y reutilizable.
 
-### 2025
-- 10/05/2025: Implementación de la nueva arquitectura de autenticación y separación de rutas.
-- 23/09/2025: Solución de problemas CORS mediante el uso de variables de entorno:
-  - Se agregaron variables de entorno en los archivos `.env` del backend y frontend.
-  - Se modificó `config.php` para usar la variable `API_FRONT_URL` en las cabeceras CORS.
-  - Se actualizó `listadoModulos.php` para cargar variables de entorno y usar `API_FRONT_URL`.
-  - Se corrigió la ruta en `listadoModulos.js` para usar correctamente `API_BASE_URL`.
-  - Resultado: Se resolvió el error CORS que impedía la comunicación entre frontend y backend.
-- 24/09/2025: Corrección adicional de problemas CORS y URLs hardcodeadas:
-  - Se corrigió la ruta del archivo `.env` en `listadoModulos.php`.
-  - Se agregó código de depuración para identificar problemas con las variables de entorno.
-  - Se modificaron las cabeceras CORS para permitir cualquier origen durante la depuración.
-  - Se actualizó `javascript.js` para usar variables de entorno en lugar de URLs hardcodeadas.
-  - Se corrigió la ruta en `listadoModulos.js` eliminando el prefijo 'Backend/' redundante.
+### **Fecha:** 23/09/2025
+- **Cambio:** Solución de problemas de CORS en la comunicación entre Frontend y Backend.
+- **Decisión:** Se implementó el uso de variables de entorno para las URLs en lugar de URLs hardcodeadas para mejorar la seguridad y flexibilidad.
+- **Cambios realizados:**
+  - Se actualizó el archivo `.env` del Backend para incluir las URLs necesarias para CORS.
+  - Se modificó el archivo `config.php` del Backend para usar las variables de entorno en la configuración CORS.
+  - Se actualizó el archivo `listadoModulos.php` del Backend para cargar y usar variables de entorno.
+  - Se corrigió la ruta en el archivo `listadoModulos.js` del Frontend para usar correctamente la variable de entorno `API_BASE_URL`.
+- **Resultado:** Se resolvió el error de CORS que impedía la comunicación entre Frontend y Backend, manteniendo las buenas prácticas de seguridad al no usar URLs hardcodeadas.

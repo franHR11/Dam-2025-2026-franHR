@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <style>
+            canvas {
+                border: 1px solid #27ae60;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas width=512 height=512></canvas>
+        <script>
+            const elCanvas = document.querySelector("canvas");
+            const ctx = elCanvas.getContext("2d");
+            
+            let coordX = 256
+            let coordY = 256
+            
+            let temporizadorLoop = setTimeout("animar()", 1000)
+            
+            function animar() { 
+                // Actualizar coordenadas
+                coordX++
+                coordY++
+                
+                // Dibujar figura
+                ctx.beginPath();
+                ctx.arc(coordX, coordY, 20, 0, Math.PI * 2)
+                ctx.fillStyle = "#2ecc71";
+                ctx.fill()
+                
+                // Programar siguiente frame
+                clearTimeout(temporizadorLoop)
+                temporizadorLoop = setTimeout("animar()", 1000)
+            }
+        </script>
+    </body>
+</html>
+

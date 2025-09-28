@@ -31,8 +31,7 @@ function getConnection()
 }
 
 // Configuración de CORS para permitir peticiones desde el frontend
-$frontendUrl = getenv('API_FRONT_URL') ?: 'http://frontend.test';
-header("Access-Control-Allow-Origin: $frontendUrl");
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
