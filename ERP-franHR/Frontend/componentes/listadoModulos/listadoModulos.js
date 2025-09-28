@@ -1,4 +1,4 @@
-fetch(window.API_BASE_URL + 'componentes/listado-de-modulos/listadoModulos.php?ruta=aplicaciones', {
+fetch((window.CONFIG?.API_BASE_URL || '/api/') + 'componentes/listado-de-modulos/listadoModulos.php?ruta=aplicaciones', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'

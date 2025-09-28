@@ -41,5 +41,3 @@
 <script>
     <?php include "HeaderInfAdmin.js"; ?>
 </script>
-
-<?php include '../componentes/Footer/Footer.php'; ?>

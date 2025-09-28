@@ -10,7 +10,7 @@ document.querySelector('button').addEventListener('click', async function () {
 
     try {
         // Paso 1: Autenticar contra el backend
-        const loginResponse = await fetch(window.API_BASE_URL + 'login/login.php', {
+        const loginResponse = await fetch((window.CONFIG?.API_BASE_URL || '/api/') + 'login/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

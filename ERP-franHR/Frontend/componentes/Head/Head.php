@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pcpro - ERP</title>
-    <link rel="stylesheet" href="../comun/style.css">
+    <style>
+        <?php include "../../comun/style.css"; ?>
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 

@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.addEventListener('click', function(e) {
             e.preventDefault();
             
-            const apiUrl = window.API_BASE_URL + 'logout.php'; // URL del endpoint de logout
+            const apiUrl = window.CONFIG?.API_BASE_URL || '/api/';
+            const logoutUrl = apiUrl + 'logout.php'; // URL del endpoint de logout
 
-            fetch(apiUrl, {
+            fetch(logoutUrl, {
                 method: 'POST',
                 credentials: 'include', // Importante para enviar cookies de sesión
                 headers: {

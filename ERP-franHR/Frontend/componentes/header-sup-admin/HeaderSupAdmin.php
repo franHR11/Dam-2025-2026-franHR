@@ -119,5 +119,3 @@
 <script>
     <?php include "HeaderSupAdmin.js"; ?>
 </script>
-
-<?php include '../componentes/Footer/Footer.php'; ?>

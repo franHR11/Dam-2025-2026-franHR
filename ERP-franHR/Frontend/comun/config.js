@@ -1,11 +1,11 @@
 // Configuración del frontend
 // Cargar variables de entorno desde .env (simulado para JavaScript)
 const config = {
-    API_BASE_URL: 'http://backend.test/'  // Valor por defecto
+    API_BASE_URL: '/api/'  // Valor por defecto - ruta relativa
 };
 
 // Intentar cargar desde .env si existe (requiere servidor o build tool)
-fetch('.env')
+fetch('/.env')
     .then(response => response.text())
     .then(text => {
         const lines = text.split('\n');
@@ -18,6 +18,7 @@ fetch('.env')
     })
     .catch(() => {
         // Si no se puede cargar .env, usar valores por defecto
+        console.log('Usando configuración por defecto');
     });
 
 // Exportar configuración

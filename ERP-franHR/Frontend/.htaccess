@@ -1,3 +1,15 @@
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+<IfModule mod_rewrite.c>
+    # Activa el motor de reescritura
+    RewriteEngine On
+    
+    # Redirigir peticiones a /api/ hacia la carpeta api/
+    RewriteRule ^api/(.*)$ api/$1 [L]
+    
+    # Redirigir raíz a login
+    RewriteRule ^$ Login/login.php [L]
+    
+    # Permitir acceso directo a archivos existentes
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+</IfModule>
