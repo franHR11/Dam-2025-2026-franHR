@@ -8,8 +8,7 @@ $currentUser = SessionManager::getUserInfo();
 
 <!-- Estilos de layout y específicos del kanban -->
 <style>
-    <?php include "../../escritorio/escritorio.css"; ?>
-    <?php include "kanban.css"; ?>
+    <?php include "../../escritorio/escritorio.css"; ?><?php include "kanban.css"; ?>
 </style>
 
 <main>
@@ -18,7 +17,7 @@ $currentUser = SessionManager::getUserInfo();
 
     <div id="escritorio">
         <?php include '../../componentes/Menu-Admin/MenuAdmin.php'; ?>
-        
+
         <!-- Contenido principal del Kanban -->
 
         <div id="kanban-content">
