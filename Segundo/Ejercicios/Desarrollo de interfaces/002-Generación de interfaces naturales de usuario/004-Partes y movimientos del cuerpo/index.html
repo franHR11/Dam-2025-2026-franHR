@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Juego de Pesca con Reconocimiento de Manos</title>
+    <!-- Aquí incluyo las librerías de MediaPipe para la detección de manos y dibujo -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+</head>
+
+<body>
+    <!-- Este video captura la entrada de la cámara -->
+    <video class="input_video" style="display: none;"></video>
+    <!-- El canvas donde dibujo el video y la línea de pesca -->
+    <canvas id="output_canvas" width="640" height="480"></canvas>
+
+    <script>
+        // Inicializo la detección de manos con MediaPipe
+        const hands = new Hands({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+        });
+
+        // Configuro las opciones: escala de imagen y detección rápida
+        hands.setOptions({
+            maxNumHands: 1,
+            modelComplexity: 1,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+
+        // Obtengo el canvas y su contexto para dibujar
+        const canvasElement = document.getElementById('output_canvas');
+        const canvasCtx = canvasElement.getContext('2d');
+
+        // Esta función se ejecuta cuando hay resultados de la detección
+        hands.onResults((results) => {
+            // Limpio el canvas
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+
+            // Si hay landmarks de la mano, los uso para controlar la línea
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                const landmarks = results.multiHandLandmarks[0];
+                // Tomo el punto del dedo índice (landmark 8) para la posición X
+                const indexFinger = landmarks[8];
+                const x = indexFinger.x * canvasElement.width;
+                const y = indexFinger.y * canvasElement.height;
+
+                // Dibujo la línea de pesca: desde arriba hasta la posición de la mano
+                canvasCtx.beginPath();
+                canvasCtx.moveTo(x, 0);
+                canvasCtx.lineTo(x, y);
+                canvasCtx.strokeStyle = 'blue';
+                canvasCtx.lineWidth = 5;
+                canvasCtx.stroke();
+
+                // Si la mano está arriba (y < 100), "lanzo" la línea más abajo
+                if (y < 100) {
+                    canvasCtx.beginPath();
+                    canvasCtx.moveTo(x, y);
+                    canvasCtx.lineTo(x, canvasElement.height);
+                    canvasCtx.strokeStyle = 'green';
+                    canvasCtx.lineWidth = 3;
+                    canvasCtx.stroke();
+                }
+            }
+
+            // Dibujo los landmarks de la mano para ver la detección
+            if (results.multiHandLandmarks) {
+                for (const landmarks of results.multiHandLandmarks) {
+                    drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: '#00FF00', lineWidth: 5 });
+                    drawLandmarks(canvasCtx, landmarks, { color: '#FF0000', lineWidth: 2 });
+                }
+            }
+        });
+
+        // Configuro la cámara para capturar video
+        const camera = new Camera(document.querySelector('.input_video'), {
+            onFrame: async () => {
+                await hands.send({ image: document.querySelector('.input_video') });
+            },
+            width: 640,
+            height: 480
+        });
+
+        // Inicio la cámara
+        camera.start();
+    </script>
+</body>
+
+</html>

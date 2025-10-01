@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mejora de los Estilos</title>
+    <style>
+        /* Variables CSS para personalizar colores, fuentes y tamaños */
+        :root {
+            --color-primario: #007bff;
+            /* Azul para botones y acentos */
+            --color-secundario: #6c757d;
+            /* Gris para fondos secundarios */
+            --color-fondo: #f8f9fa;
+            /* Fondo claro */
+            --color-texto: #212529;
+            /* Texto oscuro */
+            --fuente-principal: 'Arial', sans-serif;
+            /* Fuente principal */
+            --tamano-fuente-base: 16px;
+            /* Tamaño base de fuente */
+            --tamano-fuente-titulo: 24px;
+            /* Tamaño para títulos */
+            --espaciado: 20px;
+            /* Espaciado general */
+        }
+
+        /* Aplicando las variables a elementos comunes */
+        body {
+            font-family: var(--fuente-principal);
+            font-size: var(--tamano-fuente-base);
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+            margin: 0;
+            padding: var(--espaciado);
+        }
+
+        h2 {
+            font-size: var(--tamano-fuente-titulo);
+            color: var(--color-primario);
+        }
+
+        button {
+            background-color: var(--color-primario);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: var(--tamano-fuente-base);
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: var(--color-secundario);
+        }
+
+        .contenedor-principal {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .area-componentes {
+            width: 30%;
+            background-color: var(--color-fondo);
+            padding: var(--espaciado);
+            border-right: 1px solid var(--color-secundario);
+        }
+
+        .area-trabajo {
+            width: 70%;
+            padding: var(--espaciado);
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <div class="area-componentes">
+            <h2>Componentes Mejorados</h2>
+            <button>Botón de Ejemplo</button>
+        </div>
+        <div class="area-trabajo">
+            <h2>Área de Trabajo Mejorada</h2>
+            <p>Usando variables CSS para un diseño más flexible y fácil de mantener.</p>
+        </div>
+    </div>
+</body>
+
+</html>

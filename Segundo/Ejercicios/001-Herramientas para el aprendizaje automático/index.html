@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Micro-ChatGPT</title>
+</head>
+
+<body>
+    <h1>Micro-ChatGPT con Ollama</h1>
+    <form id="chat-form">
+        <select id="model-select">
+            <option value="llama3.1:8b-instruct-q4_0">Llama 3.1 8B</option>
+            <!-- Aquí puedo agregar más modelos -->
+        </select>
+        <input type="text" id="prompt" placeholder="Escribe tu mensaje..." required>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="chat"></div>
+    <script src="app.js"></script>
+</body>
+
+</html>

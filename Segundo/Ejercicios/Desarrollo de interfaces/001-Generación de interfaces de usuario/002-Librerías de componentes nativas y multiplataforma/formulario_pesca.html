@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pesca</title>
+</head>
+
+<body>
+    <!-- Aquí inicio mi formulario para registrar mis capturas de pesca. Me encanta la pesca en mi tiempo libre, y esta aplicación me ayudará a llevar un registro diario. -->
+    <form method="POST" action="quienteprocesa.php">
+        <!-- Agrupo los campos en una sección llamada "Datos de Pesca" usando fieldset y legend, como aprendí en clase. -->
+        <fieldset>
+            <legend>Datos de Pesca</legend>
+            <!-- Este es el campo de texto donde ingreso el nombre del pez que capturé. Lo hago simple y directo. -->
+            <label for="nombre_pez">Nombre del Pez:</label>
+            <input type="text" id="nombre_pez" name="nombre_pez" required>
+            <br><br>
+            <!-- Aquí agrego el selector con las especies de peces que pesco habitualmente: Carpa, Luna, Salmon y Trucha. -->
+            <label for="especie">Especie:</label>
+            <select id="especie" name="especie" required>
+                <option value="Carpa">Carpa</option>
+                <option value="Luna">Luna</option>
+                <option value="Salmon">Salmon</option>
+                <option value="Trucha">Trucha</option>
+            </select>
+            <br><br>
+            <!-- Finalmente, el botón para enviar los datos, con el texto "Capturar" que refleja mi pasión por la pesca. -->
+            <button type="submit">Capturar</button>
+        </fieldset>
+    </form>
+</body>
+
+</html>

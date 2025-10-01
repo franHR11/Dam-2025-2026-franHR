@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz Inicial</title>
+    <style>
+        /* Estilos básicos para la interfaz inicial */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .contenedor-principal {
+            display: flex;
+            width: 100%;
+        }
+
+        .area-componentes {
+            width: 30%;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .area-trabajo {
+            width: 70%;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contenedor-principal">
+        <!-- Área para componentes: aquí pondré botones y elementos interactivos -->
+        <div class="area-componentes">
+            <h2>Componentes</h2>
+            <button id="boton-generar">Generar HTML</button>
+            <!-- Aquí puedo agregar más componentes como inputs o listas -->
+        </div>
+        <!-- Área de trabajo: donde se insertará el contenido generado -->
+        <div class="area-trabajo" id="area-trabajo">
+            <h2>Área de Trabajo</h2>
+            <p>Este es el espacio donde aparecerá el contenido dinámico.</p>
+        </div>
+    </div>
+</body>
+
+</html>

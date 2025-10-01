@@ -17,18 +17,14 @@ $currentUser = SessionManager::getUserInfo();
 
     <div id="escritorio">
         <?php include '../componentes/Menu-Admin/MenuAdmin.php'; ?>
-        <?php include '../componentes/listadoModulos/listadoModulos.php'; ?>
+
+        <!-- Área de contenido dinámico -->
+        <div id="content-area">
+            <?php include '../componentes/listadoModulos/listadoModulos.php'; ?>
+        </div>
     </div>
 
 </main>
-
-
-
-
-
-
-
-
 
 <!-- JavaScript específico  -->
 <script>

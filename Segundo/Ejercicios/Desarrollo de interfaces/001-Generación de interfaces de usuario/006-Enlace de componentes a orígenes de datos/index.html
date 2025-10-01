@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes de Pesca</title>
+</head>
+
+<body>
+    <h1>Mis Clientes Registrados en la Pesca</h1>
+    <!-- Aquí creo un div donde mostraré la información del cliente -->
+    <div id="cliente-info">
+        <!-- Este div se actualizará con JavaScript -->
+    </div>
+
+    <script>
+        // Primero, defino el array de clientes como un JSON simple, con datos de mis registros de pesca
+        const clientes = [
+            { nombre: "Juan Pérez", edad: 35, lugar: "Río Ebro" },
+            { nombre: "María García", edad: 28, lugar: "Río Duero" },
+            { nombre: "Carlos López", edad: 42, lugar: "Río Tajo" }
+        ];
+
+        // Ahora, creo la variable primer_cliente asignando el primer elemento del array
+        const primer_cliente = clientes[0];
+
+        // Luego, obtengo el elemento del DOM donde mostraré la info
+        const clienteDiv = document.getElementById('cliente-info');
+
+        // Finalmente, actualizo el contenido del div con la información del primer cliente
+        clienteDiv.innerHTML = `
+            <p>Nombre: ${primer_cliente.nombre}</p>
+            <p>Edad: ${primer_cliente.edad}</p>
+            <p>Lugar de pesca: ${primer_cliente.lugar}</p>
+        `;
+    </script>
+</body>
+
+</html>

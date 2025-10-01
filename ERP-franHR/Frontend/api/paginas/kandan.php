@@ -34,7 +34,7 @@ try {
         case 'usuarios':
             handleUsuarios($pdo);
             break;
-        
+
         case 'tablero':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $id = $_GET['id'] ?? null;
@@ -51,7 +51,7 @@ try {
                 deleteTablero($pdo);
             }
             break;
-        
+
         case 'columnas':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $tableroId = $_GET['tablero_id'] ?? null;
@@ -64,7 +64,7 @@ try {
                 deleteColumna($pdo);
             }
             break;
-        
+
         case 'tarjetas':
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $columnaId = $_GET['columna_id'] ?? null;
@@ -77,7 +77,7 @@ try {
                 deleteTarjeta($pdo);
             }
             break;
-        
+
         default:
             http_response_code(400);
             echo json_encode([
@@ -86,7 +86,6 @@ try {
             ]);
             break;
     }
-
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
@@ -102,10 +101,11 @@ try {
 }
 
 // ===== FUNCIONES DE USUARIOS =====
-function handleUsuarios($pdo) {
+function handleUsuarios($pdo)
+{
     $stmt = $pdo->query("SELECT Identificador as id, usuario, nombrecompleto as nombre, email FROM usuarios");
     $usuarios = $stmt->fetchAll();
-    
+
     echo json_encode([
         'success' => true,
         'data' => $usuarios,
@@ -114,10 +114,11 @@ function handleUsuarios($pdo) {
 }
 
 // ===== FUNCIONES DE TABLEROS =====
-function getTableros($pdo) {
+function getTableros($pdo)
+{
     $stmt = $pdo->query("SELECT * FROM kanban_tableros ORDER BY fecha_creacion DESC");
     $tableros = $stmt->fetchAll();
-    
+
     echo json_encode([
         'success' => true,
         'data' => $tableros,
@@ -125,26 +126,27 @@ function getTableros($pdo) {
     ]);
 }
 
-function getTablero($pdo, $id) {
+function getTablero($pdo, $id)
+{
     $stmt = $pdo->prepare("SELECT * FROM kanban_tableros WHERE Identificador = ?");
     $stmt->execute([$id]);
     $tablero = $stmt->fetch();
-    
+
     if ($tablero) {
         // Obtener columnas del tablero
         $stmt = $pdo->prepare("SELECT * FROM kanban_columnas WHERE tablero_id = ? ORDER BY orden");
         $stmt->execute([$id]);
         $columnas = $stmt->fetchAll();
-        
+
         // Obtener tarjetas para cada columna (enriquecidas con asignado_nombre)
         foreach ($columnas as &$columna) {
             $stmt = $pdo->prepare("SELECT kt.*, u.nombrecompleto AS asignado_nombre FROM kanban_tarjetas kt LEFT JOIN usuarios u ON kt.asignado_a = u.Identificador WHERE kt.columna_id = ? ORDER BY kt.orden");
             $stmt->execute([$columna['Identificador']]);
             $columna['tarjetas'] = $stmt->fetchAll();
         }
-        
+
         $tablero['columnas'] = $columnas;
-        
+
         echo json_encode([
             'success' => true,
             'data' => $tablero,
@@ -159,30 +161,31 @@ function getTablero($pdo, $id) {
     }
 }
 
-function createTablero($pdo) {
+function createTablero($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
-    
+
     $nombre = $input['nombre'] ?? 'Mi Tablero Kanban';
     $descripcion = $input['descripcion'] ?? '';
     $usuario_propietario = $input['usuario_id'] ?? 1;
-    
+
     $stmt = $pdo->prepare("INSERT INTO kanban_tableros (nombre, descripcion, usuario_propietario, fecha_creacion) VALUES (?, ?, ?, NOW())");
     $stmt->execute([$nombre, $descripcion, $usuario_propietario]);
-    
+
     $tableroId = $pdo->lastInsertId();
-    
+
     // Crear columnas por defecto
     $columnasDefault = [
         ['nombre' => 'Por hacer', 'color' => '#e74c3c', 'orden' => 1],
         ['nombre' => 'En progreso', 'color' => '#f39c12', 'orden' => 2],
         ['nombre' => 'Completado', 'color' => '#27ae60', 'orden' => 3]
     ];
-    
+
     foreach ($columnasDefault as $columna) {
         $stmt = $pdo->prepare("INSERT INTO kanban_columnas (tablero_id, nombre, color, orden) VALUES (?, ?, ?, ?)");
         $stmt->execute([$tableroId, $columna['nombre'], $columna['color'], $columna['orden']]);
     }
-    
+
     echo json_encode([
         'success' => true,
         'data' => ['id' => $tableroId],
@@ -190,13 +193,14 @@ function createTablero($pdo) {
     ]);
 }
 
-function updateTablero($pdo) {
+function updateTablero($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
-    
+
     $id = $input['id'] ?? null;
     $nombre = $input['nombre'] ?? null;
     $descripcion = $input['descripcion'] ?? null;
-    
+
     if (!$id) {
         http_response_code(400);
         echo json_encode([
@@ -205,20 +209,21 @@ function updateTablero($pdo) {
         ]);
         return;
     }
-    
+
     $stmt = $pdo->prepare("UPDATE kanban_tableros SET nombre = ?, descripcion = ? WHERE Identificador = ?");
     $stmt->execute([$nombre, $descripcion, $id]);
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Tablero actualizado correctamente'
     ]);
 }
 
-function deleteTablero($pdo) {
+function deleteTablero($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
     $id = $input['id'] ?? null;
-    
+
     if (!$id) {
         http_response_code(400);
         echo json_encode([
@@ -227,16 +232,16 @@ function deleteTablero($pdo) {
         ]);
         return;
     }
-    
+
     // Eliminar tarjetas primero
     $pdo->prepare("DELETE FROM kanban_tarjetas WHERE columna_id IN (SELECT Identificador FROM kanban_columnas WHERE tablero_id = ?)")->execute([$id]);
-    
+
     // Eliminar columnas
     $pdo->prepare("DELETE FROM kanban_columnas WHERE tablero_id = ?")->execute([$id]);
-    
+
     // Eliminar tablero
     $pdo->prepare("DELETE FROM kanban_tableros WHERE Identificador = ?")->execute([$id]);
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Tablero eliminado correctamente'
@@ -244,7 +249,8 @@ function deleteTablero($pdo) {
 }
 
 // ===== FUNCIONES DE COLUMNAS =====
-function getColumnas($pdo, $tableroId) {
+function getColumnas($pdo, $tableroId)
+{
     if (!$tableroId) {
         http_response_code(400);
         echo json_encode([
@@ -253,11 +259,11 @@ function getColumnas($pdo, $tableroId) {
         ]);
         return;
     }
-    
+
     $stmt = $pdo->prepare("SELECT * FROM kanban_columnas WHERE tablero_id = ? ORDER BY orden");
     $stmt->execute([$tableroId]);
     $columnas = $stmt->fetchAll();
-    
+
     echo json_encode([
         'success' => true,
         'data' => $columnas,
@@ -265,14 +271,15 @@ function getColumnas($pdo, $tableroId) {
     ]);
 }
 
-function createColumna($pdo) {
+function createColumna($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
-    
+
     $tableroId = $input['tablero_id'] ?? null;
     $nombre = $input['nombre'] ?? '';
     $color = $input['color'] ?? '#3498db';
     $orden = $input['posicion'] ?? 1;
-    
+
     if (!$tableroId) {
         http_response_code(400);
         echo json_encode([
@@ -281,10 +288,10 @@ function createColumna($pdo) {
         ]);
         return;
     }
-    
+
     $stmt = $pdo->prepare("INSERT INTO kanban_columnas (tablero_id, nombre, color, orden) VALUES (?, ?, ?, ?)");
     $stmt->execute([$tableroId, $nombre, $color, $orden]);
-    
+
     echo json_encode([
         'success' => true,
         'data' => ['id' => $pdo->lastInsertId()],
@@ -292,14 +299,15 @@ function createColumna($pdo) {
     ]);
 }
 
-function updateColumna($pdo) {
+function updateColumna($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
-    
+
     $id = $input['id'] ?? null;
     $nombre = $input['nombre'] ?? null;
     $color = $input['color'] ?? null;
     $orden = $input['posicion'] ?? null;
-    
+
     if (!$id) {
         http_response_code(400);
         echo json_encode([
@@ -308,20 +316,21 @@ function updateColumna($pdo) {
         ]);
         return;
     }
-    
+
     $stmt = $pdo->prepare("UPDATE kanban_columnas SET nombre = ?, color = ?, orden = ? WHERE Identificador = ?");
     $stmt->execute([$nombre, $color, $orden, $id]);
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Columna actualizada correctamente'
     ]);
 }
 
-function deleteColumna($pdo) {
+function deleteColumna($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
     $id = $input['id'] ?? null;
-    
+
     if (!$id) {
         http_response_code(400);
         echo json_encode([
@@ -330,13 +339,13 @@ function deleteColumna($pdo) {
         ]);
         return;
     }
-    
+
     // Eliminar tarjetas de la columna primero
     $pdo->prepare("DELETE FROM kanban_tarjetas WHERE columna_id = ?")->execute([$id]);
-    
+
     // Eliminar columna
     $pdo->prepare("DELETE FROM kanban_columnas WHERE Identificador = ?")->execute([$id]);
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Columna eliminada correctamente'
@@ -344,7 +353,8 @@ function deleteColumna($pdo) {
 }
 
 // ===== FUNCIONES DE TARJETAS =====
-function getTarjetas($pdo, $columnaId) {
+function getTarjetas($pdo, $columnaId)
+{
     if (!$columnaId) {
         http_response_code(400);
         echo json_encode([
@@ -367,7 +377,8 @@ function getTarjetas($pdo, $columnaId) {
 }
 
 // Utilidad para mapear prioridad (admite string o entero)
-function mapPrioridad($value) {
+function mapPrioridad($value)
+{
     // Devuelve entero 1-4 o null si no se proporciona
     if ($value === null || $value === '') return null;
     if (is_numeric($value)) {
@@ -390,7 +401,8 @@ function mapPrioridad($value) {
     return $map[$key] ?? 2;
 }
 
-function createTarjeta($pdo) {
+function createTarjeta($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
 
     $columnaId = $input['columna_id'] ?? null;
@@ -429,7 +441,8 @@ function createTarjeta($pdo) {
     ]);
 }
 
-function updateTarjeta($pdo) {
+function updateTarjeta($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
 
     $id = $input['id'] ?? null;
@@ -479,10 +492,11 @@ function updateTarjeta($pdo) {
     ]);
 }
 
-function deleteTarjeta($pdo) {
+function deleteTarjeta($pdo)
+{
     $input = json_decode(file_get_contents('php://input'), true);
     $id = $input['id'] ?? null;
-    
+
     if (!$id) {
         http_response_code(400);
         echo json_encode([
@@ -491,12 +505,11 @@ function deleteTarjeta($pdo) {
         ]);
         return;
     }
-    
+
     $pdo->prepare("DELETE FROM kanban_tarjetas WHERE Identificador = ?")->execute([$id]);
-    
+
     echo json_encode([
         'success' => true,
         'message' => 'Tarjeta eliminada correctamente'
     ]);
 }
-?>

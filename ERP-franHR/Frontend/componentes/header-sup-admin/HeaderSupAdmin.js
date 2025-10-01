@@ -130,40 +130,40 @@ class HeaderSupAdmin {
 
     handleLogout() {
         console.log('Cerrando sesión...');
-        
+
         // Primero eliminamos cualquier cookie o almacenamiento local que pueda estar manteniendo la sesión
-        document.cookie.split(";").forEach(function(c) {
+        document.cookie.split(";").forEach(function (c) {
             document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
         });
-        
+
         // Limpiamos localStorage por si acaso
         localStorage.clear();
         sessionStorage.clear();
-        
+
         fetch(window.LOGOUT_URL, {
             method: 'POST',
             credentials: 'include', // Para enviar cookies de sesión
             cache: 'no-store' // Evitar cacheo
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Respuesta de logout:', data);
-            
-            // Pequeña pausa antes de redireccionar para asegurar que todo se procese
-            setTimeout(() => {
-                // Usar una redirección directa con URL completa
-                window.location.href = window.LOGIN_URL;
-            }, 100);
-        })
-        .catch(error => {
-            console.error('Error en la petición de logout:', error);
-            this.showToast('Error de red al cerrar sesión', 'error');
-            
-            // Redireccionar incluso si hay error
-            setTimeout(() => {
-                window.location.href = window.LOGIN_URL;
-            }, 100);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta de logout:', data);
+
+                // Pequeña pausa antes de redireccionar para asegurar que todo se procese
+                setTimeout(() => {
+                    // Usar una redirección directa con URL completa
+                    window.location.href = window.LOGIN_URL;
+                }, 100);
+            })
+            .catch(error => {
+                console.error('Error en la petición de logout:', error);
+                this.showToast('Error de red al cerrar sesión', 'error');
+
+                // Redireccionar incluso si hay error
+                setTimeout(() => {
+                    window.location.href = window.LOGIN_URL;
+                }, 100);
+            });
     }
 
     updateNotificationCount(change = 0) {
@@ -261,10 +261,19 @@ class HeaderSupAdmin {
     }
 }
 
-// Inicializar cuando el DOM esté listo
+// Inicializar cuando el DOM esté listo, pero solo si no existe ya
 document.addEventListener('DOMContentLoaded', () => {
-    window.headerSupAdmin = new HeaderSupAdmin();
+    if (!window.headerSupAdmin) {
+        window.headerSupAdmin = new HeaderSupAdmin();
+    }
 });
+
+// Función para inicializar manualmente si es necesario
+function initHeaderSupAdmin() {
+    if (!window.headerSupAdmin) {
+        window.headerSupAdmin = new HeaderSupAdmin();
+    }
+}
 
 // Exportar para uso en módulos
 if (typeof module !== 'undefined' && module.exports) {

@@ -1,5 +1,10 @@
 #escritorio {
     display: flex;
     flex-direction: row;
+    min-height: calc(100vh - 100px); /* Ajustar según altura de headers */
+}
 
+#content-area {
+    flex: 1;
+    overflow: hidden;
 }

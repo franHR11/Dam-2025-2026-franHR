@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Animar Control</title>
+    <style>
+        /* Centro el formulario */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            padding: 20px;
+            border: 2px solid #000;
+            outline: none;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: transform 0.3s;
+            /* Animación suave */
+        }
+
+        input:focus {
+            transform: scale(1.1);
+            /* Aumenta el tamaño al enfocar */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Formulario con animación en el campo de texto -->
+    <form>
+        <label for="nombre-pez">Nombre del Pez:</label>
+        <input type="text" id="nombre-pez" name="nombre-pez">
+    </form>
+</body>
+
+</html>

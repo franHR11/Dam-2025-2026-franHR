@@ -3,6 +3,7 @@
     box-sizing: border-box;
 }
 
+/* Estilos para carga dinámica - se sobrescriben en kanban-content.php */
 #kanban-content {
     flex: 1;
     padding: 20px;
