@@ -1,0 +1,276 @@
+/* Estilos generales de mi página */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    /* Color de cielo para tema de pesca */
+    color: #333;
+    line-height: 1.6;
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos del encabezado */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e90ff, #4682b4);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Estilos principales para las gráficas */
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Estilos base para todas las gráficas */
+.grafica {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    /* Mantengo proporción uniforme */
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 36px;
+    /* Espacio reservado para la leyenda */
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grafica:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para la leyenda de todas las gráficas */
+.leyenda {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Gráfica 1: Barras horizontales - Capturas por día */
+.grafica1 {
+    background: linear-gradient(to right, #e8f5e8, #f0fff0);
+}
+
+.grafica1 .barra {
+    height: 30px;
+    background: linear-gradient(to right, #4caf50, #8bc34a);
+    margin: 15px 0;
+    border-radius: 15px;
+    position: relative;
+    animation: crecerBarra 1.5s ease-out;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.grafica1 .barra::after {
+    content: attr(data-valor);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-weight: bold;
+}
+
+/* Gráfica 2: Barras verticales - Peces por especie */
+.grafica2 {
+    background: linear-gradient(to bottom, #e3f2fd, #bbdefb);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding-bottom: 50px;
+}
+
+.grafica2 .barra-vertical {
+    width: 60px;
+    background: linear-gradient(to top, #2196f3, #03a9f4);
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    animation: crecerBarraVertical 1.5s ease-out;
+    box-shadow: 0 -2px 4px rgba(33, 150, 243, 0.3);
+}
+
+.grafica2 .barra-vertical::after {
+    content: attr(data-valor);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #1976d2;
+    font-weight: bold;
+}
+
+/* Gráfica 3: Gráfica circular - Proporción de capturas */
+.grafica3 {
+    background: radial-gradient(circle, #fff3e0, #ffe0b2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grafica3 .circulo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+.grafica3 .sector {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    transform-origin: right bottom;
+}
+
+.grafica3 .sector1 {
+    background-color: #ff9800;
+    transform: rotate(0deg);
+}
+
+.grafica3 .sector2 {
+    background-color: #ffc107;
+    transform: rotate(90deg);
+}
+
+.grafica3 .sector3 {
+    background-color: #ff5722;
+    transform: rotate(180deg);
+}
+
+.grafica3 .sector4 {
+    background-color: #ffeb3b;
+    transform: rotate(270deg);
+}
+
+/* Gráfica 4: Gráfica de puntos - Capturas por hora */
+.grafica4 {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    position: relative;
+}
+
+.grafica4 .punto {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #9c27b0, #7b1fa2);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(156, 39, 176, 0.4);
+    animation: aparecerPunto 1s ease-out;
+}
+
+.grafica4 .punto::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(156, 39, 176, 0.3);
+    border-radius: 50%;
+    animation: onda 2s infinite;
+}
+
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #34495e;
+    color: white;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+/* Animaciones para hacer las gráficas más dinámicas */
+@keyframes crecerBarra {
+    from {
+        width: 0;
+    }
+}
+
+@keyframes crecerBarraVertical {
+    from {
+        height: 0;
+    }
+}
+
+@keyframes aparecerPunto {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes onda {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+/* Diseño responsivo para móviles */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .grafica {
+        aspect-ratio: 4/3;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    .grafica3 .circulo {
+        width: 150px;
+        height: 150px;
+    }
+}

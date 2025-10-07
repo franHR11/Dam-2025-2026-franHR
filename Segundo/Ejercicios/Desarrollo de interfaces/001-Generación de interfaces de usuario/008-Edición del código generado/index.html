@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Estadísticas de Pesca</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <!-- Contenedor principal de mi aplicación -->
+    <div class="contenedor">
+        <!-- Título principal de mi aplicación -->
+        <header>
+            <h1>Mis Estadísticas de Pesca Diaria</h1>
+            <p>Registro de mis capturas durante la semana</p>
+        </header>
+
+        <!-- Sección de gráficas -->
+        <main>
+            <!-- Gráfica 1: Barras horizontales - Capturas por día -->
+            <div class="grafica grafica1">
+                <div class="barra" style="width: 80%;"></div>
+                <div class="barra" style="width: 60%;"></div>
+                <div class="barra" style="width: 90%;"></div>
+                <div class="barra" style="width: 45%;"></div>
+                <div class="barra" style="width: 70%;"></div>
+                <div class="leyenda">Capturas por día (lunes a viernes)</div>
+            </div>
+
+            <!-- Gráfica 2: Barras verticales - Peces por especie -->
+            <div class="grafica grafica2">
+                <div class="barra-vertical" style="height: 70%;"></div>
+                <div class="barra-vertical" style="height: 85%;"></div>
+                <div class="barra-vertical" style="height: 50%;"></div>
+                <div class="barra-vertical" style="height: 95%;"></div>
+                <div class="leyenda">Peces por especie (trucha, lucio, carpa, perca)</div>
+            </div>
+
+            <!-- Gráfica 3: Gráfica circular - Proporción de capturas -->
+            <div class="grafica grafica3">
+                <div class="circulo">
+                    <div class="sector sector1"></div>
+                    <div class="sector sector2"></div>
+                    <div class="sector sector3"></div>
+                    <div class="sector sector4"></div>
+                </div>
+                <div class="leyenda">Distribución por tipo de pesca</div>
+            </div>
+
+            <!-- Gráfica 4: Gráfica de puntos - Capturas por hora -->
+            <div class="grafica grafica4">
+                <div class="punto" style="left: 20%; top: 30%;"></div>
+                <div class="punto" style="left: 35%; top: 60%;"></div>
+                <div class="punto" style="left: 50%; top: 45%;"></div>
+                <div class="punto" style="left: 65%; top: 75%;"></div>
+                <div class="punto" style="left: 80%; top: 40%;"></div>
+                <div class="leyenda">Mejores horas para pescar</div>
+            </div>
+        </main>
+
+        <!-- Pie de página -->
+        <footer>
+            <p>© 2025 - Mi Diario de Pesca</p>
+        </footer>
+    </div>
+</body>
+
+</html>

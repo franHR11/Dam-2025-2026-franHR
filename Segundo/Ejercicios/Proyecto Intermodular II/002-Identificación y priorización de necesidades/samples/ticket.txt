@@ -1,0 +1,11 @@
+TICKET
+Tienda: SuperMercado Centro
+Fecha: 01/09/2024 12:45
+Cajero: 07
+Artículo	Unidad	Precio
+Pan	2	1,20 €
+Leche	1	0,95 €
+IVA incluido
+TPV: 1234
+Total: 3,35 €
+Pago: Efectivo

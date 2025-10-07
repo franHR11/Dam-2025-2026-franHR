@@ -1,0 +1,171 @@
+<!-- index.html - Mi interfaz simple del ERP para pesca -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi ERP de Pesca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .pantalla {
+            display: none;
+        }
+
+        .activa {
+            display: block;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+        }
+
+        form {
+            margin: 10px 0;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Mi Sistema ERP para el Negocio de Pesca</h1>
+    <nav>
+        <button onclick="mostrarPantalla('dashboard')">Dashboard</button>
+        <button onclick="mostrarPantalla('inventario')">Inventario</button>
+        <button onclick="mostrarPantalla('ventas')">Ventas</button>
+        <button onclick="mostrarPantalla('financiero')">Financiero</button>
+        <button onclick="mostrarPantalla('empleados')">Empleados</button>
+    </nav>
+
+    <!-- Pantalla 1: Dashboard Principal -->
+    <div id="dashboard" class="pantalla activa">
+        <h2>Dashboard Principal</h2>
+        <p>Hola, aquí veo un resumen de mi negocio. Hoy he capturado 50 kg de pescado y vendido 30 kg.</p>
+        <p>Próximas tareas: Revisar inventario y registrar ventas.</p>
+    </div>
+
+    <!-- Pantalla 2: Gestión de Inventario (Control de Almacén) -->
+    <div id="inventario" class="pantalla">
+        <h2>Control de Almacén</h2>
+        <p>Aquí controlo el pescado que tengo almacenado.</p>
+        <form onsubmit="event.preventDefault(); agregarProducto();">
+            <label>Producto (ej: Salmón): <input type="text" id="producto" required></label><br>
+            <label>Cantidad (kg): <input type="number" id="cantidad" required></label><br>
+            <button type="submit">Agregar al Inventario</button>
+        </form>
+        <ul id="listaProductos"></ul>
+    </div>
+
+    <!-- Pantalla 3: Registro de Ventas -->
+    <div id="ventas" class="pantalla">
+        <h2>Registro de Ventas</h2>
+        <p>Registro las ventas diarias al público.</p>
+        <form onsubmit="event.preventDefault(); registrarVenta();">
+            <label>Producto vendido: <input type="text" id="productoVendido" required></label><br>
+            <label>Cantidad vendida (kg): <input type="number" id="cantidadVendida" required></label><br>
+            <label>Precio total (€): <input type="number" id="precioVenta" required></label><br>
+            <button type="submit">Registrar Venta</button>
+        </form>
+        <ul id="listaVentas"></ul>
+    </div>
+
+    <!-- Pantalla 4: Control Financiero -->
+    <div id="financiero" class="pantalla">
+        <h2>Control Financiero</h2>
+        <p>Veo mis ingresos y gastos.</p>
+        <form onsubmit="event.preventDefault(); agregarGasto();">
+            <label>Descripción del gasto: <input type="text" id="descripcionGasto" required></label><br>
+            <label>Monto (€): <input type="number" id="montoGasto" required></label><br>
+            <button type="submit">Agregar Gasto</button>
+        </form>
+        <p>Ingresos totales: <span id="ingresosTotales">0</span> €</p>
+        <p>Gastos totales: <span id="gastosTotales">0</span> €</p>
+        <ul id="listaGastos"></ul>
+    </div>
+
+    <!-- Pantalla 5: Gestión de Empleados (RRHH) -->
+    <div id="empleados" class="pantalla">
+        <h2>Gestión de Empleados</h2>
+        <p>Manejo el horario y salarios de mi equipo.</p>
+        <form onsubmit="event.preventDefault(); agregarEmpleado();">
+            <label>Nombre del empleado: <input type="text" id="nombreEmpleado" required></label><br>
+            <label>Horas trabajadas: <input type="number" id="horasTrabajadas" required></label><br>
+            <button type="submit">Agregar Empleado</button>
+        </form>
+        <ul id="listaEmpleados"></ul>
+    </div>
+
+    <script>
+        // Función para cambiar entre pantallas
+        function mostrarPantalla(id) {
+            document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+            document.getElementById(id).classList.add('activa');
+        }
+
+        // Para Inventario
+        function agregarProducto() {
+            const producto = document.getElementById('producto').value;
+            const cantidad = document.getElementById('cantidad').value;
+            const li = document.createElement('li');
+            li.textContent = `${producto}: ${cantidad} kg`;
+            document.getElementById('listaProductos').appendChild(li);
+            document.getElementById('producto').value = '';
+            document.getElementById('cantidad').value = '';
+        }
+
+        // Para Ventas
+        function registrarVenta() {
+            const producto = document.getElementById('productoVendido').value;
+            const cantidad = document.getElementById('cantidadVendida').value;
+            const precio = document.getElementById('precioVenta').value;
+            const li = document.createElement('li');
+            li.textContent = `Vendido ${cantidad} kg de ${producto} por ${precio} €`;
+            document.getElementById('listaVentas').appendChild(li);
+            // Actualizar ingresos
+            const ingresos = parseFloat(document.getElementById('ingresosTotales').textContent) + parseFloat(precio);
+            document.getElementById('ingresosTotales').textContent = ingresos;
+            document.getElementById('productoVendido').value = '';
+            document.getElementById('cantidadVendida').value = '';
+            document.getElementById('precioVenta').value = '';
+        }
+
+        // Para Financiero
+        function agregarGasto() {
+            const descripcion = document.getElementById('descripcionGasto').value;
+            const monto = document.getElementById('montoGasto').value;
+            const li = document.createElement('li');
+            li.textContent = `${descripcion}: ${monto} €`;
+            document.getElementById('listaGastos').appendChild(li);
+            // Actualizar gastos
+            const gastos = parseFloat(document.getElementById('gastosTotales').textContent) + parseFloat(monto);
+            document.getElementById('gastosTotales').textContent = gastos;
+            document.getElementById('descripcionGasto').value = '';
+            document.getElementById('montoGasto').value = '';
+        }
+
+        // Para Empleados
+        function agregarEmpleado() {
+            const nombre = document.getElementById('nombreEmpleado').value;
+            const horas = document.getElementById('horasTrabajadas').value;
+            const li = document.createElement('li');
+            li.textContent = `${nombre}: ${horas} horas trabajadas`;
+            document.getElementById('listaEmpleados').appendChild(li);
+            document.getElementById('nombreEmpleado').value = '';
+            document.getElementById('horasTrabajadas').value = '';
+        }
+    </script>
+</body>
+
+</html>

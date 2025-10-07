@@ -1,0 +1,10 @@
+FACTURA
+Nº Factura: 2024-00123
+Cliente: Ejemplo S.L.
+CIF: B12345678
+Fecha de emisión: 01/09/2024
+Concepto: Servicios de consultoría
+Base imponible: 1.000,00 €
+IVA (21%): 210,00 €
+Importe total: 1.210,00 €
+Proveedor: Consultoría Ejemplar
