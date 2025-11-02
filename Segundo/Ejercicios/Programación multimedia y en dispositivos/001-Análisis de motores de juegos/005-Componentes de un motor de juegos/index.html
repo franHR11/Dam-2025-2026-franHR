@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Motor de Juegos 3D</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #0f1720;
+      --ink: #e6eef9;
+      --muted: #a9b6c7;
+      --ring: #4da3ff;
+      --gap: 24px;
+      --pad: 32px;
+      --radius: 18px;
+      --perspective: 1400px;
+      --rx: 0deg;
+      --ry: 0deg;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 1200px at 80% 50%, var(--bg), var(--muted));
+      perspective: var(--perspective);
+      transform: rotateX(var(--rx)) rotateY(var(--ry));
+      transition: transform 0.1s;
+    }
+
+    .layer {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--ink);
+      z-index: var(--z);
+      transform: translateZ(calc(var(--z) * 100px));
+    }
+  </style>
+</head>
+<body>
+  <!-- Capa de fondo -->
+  <div class="layer" style="--z: 0;">
+    Elemento a fondo
+  </div>
+  <!-- Capa media -->
+  <div class="layer" style="--z: 1;">
+    Elemento medio
+  </div>
+  <!-- Capa al frente -->
+  <div class="layer" style="--z: 2;">
+    Elemento al frente
+  </div>
+  <!-- Elementos adicionales para más parallax -->
+  <div class="layer" style="--z: 0.5;">
+    Elemento intermedio
+  </div>
+  <div class="layer" style="--z: 1.5;">
+    Elemento avanzado
+  </div>
+
+  <script>
+    document.addEventListener('mousemove', (event) => {
+      const x = event.clientX / window.innerWidth * 360 - 180;
+      const y = event.clientY / window.innerHeight * 180 - 90;
+      document.documentElement.style.setProperty('--rx', `${y}deg`);
+      document.documentElement.style.setProperty('--ry', `${x}deg`);
+    });
+  </script>
+</body>
+</html>

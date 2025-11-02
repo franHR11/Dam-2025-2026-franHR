@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tierra en A-Frame</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <a-assets>
+            <img id="earth-texture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Earthmap1000x500compac.jpg/800px-Earthmap1000x500compac.jpg">
+            <img id="earth-normal" src="https://i.imgur.com/8qjzq.png"> <!-- Placeholder para normal map -->
+        </a-assets>
+        <a-sphere position="0 1.25 -5" radius="1.25" material="src: #earth-texture; normal-map: #earth-normal"></a-sphere>
+        <a-light type="ambient" color="#445451" intensity="0.5"></a-light>
+        <a-light type="directional" color="#fff" intensity="1" position="-1 1 1"></a-light>
+        <a-camera position="0 1.6 0"></a-camera>
+    </a-scene>
+</body>
+</html>

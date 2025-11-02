@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js Básico</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Creo la escena básica
+        const scene = new THREE.Scene();
+
+        // Configuro la cámara en perspectiva
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // Creo el renderizador WebGL
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Creo la geometría de un cubo
+        const geometry = new THREE.BoxGeometry();
+
+        // Creo el material básico verde
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+        // Creo el mesh del cubo
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        // Posiciono la cámara un poco atrás
+        camera.position.z = 5;
+
+        // Añado iluminación ambiental
+        const light = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light);
+
+        // Función para animar el cubo
+        function animate() {
+            requestAnimationFrame(animate);
+            // Roto el cubo en X y Y
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            // Renderizo la escena
+            renderer.render(scene, camera);
+        }
+        // Llamo a la función de animación
+        animate();
+    </script>
+</body>
+</html>

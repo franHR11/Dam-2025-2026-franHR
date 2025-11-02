@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>App de Pesca</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="hero">
+        <h1>Bienvenido a la Guía de Pesca</h1>
+        <p>Descubre los mejores lugares y técnicas.</p>
+    </header>
+    <nav>
+        <input type="text" id="search" placeholder="Buscar peces o lugares...">
+        <button id="search-btn">Buscar</button>
+    </nav>
+    <main>
+        <section id="results">
+            <article>
+                <h2>Salmón Atlántico</h2>
+                <p>Técnica: Usa señuelos brillantes en ríos fríos.</p>
+            </article>
+            <article>
+                <h2>Lago Victoria</h2>
+                <p>Lugar ideal para pesca nocturna.</p>
+            </article>
+        </section>
+        <form id="contact-form">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <button type="submit">Enviar</button>
+        </form>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

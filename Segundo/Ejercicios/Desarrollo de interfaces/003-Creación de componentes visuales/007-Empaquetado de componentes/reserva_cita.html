@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Cita</title>
+    <link rel="stylesheet" href="minstrap.css">
+</head>
+<body>
+    <form class="container stack">
+        <h1>Reserva de Cita</h1>
+
+        <label for="name">Nombre completo:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">Teléfono:</label>
+        <input type="tel" id="phone" name="phone" required>
+
+        <label for="date">Fecha de cita:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="hobby">Hobbie (opcional):</label>
+        <select id="hobby" name="hobby">
+            <option value="">Selecciona un hobbie</option>
+            <option value="pescar">Pescar</option>
+            <option value="cazar">Cazar</option>
+            <option value="naturaleza">Naturaleza</option>
+            <option value="bicicleta">Salir en bicicleta</option>
+            <option value="moto_crossfit">Salir en moto crossfit</option>
+        </select>
+
+        <button type="submit" class="accent">Enviar</button>
+        <button type="reset" class="neutral">Cancelar</button>
+    </form>
+</body>
+</html>

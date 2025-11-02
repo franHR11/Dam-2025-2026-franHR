@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.hero {
+    background: linear-gradient(to bottom, #4CAF50, #2196F3);
+    height: 300px;
+    color: white;
+    text-align: center;
+    padding-top: 100px;
+}
+nav {
+    text-align: center;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+#search {
+    width: 300px;
+    padding: 10px;
+}
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+article {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-top: 20px;
+}
+input, button {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
