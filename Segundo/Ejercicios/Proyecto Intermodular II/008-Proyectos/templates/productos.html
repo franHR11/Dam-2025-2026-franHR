@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <ul>
+        {% for producto in productos %}
+        <li>{{ producto[1] }} - {{ producto[2] }}€ <img src="{{ producto[3] }}" alt="Producto" width="50"></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

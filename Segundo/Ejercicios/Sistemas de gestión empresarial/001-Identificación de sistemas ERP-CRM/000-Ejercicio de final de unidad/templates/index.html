@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Clientes - CRM{% endblock %}
+
+{% block content %}
+<div class="search-box">
+    <form action="{{ url_for('buscar_cliente') }}" method="GET">
+        <input type="text" name="q" placeholder="Buscar cliente..." value="{{ termino if termino else '' }}">
+        <button type="submit">🔍 Buscar</button>
+    </form>
+</div>
+
+<h2>📋 Lista de Clientes</h2>
+
+{% if clientes %}
+<table class="tabla-clientes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Empresa</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente[0] }}</td>
+            <td>{{ cliente[1] }}</td>
+            <td>{{ cliente[2] }}</td>
+            <td>{{ cliente[3] }}</td>
+            <td>{{ cliente[4] if cliente[4] else '-' }}</td>
+            <td>{{ cliente[5] if cliente[5] else '-' }}</td>
+            <td>{{ cliente[6] }}</td>
+            <td class="acciones">
+                <a href="{{ url_for('editar_cliente', id=cliente[0]) }}" class="btn-editar">✏️ Editar</a>
+                <a href="{{ url_for('eliminar_cliente', id=cliente[0]) }}" 
+                   class="btn-eliminar" 
+                   onclick="return confirm('¿Estás seguro de eliminar este cliente?')">🗑️ Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="mensaje-vacio">
+    <p>No hay clientes registrados{% if termino %} que coincidan con "{{ termino }}"{% endif %}.</p>
+    <a href="{{ url_for('agregar_cliente') }}" class="btn-primary">Agregar primer cliente</a>
+</div>
+{% endif %}
+{% endblock %}

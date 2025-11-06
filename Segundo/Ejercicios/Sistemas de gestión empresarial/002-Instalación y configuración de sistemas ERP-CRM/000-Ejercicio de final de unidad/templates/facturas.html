@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Facturas - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2>📄 Gestión de Facturas</h2>
+    <a href="{{ url_for('crear_factura') }}" class="btn-primary">+ Nueva Factura</a>
+</div>
+
+{% if facturas %}
+<table class="tabla-facturas">
+    <thead>
+        <tr>
+            <th>Nº Factura</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for factura in facturas %}
+        <tr>
+            <td><strong>{{ factura[1] }}</strong></td>
+            <td>{{ factura[2] }}</td>
+            <td>{{ factura[3] }}</td>
+            <td><strong>{{ "%.2f"|format(factura[4]) }}€</strong></td>
+            <td><span class="badge badge-{{ factura[5].lower() }}">{{ factura[5] }}</span></td>
+            <td>
+                <a href="{{ url_for('ver_factura', id=factura[0]) }}" class="btn-ver">👁️ Ver Detalle</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="mensaje-vacio">
+    <p>No hay facturas registradas.</p>
+    <a href="{{ url_for('crear_factura') }}" class="btn-primary">Crear primera factura</a>
+</div>
+{% endif %}
+{% endblock %}

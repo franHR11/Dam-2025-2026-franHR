@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Factura - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<h2>➕ Crear Nueva Factura</h2>
+
+<form method="POST" class="formulario formulario-factura">
+    <div class="form-group">
+        <label for="cliente_id">Cliente *</label>
+        <select id="cliente_id" name="cliente_id" required>
+            <option value="">Seleccionar cliente...</option>
+            {% for cliente in clientes %}
+            <option value="{{ cliente[0] }}">{{ cliente[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <h3>Productos</h3>
+    <div id="lineas-productos">
+        <div class="linea-producto">
+            <div class="form-group">
+                <label>Producto</label>
+                <select name="producto_id[]" class="producto-select">
+                    <option value="">Seleccionar producto...</option>
+                    {% for producto in productos %}
+                    <option value="{{ producto[0] }}" data-precio="{{ producto[2] }}">
+                        {{ producto[1] }} - {{ "%.2f"|format(producto[2]) }}€
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Cantidad</label>
+                <input type="number" name="cantidad[]" min="1" value="1" class="cantidad-input">
+            </div>
+        </div>
+    </div>
+
+    <button type="button" onclick="agregarLinea()" class="btn-secondary">+ Agregar Producto</button>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">💾 Crear Factura</button>
+        <a href="{{ url_for('listar_facturas') }}" class="btn-secondary">❌ Cancelar</a>
+    </div>
+</form>
+
+<script>
+function agregarLinea() {
+    const container = document.getElementById('lineas-productos');
+    const nuevaLinea = document.querySelector('.linea-producto').cloneNode(true);
+    nuevaLinea.querySelectorAll('select, input').forEach(el => el.value = '');
+    container.appendChild(nuevaLinea);
+}
+</script>
+{% endblock %}

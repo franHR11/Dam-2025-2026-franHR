@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mundo 3D Simple como Minecraft</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Cámara con controles para mirar y mover -->
+      <a-camera position="0 2 5" look-controls wasd-controls></a-camera>
+      
+      <!-- Suelo -->
+      <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20" color="#4CAF50"></a-plane>
+      
+      <!-- Componente para remover al hacer clic -->
+      <script>
+        AFRAME.registerComponent('remove-on-click', {
+          init: function() {
+            this.el.addEventListener('click', () => {
+              this.el.parentNode.removeChild(this.el);
+            });
+          }
+        });
+      </script>
+      
+      <!-- Bloques en una cuadrícula simple -->
+      <a-box position="-2 1 -2" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="0 1 -2" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="2 1 -2" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="-2 1 0" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="0 1 0" color="#795548" remove-on-click></a-box>
+      <a-box position="2 1 0" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="-2 1 2" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="0 1 2" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="2 1 2" color="#8D6E63" remove-on-click></a-box>
+      
+      <!-- Segundo nivel -->
+      <a-box position="-2 2 0" color="#8D6E63" remove-on-click></a-box>
+      <a-box position="0 2 0" color="#795548" remove-on-click></a-box>
+      <a-box position="2 2 0" color="#8D6E63" remove-on-click></a-box>
+      
+      <!-- Objeto recolectable animado -->
+      <a-sphere position="0 1.5 3" radius="0.3" color="#FFC107" animation="property: position; to: 0 2.5 3; dur: 2000; loop: true; dir: alternate"></a-sphere>
+      
+      <!-- Luces -->
+      <a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>
+      <a-light type="directional" position="1 1 1" color="#ffffff" intensity="1"></a-light>
+    </a-scene>
+  </body>
+</html>

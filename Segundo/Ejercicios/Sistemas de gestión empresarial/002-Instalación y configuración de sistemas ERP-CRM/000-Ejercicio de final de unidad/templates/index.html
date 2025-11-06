@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<h2>📊 Dashboard</h2>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+            <h3>{{ total_clientes }}</h3>
+            <p>Clientes</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+            <h3>{{ total_productos }}</h3>
+            <p>Productos</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">📄</div>
+        <div class="stat-info">
+            <h3>{{ total_facturas }}</h3>
+            <p>Facturas</p>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+            <h3>{{ "%.2f"|format(ingresos_totales) }}€</h3>
+            <p>Ingresos Totales</p>
+        </div>
+    </div>
+</div>
+
+<h3>📋 Últimas Facturas</h3>
+
+{% if ultimas_facturas %}
+<table class="tabla-facturas">
+    <thead>
+        <tr>
+            <th>Nº Factura</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for factura in ultimas_facturas %}
+        <tr>
+            <td><strong>{{ factura[1] }}</strong></td>
+            <td>{{ factura[2] }}</td>
+            <td>{{ factura[3] }}</td>
+            <td><strong>{{ "%.2f"|format(factura[4]) }}€</strong></td>
+            <td><span class="badge badge-{{ factura[5].lower() }}">{{ factura[5] }}</span></td>
+            <td>
+                <a href="{{ url_for('ver_factura', id=factura[0]) }}" class="btn-ver">👁️ Ver</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="mensaje-vacio">
+    <p>No hay facturas registradas todavía.</p>
+    <a href="{{ url_for('crear_factura') }}" class="btn-primary">Crear primera factura</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Productos - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2>📦 Gestión de Productos</h2>
+    <a href="{{ url_for('agregar_producto') }}" class="btn-primary">+ Nuevo Producto</a>
+</div>
+
+{% if productos %}
+<table class="tabla-productos">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto[0] }}</td>
+            <td><strong>{{ producto[1] }}</strong></td>
+            <td>{{ producto[2] if producto[2] else '-' }}</td>
+            <td><strong>{{ "%.2f"|format(producto[3]) }}€</strong></td>
+            <td>{{ producto[4] }} uds</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="mensaje-vacio">
+    <p>No hay productos registrados.</p>
+    <a href="{{ url_for('agregar_producto') }}" class="btn-primary">Agregar primer producto</a>
+</div>
+{% endif %}
+{% endblock %}
