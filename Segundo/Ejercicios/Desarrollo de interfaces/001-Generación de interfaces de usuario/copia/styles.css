@@ -1,0 +1,40 @@
+/* Estilos para componentes de interfaz personalizados */
+
+.custom-search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.custom-dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+}
+
+.custom-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.custom-dropdown li:hover {
+  background: #f0f0f0;
+}
+
+.star {
+  font-size: 24px;
+  color: gold;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.star:hover {
+  color: orange;
+}
