@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>UI Library - Demo</title>
+        <link rel="stylesheet" href="assets/css/ui-library.css" />
+        <style>
+            body {
+                margin: 0;
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                font-family: Arial, sans-serif;
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .header {
+                text-align: center;
+                color: white;
+                margin-bottom: 40px;
+            }
+            .section {
+                background: white;
+                border-radius: 12px;
+                padding: 30px;
+                margin-bottom: 30px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            }
+            .section-title {
+                font-size: 24px;
+                margin-top: 0;
+                color: #333;
+                border-bottom: 3px solid #3498db;
+                padding-bottom: 10px;
+            }
+            .controls {
+                margin-bottom: 20px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .controls button {
+                background: #3498db;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+            .controls button:hover {
+                background: #2980b9;
+            }
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>UI Library</h1>
+                <p>Libreria de Componentes Reutilizables</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tabla</h2>
+                <div class="controls">
+                    <button onclick="addUser()">Agregar Usuario</button>
+                    <button onclick="refreshTable()">Actualizar</button>
+                </div>
+                <div id="table-demo"></div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Graficas</h2>
+                <div class="grid">
+                    <div id="chart-line"></div>
+                    <div id="chart-bar"></div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Formulario</h2>
+                <div class="grid">
+                    <div id="form-demo"></div>
+                    <div id="form-results"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="assets/js/ui-library.js"></script>
+        <script>
+            let users = [
+                {
+                    id: 1,
+                    name: "Juan Perez",
+                    email: "juan@email.com",
+                    age: 28,
+                    active: true,
+                },
+                {
+                    id: 2,
+                    name: "Maria Garcia",
+                    email: "maria@email.com",
+                    age: 34,
+                    active: true,
+                },
+                {
+                    id: 3,
+                    name: "Carlos Lopez",
+                    email: "carlos@email.com",
+                    age: 25,
+                    active: false,
+                },
+            ];
+
+            let table, lineChart, barChart, form;
+
+            document.addEventListener("DOMContentLoaded", function () {
+                initTable();
+                initCharts();
+                initForm();
+            });
+
+            function initTable() {
+                table = new UILibrary.TableComponent({
+                    container: "#table-demo",
+                    data: users,
+                    columns: [
+                        { key: "id", label: "ID", type: "number" },
+                        { key: "name", label: "Nombre", sortable: true },
+                        { key: "email", label: "Email", sortable: true },
+                        {
+                            key: "age",
+                            label: "Edad",
+                            type: "number",
+                            sortable: true,
+                        },
+                        {
+                            key: "active",
+                            label: "Estado",
+                            formatter: (value) =>
+                                value ? "Activo" : "Inactivo",
+                        },
+                    ],
+                    pagination: true,
+                    pageSize: 5,
+                    sortable: true,
+                    searchable: true,
+                });
+            }
+
+            function initCharts() {
+                lineChart = new UILibrary.ChartComponent({
+                    container: "#chart-line",
+                    type: "line",
+                    data: {
+                        labels: ["Ene", "Feb", "Mar", "Abr", "May", "Jun"],
+                        datasets: [
+                            {
+                                label: "Ventas",
+                                data: [
+                                    12000, 19000, 15000, 25000, 22000, 30000,
+                                ],
+                            },
+                        ],
+                    },
+                });
+
+                barChart = new UILibrary.ChartComponent({
+                    container: "#chart-bar",
+                    type: "bar",
+                    data: {
+                        labels: ["A", "B", "C", "D"],
+                        datasets: [
+                            { label: "Unidades", data: [450, 320, 280, 390] },
+                        ],
+                    },
+                });
+            }
+
+            function initForm() {
+                form = new UILibrary.FormComponent({
+                    container: "#form-demo",
+                    fields: [
+                        {
+                            name: "name",
+                            type: "text",
+                            label: "Nombre",
+                            required: true,
+                        },
+                        {
+                            name: "email",
+                            type: "email",
+                            label: "Email",
+                            required: true,
+                        },
+                        {
+                            name: "interest",
+                            type: "select",
+                            label: "Interes",
+                            required: true,
+                            options: [
+                                { value: "", label: "Seleccione" },
+                                { value: "frontend", label: "Frontend" },
+                                { value: "backend", label: "Backend" },
+                            ],
+                        },
+                    ],
+                    onSubmit: function (data) {
+                        document.getElementById("form-results").innerHTML =
+                            "<h3>Formulario Enviado</h3><p>Nombre: " +
+                            data.name +
+                            "</p><p>Email: " +
+                            data.email +
+                            "</p>";
+                    },
+                });
+            }
+
+            function addUser() {
+                const newUser = {
+                    id: users.length + 1,
+                    name: "Usuario " + (users.length + 1),
+                    email: "user" + (users.length + 1) + "@email.com",
+                    age: Math.floor(Math.random() * 30) + 20,
+                    active: Math.random() > 0.3,
+                };
+                users.push(newUser);
+                table.updateData(users);
+            }
+
+            function refreshTable() {
+                table.updateData([...users].sort(() => Math.random() - 0.5));
+            }
+        </script>
+    </body>
+</html>

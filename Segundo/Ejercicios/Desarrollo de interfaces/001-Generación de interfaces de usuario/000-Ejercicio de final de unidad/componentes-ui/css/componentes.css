@@ -1,0 +1,262 @@
+/* Hoja de estilos para mi librería de componentes UI */
+
+/* Estilos base */
+:root {
+    --color-primario: #3b82f6;
+    --color-secundario: #64748b;
+    --color-exito: #22c55e;
+    --color-error: #ef4444;
+    --color-advertencia: #f59e0b;
+    --borde-redondeado: 8px;
+    --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Componente Botón personalizado */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--borde-redondeado);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-suave);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primario {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.btn-secundario {
+    background-color: var(--color-secundario);
+    color: white;
+}
+
+.btn-exito {
+    background-color: var(--color-exito);
+    color: white;
+}
+
+.btn-error {
+    background-color: var(--color-error);
+    color: white;
+}
+
+.btn-advertencia {
+    background-color: var(--color-advertencia);
+    color: white;
+}
+
+/* Componente Input personalizado */
+.input-grupo {
+    margin-bottom: 15px;
+}
+
+.input-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--borde-redondeado);
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.input-control:focus {
+    outline: none;
+    border-color: var(--color-primario);
+}
+
+.input-control.error {
+    border-color: var(--color-error);
+}
+
+.input-control.exito {
+    border-color: var(--color-exito);
+}
+
+.input-mensaje {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.input-mensaje.error {
+    color: var(--color-error);
+}
+
+.input-mensaje.exito {
+    color: var(--color-exito);
+}
+
+/* Componente Card */
+.card {
+    background: white;
+    border-radius: var(--borde-redondeado);
+    padding: 20px;
+    box-shadow: var(--sombra-suave);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.card-body {
+    color: #64748b;
+}
+
+.card-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+/* Componente Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: var(--borde-redondeado);
+    padding: 25px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #64748b;
+}
+
+.modal-close:hover {
+    color: #1e293b;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+/* Componente Badge */
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.badge-primario {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-secundario {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+.badge-exito {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.badge-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.badge-advertencia {
+    background-color: #fef3c7;
+    color: #a16207;
+}
+
+/* Componente Alerta */
+.alerta {
+    padding: 12px 16px;
+    border-radius: var(--borde-redondeado);
+    border-left: 4px solid;
+    margin-bottom: 15px;
+}
+
+.alerta-exito {
+    background-color: #f0fdf4;
+    border-color: var(--color-exito);
+    color: #14532d;
+}
+
+.alerta-error {
+    background-color: #fef2f2;
+    border-color: var(--color-error);
+    color: #7f1d1d;
+}
+
+.alerta-advertencia {
+    background-color: #fffbeb;
+    border-color: var(--color-advertencia);
+    color: #78350f;
+}
+
+.alerta-info {
+    background-color: #f0f9ff;
+    border-color: var(--color-primario);
+    color: #1e3a8a;
+}
