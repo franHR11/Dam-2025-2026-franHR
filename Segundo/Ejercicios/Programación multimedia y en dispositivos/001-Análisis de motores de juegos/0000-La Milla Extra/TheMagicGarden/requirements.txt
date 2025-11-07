@@ -1,0 +1,6 @@
+# The Magic Garden - Dependencias del proyecto
+# Autor: Fran
+# Paquetes necesarios para ejecutar el juego
+
+pygame>=2.1.0
+numpy>=1.21.0
