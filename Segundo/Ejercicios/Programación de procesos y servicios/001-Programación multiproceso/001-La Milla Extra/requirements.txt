@@ -1,0 +1,11 @@
+# ChatServer Seguro Distribuido - Dependencias
+# Versión mínima de Python: 3.8+
+
+# Criptografía para cifrado RSA y AES
+pycryptodome==3.19.0
+
+# Monitoreo de procesos y recursos del sistema
+psutil==5.9.6
+
+# Nota: tkinter viene incluido en la instalación estándar de Python
+# Si usas Linux y no tienes tkinter, instala: sudo apt-get install python3-tk
