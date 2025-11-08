@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h2>👥 Gestión de Clientes</h2>
+    <a href="{{ url_for('agregar_cliente') }}" class="btn-primary">+ Nuevo Cliente</a>
+</div>
+
+{% if clientes %}
+<table class="tabla-clientes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>NIF</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+        <tr>
+            <td>{{ cliente[0] }}</td>
+            <td><strong>{{ cliente[1] }}</strong></td>
+            <td>{{ cliente[2] }}</td>
+            <td>{{ cliente[3] if cliente[3] else '-' }}</td>
+            <td>{{ cliente[4] if cliente[4] else '-' }}</td>
+            <td>{{ cliente[5] if cliente[5] else '-' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="mensaje-vacio">
+    <p>No hay clientes registrados.</p>
+    <a href="{{ url_for('agregar_cliente') }}" class="btn-primary">Agregar primer cliente</a>
+</div>
+{% endif %}
+{% endblock %}

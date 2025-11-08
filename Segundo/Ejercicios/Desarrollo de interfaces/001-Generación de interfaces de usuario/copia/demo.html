@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Librería de Componentes UI Personalizados</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Demostración de Librería de Componentes UI</h1>
+
+  <h2>Select con Búsqueda</h2>
+  <div id="search-select"></div>
+
+  <h2>Input de Moneda</h2>
+  <input type="text" id="currency-input" placeholder="Introduce un precio">
+
+  <h2>Estrellas de Valoración</h2>
+  <div id="rating-stars"></div>
+
+  <script src="ui-components.js"></script>
+  <script>
+    // Inicializar componentes
+    const options = [
+      { value: '1', label: 'Opción 1' },
+      { value: '2', label: 'Opción 2' },
+      { value: '3', label: 'Opción 3' },
+      { value: '4', label: 'Producto A' },
+      { value: '5', label: 'Producto B' }
+    ];
+
+    const searchSelect = new CustomSearchSelect('search-select', options);
+    searchSelect.container.addEventListener('change', (e) => {
+      console.log('Seleccionado:', e.detail);
+    });
+
+    const currencyInput = new CurrencyInput('currency-input');
+
+    const ratingStars = new RatingStars('rating-stars');
+    ratingStars.container.addEventListener('ratingChange', (e) => {
+      console.log('Valoración:', e.detail);
+    });
+  </script>
+</body>
+</html>

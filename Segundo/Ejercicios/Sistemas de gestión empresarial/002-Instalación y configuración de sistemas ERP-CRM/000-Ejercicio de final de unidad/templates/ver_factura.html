@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Factura {{ factura[1] }} - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<div class="factura-detalle">
+    <div class="factura-header">
+        <h2>📄 Factura {{ factura[1] }}</h2>
+        <span class="badge badge-{{ factura[6].lower() }}">{{ factura[6] }}</span>
+    </div>
+
+    <div class="factura-info">
+        <div class="info-section">
+            <h3>Datos del Cliente</h3>
+            <p><strong>Nombre:</strong> {{ factura[7] }}</p>
+            <p><strong>NIF:</strong> {{ factura[8] }}</p>
+            <p><strong>Dirección:</strong> {{ factura[9] if factura[9] else '-' }}</p>
+            <p><strong>Teléfono:</strong> {{ factura[10] if factura[10] else '-' }}</p>
+            <p><strong>Email:</strong> {{ factura[11] if factura[11] else '-' }}</p>
+        </div>
+
+        <div class="info-section">
+            <h3>Datos de la Factura</h3>
+            <p><strong>Número:</strong> {{ factura[1] }}</p>
+            <p><strong>Fecha:</strong> {{ factura[3] }}</p>
+            <p><strong>Estado:</strong> {{ factura[6] }}</p>
+        </div>
+    </div>
+
+    <h3>Detalle de Productos</h3>
+    <table class="tabla-lineas">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linea in lineas %}
+            <tr>
+                <td>{{ linea[0] }}</td>
+                <td>{{ linea[1] }}</td>
+                <td>{{ "%.2f"|format(linea[2]) }}€</td>
+                <td><strong>{{ "%.2f"|format(linea[3]) }}€</strong></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"><strong>TOTAL:</strong></td>
+                <td><strong class="total-factura">{{ "%.2f"|format(factura[4]) }}€</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="form-actions">
+        <a href="{{ url_for('listar_facturas') }}" class="btn-secondary">← Volver a Facturas</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Producto - Sistema de Facturación{% endblock %}
+
+{% block content %}
+<h2>➕ Agregar Nuevo Producto</h2>
+
+<form method="POST" class="formulario">
+    <div class="form-group">
+        <label for="nombre">Nombre del Producto *</label>
+        <input type="text" id="nombre" name="nombre" required>
+    </div>
+
+    <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="precio">Precio (€) *</label>
+        <input type="number" id="precio" name="precio" step="0.01" min="0" required>
+    </div>
+
+    <div class="form-group">
+        <label for="stock">Stock Inicial *</label>
+        <input type="number" id="stock" name="stock" min="0" required>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">💾 Guardar Producto</button>
+        <a href="{{ url_for('listar_productos') }}" class="btn-secondary">❌ Cancelar</a>
+    </div>
+</form>
+{% endblock %}

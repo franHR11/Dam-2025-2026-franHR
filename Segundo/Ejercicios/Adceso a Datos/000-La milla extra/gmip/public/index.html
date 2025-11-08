@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GMIP • Demo UI</title>
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">GMIP Admin</div>
+      <div class="nav">
+        <button class="active" data-view="home">Home</button>
+        <button data-view="orders">Pedidos</button>
+        <button data-view="providers">Proveedores</button>
+        <button data-view="products">Productos</button>
+      </div>
+    </aside>
+    <div class="content">
+      <header>
+        <h1>GMIP • Demo UI</h1>
+        <span id="health" class="status">Cargando estado…</span>
+        <div style="margin-left:auto" class="row small">
+          <button id="refreshAll" class="btn-primary">Recargar datos</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="view-home" class="view active">
+          <div class="panel">
+            <h2>Resumen</h2>
+            <div class="grid-col">
+              <div class="row small">
+                <span class="muted">Origen API: <code id="apiOrigin"></code></span>
+              </div>
+              <div id="homeStats" class="row" style="gap:24px">
+                <div>
+                  <div class="muted small">Productos</div>
+                  <div id="statProducts" class="ok">-</div>
+                </div>
+                <div>
+                  <div class="muted small">Proveedores</div>
+                  <div id="statProviders" class="ok">-</div>
+                </div>
+                <div>
+                  <div class="muted small">Pedidos</div>
+                  <div id="statOrders" class="ok">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="view-products" class="view panel">
+          <h2>Productos</h2>
+          <div class="row small">
+            <button id="refreshProducts">Actualizar</button>
+          </div>
+          <div class="row small" id="prodFilters">
+            <input id="prodSearch" placeholder="Buscar nombre/sku" />
+            <select id="prodProviderFilter">
+              <option value="">Todos proveedores</option>
+            </select>
+            <input id="prodPriceMin" type="number" min="0" step="0.01" placeholder="Precio min" style="width:120px" />
+            <input id="prodPriceMax" type="number" min="0" step="0.01" placeholder="Precio max" style="width:120px" />
+            <label class="small"><input id="prodStockOnly" type="checkbox" /> Stock > 0</label>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>SKU</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Proveedor</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+          <div id="productsError" class="error"></div>
+          <div class="grid-col" style="margin-top:12px">
+            <div class="small muted">Crear producto</div>
+            <div class="row">
+              <input id="prodName" placeholder="Nombre" />
+              <input id="prodSku" placeholder="SKU" />
+              <input id="prodPrice" type="number" min="0" step="0.01" placeholder="Precio" style="width:120px" />
+              <input id="prodStock" type="number" min="0" step="1" placeholder="Stock" style="width:100px" />
+              <select id="prodProviderSel">
+                <option value="">Sin proveedor</option>
+              </select>
+              <button id="createProduct" class="btn-primary">Crear</button>
+            </div>
+            <div id="prodCreateError" class="error"></div>
+            <div id="prodCreateOk" class="ok"></div>
+          </div>
+        </section>
+
+        <section id="view-providers" class="view panel">
+          <h2>Proveedores</h2>
+          <div class="row small">
+            <button id="refreshProviders">Actualizar</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Creado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="providersBody"></tbody>
+          </table>
+          <div id="providersError" class="error"></div>
+          <div class="grid-col">
+            <div class="small muted">Crear proveedor rápido</div>
+            <div class="row">
+              <input id="provName" placeholder="Nombre" />
+              <input id="provEmail" placeholder="Email" />
+              <input id="provPhone" placeholder="Teléfono" />
+              <button id="createProvider" class="btn-primary">Crear</button>
+            </div>
+            <div id="provCreateError" class="error"></div>
+            <div id="provCreateOk" class="ok"></div>
+          </div>
+        </section>
+
+        <section id="view-orders" class="view panel">
+          <h2>Pedidos</h2>
+          <div class="row small">
+            <button id="refreshOrders">Actualizar</button>
+          </div>
+          <div class="row small" id="ordFilters">
+            <input id="orderCodeSearch" placeholder="Buscar código" />
+            <select id="orderStatusFilter">
+              <option value="">Todos estados</option>
+              <option value="pending">pending</option>
+              <option value="processed">processed</option>
+            </select>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Creado</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+          <div id="ordersError" class="error"></div>
+        </section>
+
+        <section id="create-order-panel" class="view panel grid-col" style="grid-column: 1 / span 2;">
+          <h2>Crear pedido rápido</h2>
+          <div class="small muted">Completa las líneas y pulsa “Crear pedido”. El código es opcional.</div>
+          <div class="row">
+            <label for="code">Código:</label>
+            <input id="code" placeholder="ORD-..." />
+          </div>
+          <div id="orderItems"></div>
+          <div class="row">
+            <button id="addItem">Añadir línea</button>
+            <button id="createOrder" class="btn-primary">Crear pedido</button>
+          </div>
+          <div id="createError" class="error"></div>
+          <div id="createOk" class="ok"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="./assets/app.js" defer></script>
+</body>
+
+</html>

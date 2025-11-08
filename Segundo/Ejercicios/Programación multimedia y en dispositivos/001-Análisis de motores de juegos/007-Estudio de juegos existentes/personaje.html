@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Personaje en Juego Isométrico</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lienzo" width="800" height="600"></canvas>
+    <script>
+        // Obtener el canvas y el contexto
+        const canvas = document.getElementById('lienzo');
+        const ctx = canvas.getContext('2d');
+
+        // Función para convertir coordenadas cartesianas a isométricas
+        function iso(i, j) {
+            const x = (i - j) * 20; // Escala para hacer visible
+            const y = (i + j) * 10;
+            return { x: x + 400, y: y + 300 }; // Centro en el canvas
+        }
+
+        // Clase Personaje
+        class Personaje {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+
+            dibuja() {
+                const pos = iso(this.x, this.y);
+                ctx.fillStyle = 'red';
+                ctx.fillRect(pos.x - 10, pos.y - 10, 20, 20); // Dibuja un cuadrado para el personaje
+            }
+        }
+
+        // Crear instancia del personaje
+        let personaje = new Personaje(0, 0);
+
+        // Función para dibujar rejilla isométrica
+        function dibujaRejilla() {
+            ctx.strokeStyle = 'gray';
+            ctx.lineWidth = 1;
+            for (let i = -10; i <= 10; i++) {
+                for (let j = -10; j <= 10; j++) {
+                    const pos = iso(i, j);
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, 2, 0, 2 * Math.PI); // Puntos en la rejilla
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Función para redibujar todo
+        function dibujaTodo() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dibujaRejilla();
+            personaje.dibuja();
+        }
+
+        // Evento de teclado
+        document.addEventListener('keydown', (event) => {
+            switch (event.key) {
+                case 'w':
+                    personaje.y -= 1; // Mover arriba
+                    break;
+                case 's':
+                    personaje.y += 1; // Mover abajo
+                    break;
+                case 'a':
+                    personaje.x -= 1; // Mover izquierda
+                    break;
+                case 'd':
+                    personaje.x += 1; // Mover derecha
+                    break;
+            }
+            dibujaTodo(); // Redibujar después de mover
+        });
+
+        // Dibujar inicialmente
+        dibujaTodo();
+    </script>
+</body>
+</html>

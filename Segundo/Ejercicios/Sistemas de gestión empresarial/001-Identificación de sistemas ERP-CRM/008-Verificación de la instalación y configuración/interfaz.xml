@@ -1,0 +1,5 @@
+<interface>
+    <field name="nombre" type="text" label="Nombre" />
+    <field name="email" type="email" label="Email" />
+    <field name="telefono" type="tel" label="Teléfono" />
+</interface>

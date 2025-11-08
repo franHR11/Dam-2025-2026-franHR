@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Sistema de Gestión Empresarial</h1>
+    <nav>
+        <a href="/productos">Productos</a>
+        <a href="/ventas">Ventas</a>
+        <a href="/empleados">Empleados</a>
+    </nav>
+    <button onclick="generarInforme()">Generar Informe con IA</button>
+    <script>
+        function generarInforme() {
+            fetch('/generar_informe', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => alert(data.mensaje));
+        }
+    </script>
+</body>
+</html>
