@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cliente WebSocket</title>
+</head>
+<body>
+    <h1>Cliente WebSocket - Eco de mensajes</h1>
+    <input type="text" id="messageInput" placeholder="Escribe un mensaje">
+    <button onclick="sendMessage()">Enviar</button>
+    <div id="messages"></div>
+
+    <script>
+        // Conectar al servidor WebSocket
+        const socket = new WebSocket('ws://127.0.0.1:8765');
+        
+        // Mostrar mensajes en la página
+        const messages = document.getElementById('messages');
+        
+        // Cuando se recibe un mensaje del servidor
+        socket.onmessage = function(event) {
+            const message = document.createElement('p');
+            message.textContent = 'Recibido: ' + event.data;
+            messages.appendChild(message);
+        };
+        
+        // Función para enviar mensaje
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+            
+            if (message) {
+                // Enviar mensaje al servidor
+                socket.send(message);
+                
+                // Mostrar mensaje enviado
+                const sentMessage = document.createElement('p');
+                sentMessage.textContent = 'Enviado: ' + message;
+                messages.appendChild(sentMessage);
+                
+                // Limpiar campo de entrada
+                input.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

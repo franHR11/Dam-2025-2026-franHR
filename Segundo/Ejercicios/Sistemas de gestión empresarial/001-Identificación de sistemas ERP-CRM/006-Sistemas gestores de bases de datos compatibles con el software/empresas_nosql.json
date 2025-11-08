@@ -1,0 +1,15 @@
+{
+  "empresas": {
+    "1": {
+      "id": 1,
+      "nombre": "Mundo Pesca",
+      "direccion": "Avenida del Mar, 456",
+      "servicios": [
+        "venta de ca\u00f1as",
+        "organizaci\u00f3n de excursiones"
+      ],
+      "especialidades": "pesca en r\u00edo"
+    }
+  },
+  "next_id": 2
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación de Workers</title>
+</head>
+<body>
+    <h1>Asignación de Workers a Núcleos</h1>
+    <p>Abre la consola del navegador para ver los resultados.</p>
+
+    <script>
+        // Obtener el número de núcleos disponibles
+        const numCores = navigator.hardwareConcurrency;
+        console.log("Número de núcleos disponibles: " + numCores);
+        
+        // Crear array para almacenar los workers
+        const workers = [];
+        const results = [];
+        
+        // Crear tantos workers como núcleos disponibles
+        for (let i = 0; i < numCores; i++) {
+            workers[i] = new Worker('006worker.js');
+            
+            // Asignar función para recibir mensajes de los workers
+            workers[i].onmessage = function(event) {
+                const { taskId, result } = event.data;
+                results[taskId] = result;
+                console.log(`Resultado del worker ${taskId}: ${result}`);
+                
+                // Verificar si todos los workers han terminado
+                if (results.filter(r => r !== undefined).length === numCores) {
+                    console.log("Todos los resultados:", results);
+                }
+            };
+            
+            // Enviar tarea al worker
+            workers[i].postMessage({
+                taskId: i,
+                numbers: [2, 3, 4, 5, 6, 7, 8, 9]
+            });
+        }
+    </script>
+</body>
+</html>
