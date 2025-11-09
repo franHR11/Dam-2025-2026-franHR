@@ -1,159 +1,383 @@
-// Registro global de scripts dinámicos ya cargados para evitar duplicados
-window.__loadedDynamicScripts = window.__loadedDynamicScripts || new Set();
+// Sistema de menú dinámico modular
+class MenuManager {
+  constructor() {
+    this.modulos = [];
+    this.usuario = null;
+    this.menuContainer = document.getElementById("menu");
+    this.init();
+  }
 
-// Función para cargar contenido dinámicamente
-function loadPage(url) {
-    const contentArea = document.getElementById('content-area');
-    if (!contentArea) {
-        console.error('No se encontró el área de contenido');
-        return;
+  async init() {
+    try {
+      await this.cargarModulos();
+      this.renderizarMenu();
+      this.setupEventListeners();
+    } catch (error) {
+      console.error("Error al inicializar el menú:", error);
+      this.mostrarError();
+    }
+  }
+
+  async cargarModulos() {
+    try {
+      const response = await fetch("/api/modulos/obtener_modulos.php");
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.message || "Error al cargar módulos");
+      }
+
+      this.modulos = data.data.modulos;
+      this.usuario = data.data.usuario;
+
+      // Deduplicar por id para evitar entradas repetidas por agregaciones de permisos
+      const vistos = new Set();
+      this.modulos = this.modulos.filter((m) => {
+        if (vistos.has(m.id)) return false;
+        vistos.add(m.id);
+        return true;
+      });
+
+      // Guardar en localStorage para acceso rápido
+      localStorage.setItem("erp_modulos", JSON.stringify(this.modulos));
+      localStorage.setItem("erp_usuario", JSON.stringify(this.usuario));
+    } catch (error) {
+      // Intentar cargar desde cache si hay error de red
+      const cachedModulos = localStorage.getItem("erp_modulos");
+      const cachedUsuario = localStorage.getItem("erp_usuario");
+
+      if (cachedModulos && cachedUsuario) {
+        this.modulos = JSON.parse(cachedModulos);
+        this.usuario = JSON.parse(cachedUsuario);
+        console.warn("Usando caché de módulos debido a error de red:", error);
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  renderizarMenu() {
+    if (!this.menuContainer) {
+      console.error("No se encontró el contenedor del menú");
+      return;
     }
 
-    // Mostrar indicador de carga
-    contentArea.innerHTML = '<div class="loading">Cargando...</div>';
+    const menuHTML = this.generarMenuHTML();
+    this.menuContainer.innerHTML = menuHTML;
 
-    fetch(url)
-        .then(response => response.text())
-        .then(html => {
-            contentArea.innerHTML = html;
-            // Si se trata del módulo Kanban, forzar re-inicialización para re-vincular eventos y renderizar
-            try {
-                const hasKanban = !!document.getElementById('kanban-board') || !!document.getElementById('kanban-content');
-                if (hasKanban) {
-                    if (typeof window.initKanban === 'function') {
-                        window.initKanban();
-                    } else if (window.kanban) {
-                        if (typeof window.kanban.setupEventListeners === 'function') window.kanban.setupEventListeners();
-                        if (typeof window.kanban.renderBoard === 'function') window.kanban.renderBoard();
-                    }
-                }
-            } catch (e) {
-                console.warn('Reinicialización de Kanban fallida:', e);
-            }
-            // Ejecutar scripts que puedan estar en el contenido cargado, manejando src y verificando sintaxis
-            const scripts = contentArea.querySelectorAll('script');
-            scripts.forEach(script => {
-                // Clonar atributos relevantes
-                const type = script.getAttribute('type') || '';
-                const hasSrc = !!script.getAttribute('src');
+    // Agregar animación de entrada
+    this.animarMenu();
+  }
 
-                if (hasSrc) {
-                    const srcAttr = script.getAttribute('src');
-                    // Resolver URL absoluta basada en el documento actual
-                    let absoluteSrc;
-                    try {
-                        absoluteSrc = new URL(srcAttr, document.baseURI).href;
-                    } catch (e) {
-                        absoluteSrc = srcAttr; // fallback
-                    }
+  generarMenuHTML() {
+    let html = `
+            <nav class="menu-navegacion">
+                <div class="menu-header">
+                    <div class="usuario-info">
+                        <i class="fas fa-user-circle"></i>
+                        <div class="usuario-detalles">
+                            <span class="usuario-nombre">${this.usuario?.rol || "Invitado"}</span>
+                            <span class="usuario-rol">${this.getRolDisplay(this.usuario?.rol)}</span>
+                        </div>
+                    </div>
+                </div>
+                <ul class="menu-lista">
+        `;
 
-                    // Evitar cargar el mismo script src más de una vez
-                    if (window.__loadedDynamicScripts.has(absoluteSrc)) {
-                        script.remove();
-                        return;
-                    }
+    // Agrupar módulos por categoría
+    const modulosPorCategoria = {};
+    this.modulos.forEach((modulo) => {
+      if (!modulosPorCategoria[modulo.categoria]) {
+        modulosPorCategoria[modulo.categoria] = [];
+      }
+      modulosPorCategoria[modulo.categoria].push(modulo);
+    });
 
-                    const newScript = document.createElement('script');
-                    newScript.src = srcAttr;
-                    if (type) newScript.type = type;
-                    if (script.defer) newScript.defer = true;
-                    if (script.async) newScript.async = true;
-                    document.head.appendChild(newScript);
-                    window.__loadedDynamicScripts.add(absoluteSrc);
-                } else {
-                    const code = (script.textContent || '').trim();
-                    if (!code) {
-                        // No hay contenido ejecutable
-                        script.remove();
-                        return;
-                    }
-                    // Validar sintaxis antes de inyectar para evitar SyntaxError al appendChild
-                    try {
-                        // new Function lanza si hay error de sintaxis
-                        // No ejecuta el código, solo valida que es parseable
-                        // eslint-disable-next-line no-new-func
-                        new Function(code);
-                    } catch (e) {
-                        console.error('Script dinámico con error de sintaxis, se omite:', e);
-                        script.remove();
-                        return;
-                    }
+    // Renderizar cada categoría
+    Object.keys(modulosPorCategoria).forEach((categoria) => {
+      const categoriaNombre = this.getCategoriaDisplay(categoria);
+      const iconoCategoria = this.getCategoriaIcono(categoria);
+      const modulos = modulosPorCategoria[categoria];
 
-                    // Generar una firma simple del código para evitar re-ejecución
-                    const codeSignature = 'inline:' + code.length + ':' + code.slice(0, 200);
-                    if (window.__loadedDynamicScripts.has(codeSignature)) {
-                        script.remove();
-                        return;
-                    }
+      html += `
+                <li class="menu-categoria">
+                    <div class="categoria-header" onclick="menuManager.toggleCategoria('${categoria}')">
+                        <i class="${iconoCategoria}"></i>
+                        <span class="categoria-nombre">${categoriaNombre}</span>
+                        <i class="fas fa-chevron-down categoria-toggle"></i>
+                    </div>
+                    <ul class="categoria-modulos" id="categoria-${categoria}">
+            `;
 
-                    const newScript = document.createElement('script');
-                    if (type) newScript.type = type;
-                    newScript.textContent = code;
-                    document.head.appendChild(newScript);
-                    window.__loadedDynamicScripts.add(codeSignature);
-                }
-                // Evitar doble ejecución
-                script.remove();
-            });
-        })
-        .catch(error => {
-            console.error('Error al cargar la página:', error);
-            contentArea.innerHTML = '<div class="error">Error al cargar el contenido</div>';
-        });
+      modulos.forEach((modulo) => {
+        const rutaModulo = this.getRutaModulo(modulo.nombre_tecnico);
+        const activo = this.esModuloActivo(modulo.nombre_tecnico);
+
+        html += `
+                    <li class="menu-item ${activo ? "active" : ""}" data-modulo="${modulo.nombre_tecnico}">
+                        <a href="${rutaModulo}" class="menu-link" onclick="menuManager.navegarAModulo(event, '${modulo.nombre_tecnico}', '${rutaModulo}')">
+                            <i class="${modulo.icono}"></i>
+                            <span class="modulo-nombre">${modulo.nombre}</span>
+                            ${modulo.version ? `<span class="modulo-version">v${modulo.version}</span>` : ""}
+                        </a>
+                        ${
+                          modulo.permisos?.configurar
+                            ? `
+                            <button class="modulo-config" onclick="menuManager.configurarModulo(event, ${modulo.id})" title="Configurar módulo">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        `
+                            : ""
+                        }
+                    </li>
+                `;
+      });
+
+      html += `
+                    </ul>
+                </li>
+            `;
+    });
+
+    // Agregar opción de gestión de módulos para administradores
+    if (this.usuario?.rol === "admin") {
+      html += `
+                <li class="menu-item menu-admin">
+                    <a href="#" class="menu-link" onclick="menuManager.abrirGestionModulos(event)">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <span class="modulo-nombre">Gestionar Módulos</span>
+                    </a>
+                </li>
+            `;
+    }
+
+    html += `
+                </ul>
+            </nav>
+        `;
+
+    return html;
+  }
+
+  getCategoriaDisplay(categoria) {
+    const categorias = {
+      sistema: "Sistema",
+      crm: "CRM",
+      ventas: "Ventas",
+      compras: "Compras",
+      inventario: "Inventario",
+      contabilidad: "Contabilidad",
+      rrhh: "Recursos Humanos",
+      produccion: "Producción",
+    };
+    return (
+      categorias[categoria] ||
+      categoria.charAt(0).toUpperCase() + categoria.slice(1)
+    );
+  }
+
+  getCategoriaIcono(categoria) {
+    const iconos = {
+      sistema: "fas fa-cogs",
+      crm: "fas fa-users",
+      ventas: "fas fa-shopping-cart",
+      compras: "fas fa-truck",
+      inventario: "fas fa-box",
+      contabilidad: "fas fa-calculator",
+      rrhh: "fas fa-user-tie",
+      produccion: "fas fa-industry",
+    };
+    return iconos[categoria] || "fas fa-folder";
+  }
+
+  getRutaModulo(nombreTecnico) {
+    const rutas = {
+      dashboard: "/escritorio/escritorio.php",
+      clientes: "/Paginas/clientes/clientes.php",
+      proveedores: "/Paginas/proveedores/proveedores.php",
+      productos: "/Paginas/productos/productos.php",
+      presupuestos: "/Paginas/presupuestos/presupuestos.php",
+      facturacion: "/Paginas/facturacion/facturacion.php",
+      usuarios: "/Paginas/usuarios/usuarios.php",
+      configuracion: "/Paginas/configuracion/configuracion.php",
+    };
+    return (
+      rutas[nombreTecnico] || `/Paginas/${nombreTecnico}/${nombreTecnico}.php`
+    );
+  }
+
+  getRolDisplay(rol) {
+    const roles = {
+      admin: "Administrador",
+      usuario: "Usuario",
+      gerente: "Gerente",
+    };
+    return roles[rol] || rol.charAt(0).toUpperCase() + rol.slice(1);
+  }
+
+  esModuloActivo(nombreTecnico) {
+    const pathActual = window.location.pathname;
+    return pathActual.includes(nombreTecnico);
+  }
+
+  toggleCategoria(categoria) {
+    const categoriaElement = document.getElementById(`categoria-${categoria}`);
+    const toggle =
+      categoriaElement.previousElementSibling.querySelector(
+        ".categoria-toggle",
+      );
+
+    if (categoriaElement.style.display === "none") {
+      categoriaElement.style.display = "block";
+      toggle.classList.remove("fa-chevron-right");
+      toggle.classList.add("fa-chevron-down");
+    } else {
+      categoriaElement.style.display = "none";
+      toggle.classList.remove("fa-chevron-down");
+      toggle.classList.add("fa-chevron-right");
+    }
+  }
+
+  navegarAModulo(event, nombreTecnico, ruta) {
+    event.preventDefault();
+
+    // Marcar como activo
+    document.querySelectorAll(".menu-item").forEach((item) => {
+      item.classList.remove("active");
+    });
+
+    const itemActual = document.querySelector(
+      `[data-modulo="${nombreTecnico}"]`,
+    );
+    if (itemActual) {
+      itemActual.classList.add("active");
+    }
+
+    // Navegar a la ruta
+    window.location.href = ruta;
+  }
+
+  async configurarModulo(event, moduloId) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+      const modulo = this.modulos.find((m) => m.id === moduloId);
+      if (!modulo) return;
+
+      // Aquí puedes abrir un modal de configuración
+      // Por ahora, mostramos una alerta simple
+      alert(
+        `Configuración del módulo: ${modulo.nombre}\n\nEsta funcionalidad estará disponible próximamente.`,
+      );
+    } catch (error) {
+      console.error("Error al configurar módulo:", error);
+    }
+  }
+
+  async abrirGestionModulos(event) {
+    event.preventDefault();
+
+    try {
+      // Cargar el contenido dinámicamente
+      const response = await fetch(
+        "/componentes/gestionModulos/gestionModulos.php",
+      );
+      const html = await response.text();
+
+      // Actualizar el área de contenido
+      const contentArea = document.getElementById("content-area");
+      if (contentArea) {
+        contentArea.innerHTML = html;
+
+        // Cargar el script de gestión de módulos
+        const script = document.createElement("script");
+        script.src = "/componentes/gestionModulos/gestionModulos.js";
+        contentArea.appendChild(script);
+      }
+    } catch (error) {
+      console.error("Error al cargar gestión de módulos:", error);
+      alert(
+        "Error al cargar la gestión de módulos. Por favor, inténtalo de nuevo.",
+      );
+    }
+  }
+
+  animarMenu() {
+    const items = this.menuContainer.querySelectorAll(
+      ".menu-item, .menu-categoria",
+    );
+    items.forEach((item, index) => {
+      item.style.opacity = "0";
+      item.style.transform = "translateX(-20px)";
+
+      setTimeout(() => {
+        item.style.transition = "all 0.3s ease";
+        item.style.opacity = "1";
+        item.style.transform = "translateX(0)";
+      }, index * 50);
+    });
+  }
+
+  setupEventListeners() {
+    // Expandir categorías por defecto si hay módulos activos
+    const categorias = document.querySelectorAll(".categoria-modulos");
+    categorias.forEach((categoria) => {
+      const itemsActivos = categoria.querySelectorAll(".menu-item.active");
+      if (itemsActivos.length > 0) {
+        categoria.style.display = "block";
+        const toggle =
+          categoria.previousElementSibling.querySelector(".categoria-toggle");
+        if (toggle) {
+          toggle.classList.remove("fa-chevron-right");
+          toggle.classList.add("fa-chevron-down");
+        }
+      }
+    });
+  }
+
+  mostrarError() {
+    if (!this.menuContainer) return;
+
+    this.menuContainer.innerHTML = `
+            <div class="menu-error">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Error al cargar el menú</p>
+                <button onclick="menuManager.recargar()" class="btn-recargar">
+                    <i class="fas fa-sync"></i> Recargar
+                </button>
+            </div>
+        `;
+  }
+
+  async recargar() {
+    try {
+      await this.cargarModulos();
+      this.renderizarMenu();
+      this.setupEventListeners();
+    } catch (error) {
+      console.error("Error al recargar el menú:", error);
+      this.mostrarError();
+    }
+  }
+
+  // Método público para actualizar el menú cuando se instala/desinstala un módulo
+  async actualizarMenu() {
+    // Limpiar cache
+    localStorage.removeItem("erp_modulos");
+    localStorage.removeItem("erp_usuario");
+
+    // Recargar módulos
+    await this.recargar();
+  }
 }
 
-// Cargar categorías del menú desde API (requiere API_BASE_URL en CONFIG)
-(function () {
-    const apiBase = window.CONFIG?.API_BASE_URL;
-    if (!apiBase) {
-        console.error('API_BASE_URL no configurada en CONFIG. No se puede cargar el menú.');
-        return;
-    }
+// Inicializar el gestor de menú cuando el DOM esté listo
+let menuManager;
 
-    fetch(apiBase + 'componentes/listado-de-modulos/listadoModulos.php?ruta=categorias', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(function (respuesta) {
-            return respuesta.json();
-        })
-        .then(function (data) {
-            if (data.success) {
-                let listadoCard = document.getElementById('menu');
-                listadoCard.innerHTML = ''; // Limpiar contenido existente
-                data.data.forEach(function (listadoMenu) {
-                    let nav = document.createElement('nav');
-                    // Determinar la URL correcta según el tipo de enlace
-                    let targetUrl = listadoMenu.enlace;
+document.addEventListener("DOMContentLoaded", () => {
+  menuManager = new MenuManager();
+});
 
-                    // Si es el enlace de home/escritorio, usar la versión de contenido dinámico
-                    if (listadoMenu.enlace.includes('listadoModulos.php')) {
-                        targetUrl = '../componentes/listadoModulos/listadoModulos-content.php';
-                    }
-                    // Si es el enlace de kanban, corregir la ruta relativa
-                    else if (listadoMenu.enlace.includes('kanban-content.php')) {
-                        targetUrl = '../Paginas/kanban/kanban-content.php';
-                    }
-
-                    nav.innerHTML = `
-                    <ul>
-            <li>
-                <a href="#" onclick="loadPage('${targetUrl}'); return false;">
-                        <i class="${listadoMenu.icono}"></i>
-                        <span>${listadoMenu.nombre}</span>
-                    </a>
-            </li>
-            </ul>
-                `;
-                    listadoCard.appendChild(nav);
-                });
-            } else {
-                console.error('Error al obtener las categorias:', data.message);
-            }
-        })
-        .catch(function (err) {
-            console.error('Error solicitando categorías del menú:', err);
-        });
-})();
+// Hacer disponible globalmente para acceso desde otros scripts
+window.menuManager = menuManager;

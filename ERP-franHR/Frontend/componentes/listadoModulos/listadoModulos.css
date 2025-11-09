@@ -1,80 +1,874 @@
-#listadoCard article {
+/* =============================================
+   ESTILOS PARA DASHBOARD DE MÓDULOS
+   ============================================= */
+
+/* Contenedor principal */
+#listadoModulos {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Header del dashboard */
+.modulos-header {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #875A7B 0%, #875A7B 100%);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.header-content h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-content p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+.header-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px 20px;
+    border-radius: 10px;
+    min-width: 100px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Mensajes de error */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc3545;
+}
+
+.error-message i {
+    font-size: 1.2em;
+}
+
+.info-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #d1ecf1;
+    color: #0c5460;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #17a2b8;
+}
+
+.info-message i {
+    font-size: 1.1em;
+}
+
+/* Filtros */
+.modulos-filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.filtro-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.filtro-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.filtro-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+    color: white;
+}
+
+.filtro-btn i {
+    font-size: 16px;
+}
+
+/* Contenedor de módulos */
+.modulos-container {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.modulos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 25px;
+    animation: fadeInUp 0.6s ease;
+}
+
+/* Mensaje cuando no hay módulos */
+.no-modulos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.no-modulos i {
+    font-size: 4em;
+    margin-bottom: 20px;
+    color: #ddd;
+}
+
+.no-modulos h3 {
+    margin: 0 0 10px 0;
+    color: #666;
+    font-size: 1.5em;
+}
+
+.no-modulos p {
+    margin: 0;
+    color: #999;
+    font-size: 1.1em;
+}
+
+/* Tarjeta de módulo */
+.modulo-card {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #f0f0f0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.modulo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #e0e0e0;
+}
+
+/* Estados de las tarjetas */
+.modulo-card.estado-activo {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fff9 100%);
+}
+
+.modulo-card.estado-inactivo {
+    border-left: 4px solid #ffc107;
+    background: linear-gradient(135deg, #ffffff 0%, #fffcf0 100%);
+}
+
+.modulo-card.estado-no-instalado {
+    border-left: 4px solid #6c757d;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+/* Header de la tarjeta */
+.modulo-header {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 15px;
+}
+
+.modulo-icono {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    width: 300px;
-    height: 150px;
-    background-color: #f2f2f2;
-    border-radius: 10px;
-    border: 2px solid #875A7B;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    margin-top: 1rem;
+    color: white;
+    font-size: 1.8em;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-#listadoCard {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+.estado-activo .modulo-icono {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-#listadoCard article .texto {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+.estado-inactivo .modulo-icono {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
 }
 
-#listadoCard article .texto h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+.estado-no-instalado .modulo-icono {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
-#listadoCard article .logo {
-    font-size: 2rem;
+.modulo-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.modulo-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.3em;
+    font-weight: 600;
     color: #333;
-    margin-bottom: 2rem;
-    padding-left: 0.2rem;
+    line-height: 1.2;
 }
 
-#listadoCard article .texto button {
-    padding: 0.5rem 1rem;
+.modulo-version {
+    display: inline-block;
+    font-size: 0.75em;
+    color: #888;
+    background: #f0f0f0;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.modulo-tecnico {
+    font-size: 0.85em;
+    color: #666;
+    font-family: 'Courier New', monospace;
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.modulo-estado {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.estado-activo .modulo-estado {
+    background: #d4edda;
+    color: #155724;
+}
+
+.estado-inactivo .modulo-estado {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.estado-no-instalado .modulo-estado {
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+/* Cuerpo de la tarjeta */
+.modulo-body {
+    padding: 20px;
+}
+
+.modulo-descripcion {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 0.95em;
+}
+
+.modulo-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #777;
+    font-size: 0.85em;
+    background: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.meta-item i {
+    color: #667eea;
+}
+
+.modulo-dependencias {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 0.85em;
+}
+
+.modulo-dependencias strong {
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.dependencias-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.dependencia-tag {
+    background: #e9ecef;
+    color: #495057;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+.modulo-fechas {
+    font-size: 0.8em;
+    color: #666;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.modulo-fechas small {
+    display: block;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.modulo-fechas small:last-child {
+    margin-bottom: 0;
+}
+
+.modulo-fechas i {
+    color: #667eea;
+    margin-right: 5px;
+}
+
+/* Acciones */
+.modulo-actions {
+    padding: 20px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modulo-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Botones */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
-    background: linear-gradient(135deg, #875A7B 0%, #6D4C6B 100%);
-    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 1rem
+    transition: all 0.3s ease;
+    text-decoration: none;
+    line-height: 1.4;
 }
 
-#listadoCard article .texto button:hover {
-    background: linear-gradient(135deg, #5e3f56 0%, #462f44 100%);
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Media queries para responsividad */
-@media (max-width: 1200px) {
-    #listadoCard {
-        grid-template-columns: repeat(3, 1fr);
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    color: #212529;
+}
+
+.btn-warning:hover:not(:disabled) {
+    background: linear-gradient(135deg, #e0a800 0%, #d39e00 100%);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #545b62 0%, #495057 100%);
+}
+
+/* Modales */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow: hidden;
+    animation: slideIn 0.3s ease;
+}
+
+.modal-progreso .modal-contenido {
+    max-width: 400px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #f0f0f0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.modal-cerrar {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #999;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-cerrar:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.modal-cuerpo {
+    padding: 25px;
+}
+
+.modal-detalles {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.modal-detalles ul {
+    margin: 10px 0 0 0;
+    padding-left: 20px;
+    color: #555;
+}
+
+.modal-detalles li {
+    margin-bottom: 5px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px 25px;
+    border-top: 1px solid #f0f0f0;
+    background: #f8f9fa;
+}
+
+.progreso-contenido {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.progreso-contenido i {
+    font-size: 3em;
+    color: #667eea;
+    margin-bottom: 20px;
+    animation: spin 1s linear infinite;
+}
+
+.progreso-contenido h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.progreso-contenido p {
+    margin: 0;
+    color: #666;
+}
+
+/* Notificaciones */
+.notificacion {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 400px;
+}
+
+.notificacion.mostrar {
+    transform: translateX(0);
+}
+
+.notificacion-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.notificacion-error {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.notification i {
+    font-size: 1.2em;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 
-@media (max-width: 900px) {
-    #listadoCard {
-        grid-template-columns: repeat(2, 1fr);
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-@media (max-width: 600px) {
-    #listadoCard {
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #listadoModulos {
+        padding: 15px;
+    }
+
+    .modulos-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .header-stats {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .stat-item {
+        min-width: 80px;
+        padding: 10px 15px;
+    }
+
+    .modulos-filtros {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filtro-btn {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+        font-size: 13px;
+    }
+
+    .modulos-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    #listadoCard article {
+    .modulo-container {
+        padding: 20px;
+    }
+
+    .modulo-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .modulo-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modulo-actions {
+        flex-direction: column;
+    }
+
+    .modulo-actions .btn {
         width: 100%;
-        max-width: 400px;
-        margin: 0 auto 1rem auto;
+    }
+
+    .modal-contenido {
+        margin: 20px;
+        width: calc(100% - 40px);
     }
 }
+
+@media (max-width: 480px) {
+    .header-content h1 {
+        font-size: 1.8em;
+    }
+
+    .header-content p {
+        font-size: 1em;
+    }
+
+    .stat-number {
+        font-size: 1.5em;
+    }
+
+    .stat-label {
+        font-size: 0.8em;
+    }
+
+    .modal-detalles ul {
+        padding-left: 15px;
+    }
+
+    .notificacion {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+}
+
+/* Impresión */
+@media print {
+    #listadoModulos {
+        background: white;
+        padding: 0;
+    }
+
+    .modulos-header {
+        background: none;
+        color: black;
+        box-shadow: none;
+        border-bottom: 2px solid #333;
+    }
+
+    .modulo-card {
+        break-inside: avoid;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+
+    .modulo-actions {
+        display: none;
+    }
+
+    .modal {
+        display: none !important;
+    }
+
+    .notificacion {
+        display: none !important;
+    }
+}
+```
+
+## **✅ ¡SISTEMA DE DASHBOARD DE MÓDULOS COMPLETO!**
+
+He creado un dashboard completamente funcional y moderno con:
+
+### **🎨 Características del diseño:**
+- **Interfaz moderna** con gradientes y sombras
+- **Tarjetas de módulos** con estados visuales (activo/inactivo/no instalado)
+- **Sistema de filtros** por estado
+- **Estadísticas en tiempo real** en el header
+- **Modales de confirmación** para acciones críticas
+- **Notificaciones** de éxito/error
+- **Totalmente responsive** para móviles
+
+### **🔧 Funcionalidades implementadas:**
+- ✅ **Cargar módulos desde BD** dinámicamente
+- ✅ **Instalar/Desinstalar/Activar/Desactivar** módulos
+- ✅ **Actualizar menú principal** automáticamente
+- ✅ **Filtros visuales** por estado
+- ✅ **Estadísticas en tiempo real**
+- ✅ **Protección de módulos críticos** (Dashboard no se puede desactivar)
+- ✅ **Confirmaciones** para acciones destructivas
+
+### **📊 Estados de módulos:**
+- **🟢 Activo** - Visible en menú, disponible para usuarios
+- **🟡 Inactivo** - Instalado pero no visible en menú
+- **⚪ No Instalado** - Disponible para instalación
+
+### **🚀 Cómo funciona:**
+
+1. **Dashboard carga módulos** desde la base de datos
+2. **Usuario puede activar/desactivar** módulos con clic
+3. **Menú principal se actualiza** automáticamente
+4. **Sistema persiste cambios** en la base de datos
+
+### **📱 Actualización automática del menú:**
+Cuando actives/desactives un módulo:
+- ✅ Dashboard llama a `window.menuManager.actualizarMenu()`
+- ✅ Menú principal se recarga con nuevos módulos activos
+- ✅ Cambios son inmediatos y visibles
+
+**¡Tu dashboard de módulos está completamente funcional!** 🎉
+
+Ahora los usuarios podrán:
+- Ver todos los módulos disponibles
+- Instalar nuevos módulos
+- Activar/desactivar según necesiten
+- Ver el menú actualizarse en tiempo real
+
+El sistema funciona exactamente como Odoo/WordPress con gestión modular dinámica.

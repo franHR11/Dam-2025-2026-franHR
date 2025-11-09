@@ -1,0 +1,91 @@
+/* ===== Productos: estilos base ===== */
+:root {
+  --primary-color: #875a7b;
+  --border-radius: 12px;
+  --box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+.toolbar {
+  background: #fff;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: var(--spacing-lg);
+}
+
+.content-area {
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+/* tabla */
+table.table th, table.table td {
+  vertical-align: middle;
+}
+
+.producto-imagen {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.producto-imagen-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  background: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  border: 1px dashed #ddd;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stock-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.stock-badge.stock-bajo {
+  background: #fff4e5;
+  color: #9a6700;
+}
+.stock-badge.stock-agotado {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+.stock-badge.stock-normal {
+  background: #e6fffa;
+  color: #0f766e;
+}
+
+/* paginación */
+#pagination .page-link {
+  border-radius: 8px;
+}
+
+/* modales */
+#modal-producto .card {
+  border: none;
+  box-shadow: var(--box-shadow);
+}
+
+#vista-previa-imagen img {
+  max-width: 100%;
+  border-radius: 8px;
+}

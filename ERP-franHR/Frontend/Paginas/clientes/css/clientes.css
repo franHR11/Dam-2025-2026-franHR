@@ -1,0 +1,444 @@
+/* Estilos específicos para la página de Clientes */
+
+/* Toolbar */
+.toolbar {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.toolbar .form-control,
+.toolbar .form-select {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #333;
+}
+
+.toolbar .form-control:focus,
+.toolbar .form-select:focus {
+    background: white;
+    border-color: #875A7B;
+    box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.25);
+}
+
+.toolbar .input-group-text {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.toolbar .btn {
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.toolbar .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tabla principal */
+.table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #495057;
+    font-weight: 600;
+    border-bottom: 2px solid #dee2e6;
+    padding: 1rem 0.75rem;
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9ff;
+    transform: scale(1.01);
+}
+
+.table tbody td {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+/* Badges de estado */
+.badge-estado {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.badge-activo {
+    background: linear-gradient(135deg, #875A7B, #6B4560);
+    color: white;
+}
+
+.badge-inactivo {
+    background: linear-gradient(135deg, #d4c5d9, #b8a8c3);
+    color: #5a3d4f;
+}
+
+.badge-bloqueado {
+    background: linear-gradient(135deg, #c77d82, #a8666b);
+    color: white;
+}
+
+/* Badges de tipo cliente */
+.badge-tipo {
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.badge-particular {
+    background: #f4e6f7;
+    color: #6B4560;
+}
+
+.badge-empresa {
+    background: #875A7B;
+    color: white;
+}
+
+.badge-autonomo {
+    background: #d4c5d9;
+    color: #5a3d4f;
+}
+
+.badge-ong {
+    background: #e8d5e7;
+    color: #875A7B;
+}
+
+.badge-publico {
+    background: #f0e2f1;
+    color: #6B4560;
+}
+
+/* Botones de acción */
+.btn-action {
+    padding: 0.375rem 0.5rem;
+    margin: 0 0.125rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-action:hover {
+    transform: scale(1.1);
+}
+
+.btn-ver {
+    background: linear-gradient(135deg, #875A7B, #6B4560);
+    color: white;
+}
+
+.btn-editar {
+    background: linear-gradient(135deg, #d4c5d9, #b8a8c3);
+    color: #5a3d4f;
+}
+
+.btn-eliminar {
+    background: linear-gradient(135deg, #c77d82, #a8666b);
+    color: white;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    border: none;
+}
+
+.modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+/* Tabs del modal */
+.nav-tabs {
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    color: #6c757d;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    background: #f4e6f7;
+    color: #6B4560;
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    color: white;
+    border: none;
+}
+
+/* Formularios */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #875A7B;
+    box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.25);
+}
+
+.form-control:read-only {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+/* Switch personalizado */
+.form-check-input:checked {
+    background-color: #875A7B;
+    border-color: #875A7B;
+}
+
+.form-check-input:focus {
+    border-color: #875A7B;
+    box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.25);
+}
+
+/* Paginación */
+.pagination .page-link {
+    border: none;
+    color: #667eea;
+    margin: 0 2px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    color: white;
+    transform: scale(1.05);
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    border: none;
+}
+
+/* Mensaje vacío */
+#no-clientes {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+#no-clientes i {
+    color: #875A7B;
+    opacity: 0.6;
+}
+
+/* Alertas */
+.alert {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fef3e8, #fde8d8);
+    color: #875A7B;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Loading */
+.loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading::after {
+    content: "";
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 1rem;
+    }
+
+    .toolbar .row > div {
+        margin-bottom: 1rem;
+    }
+
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+
+    .btn-action {
+        padding: 0.25rem 0.375rem;
+        font-size: 0.75rem;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Estados especiales */
+.cliente-seleccionado {
+    background: #e3f2fd !important;
+}
+
+.table-hover .cliente-seleccionado:hover {
+    background: #bbdefb !important;
+}
+
+/* Tooltips personalizados */
+.tooltip-inner {
+    background: linear-gradient(135deg, #875A7B 0%, #6B4560 100%);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+/* Validación de formulario */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.is-valid {
+    border-color: #28a745 !important;
+}
+
+.valid-feedback {
+    display: block;
+    color: #28a745;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Estilos mejorados para mensajes de error */
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #875A7B;
+    font-weight: 500;
+    background-color: #f4e6f7;
+    border: 1px solid #d4c5d9;
+    border-radius: 4px;
+    padding: 0.375rem 0.75rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Posicionamiento para formularios con label */
+.form-control + .invalid-feedback,
+.form-select + .invalid-feedback {
+    margin-top: 0.25rem;
+}
+
+/* Estilos para inputs inválidos */
+.is-invalid {
+    border-color: #c77d82 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23c77d82'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23c77d82' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    padding-right: calc(1.5em + 0.75rem);
+}
+
+.is-valid {
+    border-color: #875A7B !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' width='8' height='8'%3e%3cpath fill='%23875A7B' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    padding-right: calc(1.5em + 0.75rem);
+}
+
+/* Animación para focus en inputs inválidos */
+.is-invalid:focus {
+    border-color: #c77d82;
+    box-shadow: 0 0 0 0.2rem rgba(199, 125, 130, 0.25);
+}
+
+.is-valid:focus {
+    border-color: #875A7B;
+    box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.25);
+}
+```
+
+Ahora crearé el archivo JavaScript principal para la gestión de clientes:

@@ -1,0 +1,151 @@
+/* Toolbar */
+.toolbar {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 12px 16px;
+}
+
+/* Content area */
+.content-area {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+/* Table tweaks */
+table.table thead th {
+    font-weight: 600;
+    color: #495057;
+}
+table.table tbody td {
+    vertical-align: middle;
+}
+
+/* Imágenes en tabla de productos */
+.producto-imagen {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.producto-imagen:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.producto-imagen-placeholder {
+    width: 50px;
+    height: 50px;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 18px;
+    transition: background-color 0.2s ease;
+}
+
+.producto-imagen-placeholder:hover {
+    background-color: #e9ecef;
+}
+
+/* Stock badges */
+.stock-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.stock-badge.stock-ok {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.stock-badge.stock-bajo {
+    background-color: #fff3cd;
+    color: #664d03;
+}
+
+.stock-badge.stock-agotado {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: #0d6efd;
+}
+.pagination .page-item.active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Modal sizes */
+.modal-xl .modal-content {
+    border-radius: 8px;
+}
+
+/* Image preview */
+#vista-previa-imagen img {
+    max-height: 90px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+/* Alerts */
+#alerta-stock-bajo,
+#alerta-stock-agotado {
+    padding: 8px 12px;
+}
+
+/* Fallback: ocultar modales si Bootstrap no carga */
+.modal {
+    display: none;
+}
+.modal.show {
+    display: block;
+}
+
+/* Responsive para imágenes en tabla */
+@media (max-width: 768px) {
+    .producto-imagen {
+        width: 40px;
+        height: 40px;
+    }
+
+    .producto-imagen-placeholder {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .producto-imagen {
+        width: 35px;
+        height: 35px;
+    }
+
+    .producto-imagen-placeholder {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* Mejoras de accesibilidad */
+.producto-imagen:focus,
+.producto-imagen-placeholder:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}

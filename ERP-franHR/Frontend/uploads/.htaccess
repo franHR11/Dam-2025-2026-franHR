@@ -1,0 +1,28 @@
+# Permitir acceso a archivos de imagen
+Options -Indexes
+
+# Configurar tipos MIME correctos
+AddType image/jpeg .jpg .jpeg
+AddType image/png .png
+AddType image/gif .gif
+AddType image/webp .webp
+
+# Evitar ejecución de scripts en esta carpeta
+<FilesMatch "\.(php|phtml|php3|php4|php5|pl|py|cgi|sh|exe)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Configurar caché para imágenes (1 semana)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 week"
+    ExpiresByType image/png "access plus 1 week"
+    ExpiresByType image/gif "access plus 1 week"
+    ExpiresByType image/webp "access plus 1 week"
+</IfModule>
+
+# Comprimir imágenes
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE image/jpeg image/png image/gif image/webp
+</IfModule>

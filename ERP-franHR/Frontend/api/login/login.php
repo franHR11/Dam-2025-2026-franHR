@@ -1,15 +1,5 @@
 <?php
-// Configuración de headers CORS primero
-header('Access-Control-Allow-Origin: http://frontend.test');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Access-Control-Allow-Credentials: true');
-
-// Manejar peticiones OPTIONS (preflight)
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+// Configuración de headers CORS se maneja en .htaccess
 
 // Incluir la configuración de la base de datos
 try {

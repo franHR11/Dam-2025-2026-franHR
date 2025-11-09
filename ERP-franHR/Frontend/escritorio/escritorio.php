@@ -27,9 +27,7 @@ $currentUser = SessionManager::getUserInfo();
 </main>
 
 <!-- JavaScript específico  -->
-<script>
-    <?php include "javascript.js"; ?>
-</script>
+<script src="javascript.js"></script>
 
 
 

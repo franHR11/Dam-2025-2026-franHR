@@ -1,13 +1,16 @@
 <IfModule mod_rewrite.c>
     # Activa el motor de reescritura
     RewriteEngine On
-    
-    # Redirigir peticiones a /api/ hacia la carpeta api/
-    RewriteRule ^api/(.*)$ api/$1 [L]
-    
+
     # Redirigir raíz a login
     RewriteRule ^$ Login/login.php [L]
-    
+
+    # Redirigir login a Login/login.php
+    RewriteRule ^login$ Login/login.php [L]
+
+    # Redirigir escritorio a escritorio/escritorio.php
+    RewriteRule ^escritorio$ escritorio/escritorio.php [L]
+
     # Permitir acceso directo a archivos existentes
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d

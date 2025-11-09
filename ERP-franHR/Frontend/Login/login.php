@@ -1,6 +1,9 @@
 <?php
 session_start(); // Inicia la sesión
 
+// La aplicación se sirve desde la raíz, así que usamos rutas absolutas desde /
+$base_path = '';
+
 // Verificar si ya hay una sesión de 'username' válida
 if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
     // Si ya está logueado, redirigir al escritorio
@@ -19,8 +22,8 @@ if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link rel="stylesheet" href="estilo.css">
-    <link rel="stylesheet" href="../comun/style.css">
+    <link rel="stylesheet" href="/Login/estilo.css">
+    <link rel="stylesheet" href="/comun/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -37,8 +40,8 @@ if (isset($_SESSION['username']) && !empty($_SESSION['username'])) {
         <a href="#">Olvidé mi contraseña</a>
         <a href="#">Registrarse</a>
     </main>
-    <script src="../config.php"></script>
-    <script type="module" src="./javascript.js"></script>
+    <script src="/config.php"></script>
+    <script type="module" src="/Login/javascript.js"></script>
 </body>
 
 </html>
