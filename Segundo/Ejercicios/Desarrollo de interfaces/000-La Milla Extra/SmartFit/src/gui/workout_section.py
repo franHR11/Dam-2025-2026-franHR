@@ -7,6 +7,8 @@ from datetime import datetime, timedelta
 from tkinter import messagebox, ttk
 from typing import Any, Dict, List, Optional
 
+from src.gui.dialogs.routine_dialog import RoutineDialog
+
 
 class WorkoutSection:
     """
@@ -227,6 +229,9 @@ class WorkoutSection:
                     form_frame, textvariable=var, state="readonly", width=30
                 )
                 widget.grid(row=i, column=1, padx=10, pady=8, sticky=tk.W)
+                # Guardar referencia al widget para poder actualizarlo después
+                if field_type == "combo" and label.startswith("Rutina"):
+                    self.new_workout_vars["rutina_widget"] = widget
             elif field_type == "boolean":
                 widget = ttk.Checkbutton(form_frame, variable=var)
                 widget.grid(row=i, column=1, padx=10, pady=8, sticky=tk.W)
@@ -662,15 +667,9 @@ class WorkoutSection:
             ]
 
             # Actualizar combo
-            if "rutina" in self.new_workout_vars:
-                combo = None
-                for child in self.new_workout_vars["rutina"].master.winfo_children():
-                    if isinstance(child, ttk.Combobox):
-                        combo = child
-                        break
-
-                if combo:
-                    combo["values"] = routine_names
+            if "rutina_widget" in self.new_workout_vars:
+                combo = self.new_workout_vars["rutina_widget"]
+                combo["values"] = routine_names
 
         except Exception as e:
             print(f"Error al cargar rutinas en formulario: {e}")
@@ -831,7 +830,21 @@ class WorkoutSection:
             messagebox.showwarning("Advertencia", "Selecciona un usuario primero")
             return
 
-        messagebox.showinfo("Info", "Creación de rutinas en desarrollo")
+        try:
+            # Abrir diálogo para crear nueva rutina
+            dialog = RoutineDialog(
+                self.main_window.root,
+                self.db,
+                self.user_manager,
+                self.current_user["id"],
+            )
+            self.main_window.root.wait_window(dialog.dialog)
+
+            if dialog.result:
+                messagebox.showinfo("Éxito", "Rutina creada correctamente")
+                self.load_routines_data()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al crear rutina: {e}")
 
     def start_workout_from_routine(self):
         """Inicia un entrenamiento desde una rutina"""
@@ -863,7 +876,116 @@ class WorkoutSection:
             )
             return
 
-        messagebox.showinfo("Info", "Detalles de rutina en desarrollo")
+        try:
+            # Obtener los datos de la rutina seleccionada
+            item = self.routines_tree.item(selection[0])
+            routine_name = item["values"][0] if item["values"] else ""
+
+            # Buscar la rutina en los datos
+            routine_data = None
+            for routine in self.routines_data:
+                if routine.get("nombre") == routine_name:
+                    routine_data = routine
+                    break
+
+            if not routine_data:
+                messagebox.showerror("Error", "No se encontraron datos de la rutina")
+                return
+
+            # Obtener ejercicios de la rutina
+            exercises = self.db.obtener_ejercicios_rutina(routine_data["id"])
+
+            # Crear ventana de detalles
+            details_window = tk.Toplevel(self.main_window.root)
+            details_window.title(f"Detalles de Rutina - {routine_name}")
+            details_window.geometry("600x500")
+            details_window.resizable(True, True)
+            details_window.transient(self.main_window.root)
+            details_window.grab_set()
+
+            # Centrar ventana
+            details_window.update_idletasks()
+            x = (details_window.winfo_screenwidth() // 2) - (600 // 2)
+            y = (details_window.winfo_screenheight() // 2) - (500 // 2)
+            details_window.geometry(f"600x500+{x}+{y}")
+
+            # Frame principal con scroll
+            main_frame = ttk.Frame(details_window, padding="20")
+            main_frame.pack(fill=tk.BOTH, expand=True)
+
+            # Información básica
+            info_frame = ttk.LabelFrame(
+                main_frame, text="Información de la Rutina", padding="10"
+            )
+            info_frame.pack(fill=tk.X, pady=(0, 10))
+
+            ttk.Label(
+                info_frame, text=f"Nombre: {routine_data.get('nombre', 'N/A')}"
+            ).pack(anchor=tk.W, pady=2)
+            ttk.Label(
+                info_frame,
+                text=f"Descripción: {routine_data.get('descripcion', 'Sin descripción')}",
+            ).pack(anchor=tk.W, pady=2)
+            ttk.Label(
+                info_frame,
+                text=f"Duración: {routine_data.get('duracion_minutos', 'N/A')} minutos",
+            ).pack(anchor=tk.W, pady=2)
+            ttk.Label(
+                info_frame, text=f"Dificultad: {routine_data.get('dificultad', 'N/A')}"
+            ).pack(anchor=tk.W, pady=2)
+            ttk.Label(info_frame, text=f"Ejercicios: {len(exercises)}").pack(
+                anchor=tk.W, pady=2
+            )
+
+            # Lista de ejercicios
+            if exercises:
+                exercises_frame = ttk.LabelFrame(
+                    main_frame, text="Ejercicios", padding="10"
+                )
+                exercises_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+
+                # Crear treeview para ejercicios
+                columns = ("Ejercicio", "Series", "Repeticiones", "Descanso")
+                exercises_tree = ttk.Treeview(
+                    exercises_frame, columns=columns, show="headings", height=10
+                )
+
+                # Configurar columnas
+                for col in columns:
+                    exercises_tree.heading(col, text=col)
+                    exercises_tree.column(col, width=120)
+
+                # Scrollbar
+                scrollbar = ttk.Scrollbar(
+                    exercises_frame, orient=tk.VERTICAL, command=exercises_tree.yview
+                )
+                exercises_tree.configure(yscrollcommand=scrollbar.set)
+
+                exercises_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+                # Agregar ejercicios
+                for i, exercise in enumerate(exercises, 1):
+                    exercises_tree.insert(
+                        "",
+                        tk.END,
+                        values=(
+                            exercise.get("nombre", f"Ejercicio {i}"),
+                            exercise.get("series", "N/A"),
+                            exercise.get("repeticiones", "N/A"),
+                            f"{exercise.get('descanso_segundos', 0)}s",
+                        ),
+                    )
+
+            # Botón cerrar
+            ttk.Button(main_frame, text="Cerrar", command=details_window.destroy).pack(
+                pady=(10, 0)
+            )
+
+        except Exception as e:
+            messagebox.showerror(
+                "Error", f"Error al mostrar detalles de la rutina: {e}"
+            )
 
     def edit_selected_routine(self):
         """Edita la rutina seleccionada"""
@@ -872,7 +994,38 @@ class WorkoutSection:
             messagebox.showwarning("Advertencia", "Selecciona una rutina para editar")
             return
 
-        messagebox.showinfo("Info", "Edición de rutinas en desarrollo")
+        try:
+            # Obtener los datos de la rutina seleccionada
+            item = self.routines_tree.item(selection[0])
+            routine_name = item["values"][0] if item["values"] else ""
+
+            # Buscar la rutina en los datos
+            routine_data = None
+            for routine in self.routines_data:
+                if routine.get("nombre") == routine_name:
+                    routine_data = routine
+                    break
+
+            if not routine_data:
+                messagebox.showerror("Error", "No se encontraron datos de la rutina")
+                return
+
+            # Abrir diálogo para editar rutina
+            dialog = RoutineDialog(
+                self.main_window.root,
+                self.db,
+                self.user_manager,
+                self.current_user["id"],
+                routine_data,
+            )
+            self.main_window.root.wait_window(dialog.dialog)
+
+            if dialog.result:
+                messagebox.showinfo("Éxito", "Rutina actualizada correctamente")
+                self.load_routines_data()
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al editar rutina: {e}")
 
     def delete_selected_routine(self):
         """Elimina la rutina seleccionada"""
@@ -881,7 +1034,31 @@ class WorkoutSection:
             messagebox.showwarning("Advertencia", "Selecciona una rutina para eliminar")
             return
 
-        if messagebox.askyesno(
-            "Confirmar", "¿Estás seguro de que quieres eliminar esta rutina?"
-        ):
-            messagebox.showinfo("Info", "Eliminación de rutinas en desarrollo")
+        try:
+            # Obtener los datos de la rutina seleccionada
+            item = self.routines_tree.item(selection[0])
+            routine_name = item["values"][0] if item["values"] else ""
+
+            # Buscar la rutina en los datos
+            routine_data = None
+            for routine in self.routines_data:
+                if routine.get("nombre") == routine_name:
+                    routine_data = routine
+                    break
+
+            if not routine_data:
+                messagebox.showerror("Error", "No se encontraron datos de la rutina")
+                return
+
+            if messagebox.askyesno(
+                "Confirmar",
+                f"¿Estás seguro de que quieres eliminar la rutina '{routine_name}'?",
+            ):
+                # Eliminar rutina de la base de datos
+                self.db.eliminar_rutina(routine_data["id"])
+
+                messagebox.showinfo("Éxito", "Rutina eliminada correctamente")
+                self.load_routines_data()
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al eliminar rutina: {e}")
