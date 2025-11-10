@@ -508,7 +508,7 @@ Generado por SmartFit
 
 ### 🎯 **Conclusión breve**
 
-He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness yo mismo la estoy utilizando para mi rutina diaria.
+He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness yo mismo la estoy utilizando para mi rutina .
 
 **Puntos clave logrados:**
 
