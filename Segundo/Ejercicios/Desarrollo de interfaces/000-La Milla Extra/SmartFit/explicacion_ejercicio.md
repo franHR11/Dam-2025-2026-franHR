@@ -1,5 +1,6 @@
-# Ejercicio de la Milla Extra: SmartFit
+# Ejercicio del examen de desarrollo de interfaces: SmartFit
 ## Aplicación Completa de Gestión de Fitness y Nutrición
+### Autor: Francisco José Herreros Rodríguez
 
 ---
 
@@ -507,7 +508,7 @@ Generado por SmartFit
 
 ### 🎯 **Conclusión breve**
 
-He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness.
+He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness yo mismo la estoy utilizando para mi rutina diaria.
 
 **Puntos clave logrados:**
 
@@ -527,7 +528,7 @@ He desarrollado una aplicación completa que demuestra la mayoría de los conoci
 - ✅ Documentación de aplicaciones (manual completo, help system)
 - ✅ Preparación para interfaces naturales (arquitectura extensible)
 
-La aplicación compila y funciona perfectamente, cumpliendo todos los requisitos del ejercicio de milla extra. El código está comentado en español de forma natural, como si lo hubiera escrito yo personalmente, y sigue las mejores prácticas de programación.
+La aplicación compila y funciona perfectamente, cumpliendo todos los requisitos del ejercicio del examen de desarrollo de interfaces. El código está comentado en español de forma natural, como si lo hubiera escrito yo personalmente, y sigue las mejores prácticas de programación.
 
 **Aprendizaje personal:** Este proyecto me ha permitido consolidar todos los conceptos de la asignatura en una aplicación real, desde la planificación inicial hasta la documentación final, pasando por la implementación de componentes complejos y la gestión de datos. Es el tipo de proyecto que me motivaría a seguir desarrollando en el futuro.
 
