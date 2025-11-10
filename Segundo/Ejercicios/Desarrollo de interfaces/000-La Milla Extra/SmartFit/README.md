@@ -213,10 +213,10 @@ Este ejercicio demuestra la aplicación de **todas las unidades** del temario:
 
 ## 👨‍💻 Autor y Créditos
 
-**Desarrollado por**: Fran García  
-**Asignatura**: Desarrollo de Interfaces  
-**Centro**: DAM (Desarrollo de Aplicaciones Multiplataforma)  
-**Año**: 2024
+**Desarrollado por**: Francisco Jose Herreros
+**Asignatura**: Desarrollo de Interfaces
+**Centro**: DAM (Desarrollo de Aplicaciones Multiplataforma)
+**Año**: 2025
 
 ### Características del Desarrollo
 - **Enfoque minimalista**: Código limpio y eficiente
@@ -241,6 +241,6 @@ Para preguntas sobre la implementación o el código, consultar:
 
 ---
 
-**© 2024 - SmartFit Demo - Desarrollado por Fran (DAM)**
+**© 2025 - SmartFit Demo - Desarrollado por Fran (DAM)**
 
 *Aplicación de demostración para fines educativos*
