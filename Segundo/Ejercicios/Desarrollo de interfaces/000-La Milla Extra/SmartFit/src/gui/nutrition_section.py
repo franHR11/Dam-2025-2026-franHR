@@ -166,11 +166,11 @@ class NutritionSection:
         search_frame.pack(fill=tk.X, pady=5)
 
         ttk.Label(search_frame, text="Buscar alimento:").pack(side=tk.LEFT)
-        food_combo = ttk.Combobox(
+        self.food_combo = ttk.Combobox(
             search_frame, textvariable=self.food_search_var, width=30
         )
-        food_combo.pack(side=tk.LEFT, padx=(10, 0))
-        food_combo.bind("<KeyRelease>", self.on_food_search)
+        self.food_combo.pack(side=tk.LEFT, padx=(10, 0))
+        self.food_combo.bind("<KeyRelease>", self.on_food_search)
 
         amount_frame = ttk.Frame(add_food_frame)
         amount_frame.pack(fill=tk.X, pady=5)
@@ -513,11 +513,19 @@ class NutritionSection:
     def load_foods_database(self):
         """Carga la base de datos de alimentos"""
         try:
-            # Obtener alimentos de la base de datos
             self.foods_data = self.db.obtener_alimentos()
 
             # Actualizar la vista
             self.update_foods_view()
+
+            # Actualizar combo de búsqueda de alimentos
+            if hasattr(self, "food_combo") and self.food_combo:
+                all_foods = [
+                    food.get("nombre", "")
+                    for food in self.foods_data
+                    if food.get("nombre")
+                ]
+                self.food_combo["values"] = all_foods
 
         except Exception as e:
             print(f"Error al cargar base de datos de alimentos: {e}")

@@ -1,11 +1,12 @@
-# Ejercicio de la Milla Extra: SmartFit
+# Ejercicio del examen de desarrollo de interfaces: SmartFit
 ## Aplicación Completa de Gestión de Fitness y Nutrición
+### Autor: Francisco José Herreros Rodríguez
 
 ---
 
 ### 🧠 **Explicación personal del ejercicio**
 
-En este ejercicio de la milla extra, he desarrollado **SmartFit**, una aplicación completa de escritorio para gestión de entrenamientos y nutrición. La idea surgió de la necesidad de crear una herramienta integral que combine el seguimiento de actividad física con el control alimentario, todo en una interfaz moderna y fácil de usar.
+En este ejercicio del examen de Desarrollo de Interfaces, he desarrollado **SmartFit**, una aplicación completa de escritorio para gestión de entrenamientos y nutrición. La idea surgió de la necesidad de crear una herramienta integral que combine el seguimiento de mi actividad física con el control alimentario, todo en una interfaz moderna y fácil de usar.
 
 Decidí hacerlo con **Python y Tkinter** porque me permite crear una aplicación multiplataforma de forma eficiente, con un control total sobre la interfaz gráfica y sin dependencias externas complejas. El proyecto incluye base de datos SQLite, componentes visuales personalizados, y una arquitectura MVC que hace el código modular y mantenible.
 
@@ -152,25 +153,25 @@ def main():
     try:
         # Crear la ventana raíz
         root = tk.Tk()
-        
+
         # Inicializar gestores
         db_manager = DatabaseManager()
         user_manager = UserManager(db_manager)
-        
+
         # Verificar conexión
         if not db_manager.check_connection():
             messagebox.showerror("Error", "No se puede conectar a la base de datos")
             return
-        
+
         # Crear ventana principal
         main_window = MainWindow(root, db_manager, user_manager)
-        
+
         # Inicializar base de datos
         db_manager.initialize_data()
-        
+
         print("🏃‍♂️ SmartFit iniciado correctamente")
         root.mainloop()
-        
+
     except Exception as e:
         print(f"❌ Error al iniciar la aplicación: {e}")
         messagebox.showerror("Error crítico", f"Error inesperado: {e}")
@@ -189,12 +190,12 @@ if __name__ == "__main__":
 # src/models/database.py
 class DatabaseManager:
     """Gestor de base de datos SQLite para SmartFit"""
-    
+
     def __init__(self, db_path="smartfit.db"):
         self.db_path = db_path
         self.connection = None
         self.connect()
-    
+
     def check_connection(self):
         """Verifica si se puede conectar a la base de datos"""
         try:
@@ -205,14 +206,14 @@ class DatabaseManager:
         except Exception as e:
             print(f"Error de conexión: {e}")
             return False
-    
+
     def initialize_data(self):
         """Crea todas las tablas necesarias"""
         if not self.connection:
             self.connect()
-            
+
         cursor = self.connection.cursor()
-        
+
         # Tabla de usuarios
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS usuarios (
@@ -225,7 +226,7 @@ class DatabaseManager:
                 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-        
+
         # Tabla de rutinas
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS rutinas (
@@ -239,7 +240,7 @@ class DatabaseManager:
                 FOREIGN KEY (usuario_id) REFERENCES usuarios (id)
             )
         """)
-        
+
         # Tabla de ejercicios
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS ejercicios (
@@ -250,7 +251,7 @@ class DatabaseManager:
                 calorias_por_minuto REAL
             )
         """)
-        
+
         self.connection.commit()
         print("✅ Base de datos inicializada correctamente")
 ```
@@ -261,11 +262,11 @@ class DatabaseManager:
 # src/components/smart_gauge.py
 class SmartGauge(ttk.Frame):
     """Componente visual SmartGauge - Medidor circular personalizable"""
-    
-    def __init__(self, parent, max_value=100, current_value=0, 
+
+    def __init__(self, parent, max_value=100, current_value=0,
                  title="Progreso", unit="", color="#4A90E2", size=200, **kwargs):
         super().__init__(parent, **kwargs)
-        
+
         # Configuración
         self.max_value = float(max_value)
         self.current_value = float(current_value)
@@ -273,36 +274,36 @@ class SmartGauge(ttk.Frame):
         self.unit = unit
         self.color = color
         self.size = size
-        
+
         # Callbacks de eventos
         self.on_click_callback = None
         self.on_value_change_callback = None
-        
+
         # Crear canvas
         self.canvas = tk.Canvas(self, width=size, height=size, bg="white", highlightthickness=0)
         self.canvas.pack()
-        
+
         # Bind eventos
         self.canvas.bind("<Button-1>", self._on_click)
-        
+
         # Dibujar gauge inicial
         self.draw_gauge()
-    
+
     def draw_gauge(self):
         """Dibuja el gauge completo"""
         self.canvas.delete("all")
-        
+
         # Calcular dimensiones
         center_x = self.size // 2
         center_y = self.size // 2
         radius = (self.size - 40) // 2
-        
+
         # Calcular progreso
         if self.max_value > 0:
             progress = min(self.current_value / self.max_value, 1.0)
         else:
             progress = 0.0
-        
+
         # Dibujar fondo del gauge
         self.canvas.create_arc(
             center_x - radius, center_y - radius,
@@ -310,7 +311,7 @@ class SmartGauge(ttk.Frame):
             start=120, extent=240, style="arc",
             outline="#E0E0E0", width=15
         )
-        
+
         # Dibujar progreso
         if progress > 0:
             self.canvas.create_arc(
@@ -319,32 +320,32 @@ class SmartGauge(ttk.Frame):
                 start=120, extent=-(240 * progress), style="arc",
                 outline=self.color, width=15
             )
-        
+
         # Texto del valor
         value_text = f"{self.current_value:.0f}"
         if self.unit:
             value_text += f"\n{self.unit}"
-            
+
         self.canvas.create_text(
             center_x, center_y, text=value_text,
             font=("Arial", 14, "bold"),
             fill=self.color, justify="center"
         )
-    
+
     def set_value(self, new_value, animate=True):
         """Establece un nuevo valor"""
         old_value = self.current_value
         self.current_value = max(0, min(new_value, self.max_value))
-        
+
         # Callback de cambio
         if self.on_value_change_callback:
             self.on_value_change_callback(old_value, self.current_value)
-        
+
         if animate:
             # Animación simple
             steps = 20
             step_value = (self.current_value - old_value) / steps
-            
+
             for i in range(steps):
                 temp_value = old_value + (step_value * (i + 1))
                 self.canvas.after(20, lambda v=temp_value: self._animate_to_value(v))
@@ -358,43 +359,43 @@ class SmartGauge(ttk.Frame):
 # src/gui/main_window.py
 class MainWindow:
     """Ventana principal con navegación por pestañas"""
-    
+
     def __init__(self, root, db_manager, user_manager):
         self.root = root
         self.db = db_manager
         self.user_manager = user_manager
         self.current_user = None
-        
+
         # Configurar ventana
         self.setup_window()
         self.create_layout()
-        
+
     def setup_window(self):
         """Configuración básica de la ventana"""
         self.root.title("SmartFit - Tu Entrenador Personal")
         self.root.geometry("1200x800")
         self.root.minsize(800, 600)
-        
+
         # Estilos
         style = ttk.Style()
         style.theme_use("clam")
-        
+
     def create_layout(self):
         """Crea el layout principal"""
         # Frame principal
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        
+
         # Header
         self.create_header()
-        
+
         # Notebook (pestañas)
         self.notebook = ttk.Notebook(self.main_frame)
         self.notebook.pack(fill=tk.BOTH, expand=True)
-        
+
         # Crear secciones
         self.create_sections()
-        
+
     def create_sections(self):
         """Crea todas las secciones de la aplicación"""
         from src.gui.user_section import UserSection
@@ -402,23 +403,23 @@ class MainWindow:
         from src.gui.nutrition_section import NutritionSection
         from src.gui.reports_section import ReportsSection
         from src.gui.help_section import HelpSection
-        
+
         # Sección de Usuario
         self.user_section = UserSection(self.notebook, self.db, self.user_manager, self)
         self.notebook.add(self.user_section.frame, text="👤 Usuario")
-        
+
         # Sección de Entrenamientos
         self.workout_section = WorkoutSection(self.notebook, self.db, self.user_manager, self)
         self.notebook.add(self.workout_section.frame, text="💪 Entrenamientos")
-        
+
         # Sección de Nutrición
         self.nutrition_section = NutritionSection(self.notebook, self.db, self.user_manager, self)
         self.notebook.add(self.nutrition_section.frame, text="🥗 Nutrición")
-        
+
         # Sección de Informes
         self.reports_section = ReportsSection(self.notebook, self.db, self.user_manager, self)
         self.notebook.add(self.reports_section.frame, text="📊 Informes")
-        
+
         # Sección de Ayuda
         self.help_section = HelpSection(self.notebook, self.db, self.user_manager, self)
         self.notebook.add(self.help_section.frame, text="❓ Ayuda")
@@ -430,11 +431,11 @@ class MainWindow:
 # En nutrition_section.py
 def create_calorie_progress(self, parent):
     """Crea un medidor de progreso de calorías"""
-    
+
     # Calcular calorías consumidas hoy
     today_calories = self.calculate_today_calories()
     daily_target = 2000  # Objetivo diario
-    
+
     # Crear gauge
     calorie_gauge = SmartGauge(
         parent,
@@ -444,11 +445,11 @@ def create_calorie_progress(self, parent):
         unit="cal",
         color="#FF6B6B" if today_calories > daily_target else "#4ECDC4"
     )
-    
+
     # Configurar eventos
     calorie_gauge.bind_click(lambda event, value: self.show_calorie_details())
     calorie_gauge.bind_value_change(self.on_calorie_change)
-    
+
     return calorie_gauge
 
 def calculate_today_calories(self):
@@ -466,14 +467,14 @@ def calculate_today_calories(self):
 # En reports_section.py
 def generate_fitness_report(self, period="month"):
     """Genera un informe fitness completo"""
-    
+
     if not self.current_user:
         return "No hay usuario seleccionado"
-    
+
     # Obtener datos
     stats = self.user_manager.db.obtener_estadisticas_usuario(self.current_user['id'])
     workouts = self.user_manager.obtener_entrenamientos_recientes(self.current_user['id'])
-    
+
     # Generar contenido
     report = f"""
 ================================================================================
@@ -499,7 +500,7 @@ ANÁLISIS DE RENDIMIENTO:
 Generado por SmartFit
 ================================================================================
     """
-    
+
     return report
 ```
 
@@ -507,7 +508,7 @@ Generado por SmartFit
 
 ### 🎯 **Conclusión breve**
 
-He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness.
+He desarrollado una aplicación completa que demuestra la mayoría de los conocimientos de la asignatura **Desarrollo de Interfaces**. SmartFit no es solo un ejercicio académico, sino una aplicación funcional que podría tener utilidad real en el mundo fitness yo mismo la estoy utilizando para mi rutina .
 
 **Puntos clave logrados:**
 
@@ -527,10 +528,10 @@ He desarrollado una aplicación completa que demuestra la mayoría de los conoci
 - ✅ Documentación de aplicaciones (manual completo, help system)
 - ✅ Preparación para interfaces naturales (arquitectura extensible)
 
-La aplicación compila y funciona perfectamente, cumpliendo todos los requisitos del ejercicio de milla extra. El código está comentado en español de forma natural, como si lo hubiera escrito yo personalmente, y sigue las mejores prácticas de programación.
+La aplicación compila y funciona perfectamente, cumpliendo todos los requisitos del ejercicio del examen de desarrollo de interfaces. El código está comentado en español de forma natural, como si lo hubiera escrito yo personalmente, y sigue las mejores prácticas de programación.
 
 **Aprendizaje personal:** Este proyecto me ha permitido consolidar todos los conceptos de la asignatura en una aplicación real, desde la planificación inicial hasta la documentación final, pasando por la implementación de componentes complejos y la gestión de datos. Es el tipo de proyecto que me motivaría a seguir desarrollando en el futuro.
 
 ---
 
-*Desarrollado por Fran - DAM - Asignatura: Desarrollo de Interfaces - 2024*
+*Desarrollado por Francisco Jose Herreros - DAM - Asignatura: Desarrollo de Interfaces - 2025*

@@ -16,7 +16,7 @@ pygame.mixer.init()
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("The Magic Garden - Fran's Project")
+pygame.display.set_caption("El Jardin Mágico - FranHR Project")
 
 # Creo el reloj para controlar los FPS
 clock = pygame.time.Clock()

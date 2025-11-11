@@ -371,6 +371,30 @@ class DatabaseManager:
             (rutina_id,),
         )
 
+    def eliminar_rutina(self, rutina_id: int) -> bool:
+        """Elimina una rutina y todos sus ejercicios asociados"""
+        try:
+            if not self.connection:
+                self.check_connection()
+
+            cursor = self.connection.cursor()
+
+            # Primero eliminar los ejercicios de la rutina
+            cursor.execute(
+                "DELETE FROM rutina_ejercicios WHERE rutina_id = ?", (rutina_id,)
+            )
+
+            # Luego eliminar la rutina
+            cursor.execute("DELETE FROM rutinas WHERE id = ?", (rutina_id,))
+
+            self.connection.commit()
+            return True
+        except Exception as e:
+            if self.connection:
+                self.connection.rollback()
+            print(f"Error al eliminar rutina: {e}")
+            return False
+
     def agregar_ejercicio_a_rutina(
         self,
         rutina_id: int,

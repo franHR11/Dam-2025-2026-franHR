@@ -1,12 +1,12 @@
-# 🌻 The Magic Garden - Explicación del Ejercicio Milla Extra
+# 🌻 El Jardin Magico - Explicación del Examen de Programación Multimedia y en Dispositivos
 
 ## 🧠 1. Introducción breve y contextualización
 
-En este ejercicio tenía que crear una aplicación multimedia completa que demostrara todos los conocimientos aprendidos en la asignatura. Decidí desarrollar "The Magic Garden", un jardín mágico interactivo donde las flores crecen cuando hago clic, las mariposas vuelan con movimiento sinusoidal y las luces flotantes crean un ambiente encantado.
+En este ejercicio tenía que crear una aplicación multimedia completa que demostrara todos los conocimientos aprendidos en la asignatura. Decidí desarrollar "El Jardin Magico", un jardín mágico interactivo donde las flores crecen cuando hago clic, las mariposas vuelan con movimiento sinusoidal y las luciernagas flotantes crean un ambiente encantado.
 
 Este tipo de aplicaciones se usan comúnmente en el desarrollo de juegos 2D, experiencias interactivas y demos tecnológicas que muestran las capacidades de las librerías multimedia.
 
-## 🛠️ 2. Desarrollo detallado y preciso
+## 🛠️ 2. Desarrollo detallado
 
 ### Conceptos técnicos aplicados
 
@@ -61,7 +61,7 @@ pygame.mixer.init()
 SCREEN_WIDTH = 1024
 SCREEN_HEIGHT = 768
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("The Magic Garden - Fran's Project")
+pygame.display.set_caption("El Jardin Magico - FranHR Project")
 
 # Creo el reloj para controlar los FPS
 clock = pygame.time.Clock()
@@ -793,48 +793,10 @@ class AudioManager:
 
 ## 📊 4. Conclusión breve
 
-He demostrado con este proyecto el dominio completo de los conceptos multimedia vistos en clase. Desde la programación orientada a objetos hasta el control de eventos y animaciones, "The Magic Garden" integra todos los elementos de forma cohesionada.
+He demostrado con este proyecto el dominio completo de los conceptos multimedia vistos en clase. Desde la programación orientada a objetos hasta el control de eventos y animaciones, "El Jardin Magico" integra todos los elementos de forma cohesionada.
 
 Este ejercicio me ha servido para conectar los conocimientos teóricos sobre motores de juegos con la práctica real del desarrollo de aplicaciones interactivas. La estructura modular del código permite fácilmente extender el proyecto con nuevos elementos y demuestra cómo las librerías multimedia como Pygame facilitan la creación de experiencias visuales y auditivas complejas.
 
-## 📋 Rúbrica de evaluación cumplida
-
-### ✅ Introducción breve y contextualización (25%)
-- Explico claramente el concepto de aplicación multimedia interactiva
-- Contextualizo su uso en el desarrollo de juegos y demos tecnológicas
-- Menciono la temática del jardín mágico y sus elementos principales
-
-### ✅ Desarrollo detallado y preciso (25%)
-- Incluyo definiciones correctas de todos los conceptos técnicos aplicados
-- Usando terminología apropiada: game loop, sprites, renderizado, etc.
-- Explico el funcionamiento paso a paso del sistema completo
-- Detallo las unidades y subunidades del temario cubiertas
-
-### ✅ Aplicación práctica (25%)
-- Proporciono el código completo y funcional de todas las clases
-- El código está debidamente comentado en español y en primera persona
-- Explico errores comunes y cómo los evité en cada implementación
-- Todo el código es válido y funciona correctamente al ejecutarlo
-
-### ✅ Conclusión breve (25%)
-- Resumo los puntos clave del proyecto y su relación con el temario
-- Conecto la práctica con los conceptos teóricos sobre motores de juegos
-- Destaco la estructura modular y las posibilidades de extensión
-
-### ✅ Calidad de la presentación
-- Ortografía y gramática correctas en todo el documento
-- Organización clara con encabezados y viñetas
-- Redacción natural en primera persona como si la hubiera escrito yo
-- Código limpio y bien formateado con comentarios entendibles
-
-### ✅ Requisitos técnicos
-- El código es minimalista pero completo
-- Funciona correctamente al ejecutar `python main.py`
-- Cumple con todos los controles solicitados (ESPACIO, D, R, clic, ESC)
-- Implementa correctamente el día/noche y todos los efectos visuales
-- El sistema de audio funciona sin errores de sintaxis
-
----
 
 ### 🧾 Cierre personal
 

@@ -43,8 +43,12 @@ class UserSection:
 
     def create_widgets(self):
         """Crea todos los widgets de la sección"""
+        # Frame principal con padding (como en WorkoutSection)
+        main_frame = ttk.Frame(self.frame)
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
         # Frame principal con scroll
-        self.create_scrollable_frame()
+        self.create_scrollable_frame(main_frame)
 
         # Crear secciones de la interfaz
         self.create_user_profile_section()
@@ -52,12 +56,12 @@ class UserSection:
         self.create_health_metrics_section()
         self.create_goals_section()
 
-    def create_scrollable_frame(self):
+    def create_scrollable_frame(self, parent_frame):
         """Crea un frame con scroll para manejar mucho contenido"""
         # Canvas para scroll
-        self.canvas = tk.Canvas(self.frame)
+        self.canvas = tk.Canvas(parent_frame)
         scrollbar = ttk.Scrollbar(
-            self.frame, orient="vertical", command=self.canvas.yview
+            parent_frame, orient="vertical", command=self.canvas.yview
         )
         self.scrollable_frame = ttk.Frame(self.canvas)
 
@@ -66,15 +70,32 @@ class UserSection:
             lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")),
         )
 
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.create_window(
+            (0, 0),
+            window=self.scrollable_frame,
+            anchor="nw",
+            width=self.canvas.winfo_width(),
+        )
         self.canvas.configure(yscrollcommand=scrollbar.set)
 
-        # Empaquetar canvas y scrollbar
-        self.canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
+        # Configurar el canvas para que ocupe todo el espacio
+        self.canvas.pack(fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # Bind para actualizar el ancho del scrollable_frame cuando el canvas cambia de tamaño
+        self.canvas.bind("<Configure>", self._on_canvas_configure)
 
         # Bind mousewheel
         self.canvas.bind("<MouseWheel>", self._on_mousewheel)
+
+    def _on_canvas_configure(self, event):
+        """Maneja el cambio de tamaño del canvas para ajustar el scrollable_frame"""
+        # Actualizar el ancho de la ventana interna del canvas
+        canvas_width = event.width
+        self.canvas.itemconfig(self.canvas.find_withtag("all")[0], width=canvas_width)
+
+        # Forzar el actualizado del scrollregion
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def _on_mousewheel(self, event):
         """Maneja el scroll con la rueda del mouse"""
@@ -86,7 +107,7 @@ class UserSection:
         profile_frame = ttk.LabelFrame(
             self.scrollable_frame, text="👤 Perfil de Usuario", padding="20"
         )
-        profile_frame.pack(fill=tk.X, padx=20, pady=10)
+        profile_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
         # Frame para foto de perfil (placeholder)
         photo_frame = ttk.Frame(profile_frame)
@@ -120,7 +141,7 @@ class UserSection:
 
         # Información básica
         basic_info_frame = ttk.Frame(info_frame)
-        basic_info_frame.pack(fill=tk.X, pady=5)
+        basic_info_frame.pack(fill=tk.BOTH, expand=True, pady=5)
 
         # Labels de información
         self.info_labels = {}
@@ -132,28 +153,35 @@ class UserSection:
             ("Objetivo:", "objetivo"),
         ]
 
+        # Configurar columnas del grid para mejor distribución
+        basic_info_frame.columnconfigure(1, weight=1)
+
         for i, (label_text, key) in enumerate(info_items):
             ttk.Label(
                 basic_info_frame, text=label_text, font=("Arial", 10, "bold")
-            ).grid(row=i, column=0, sticky=tk.W, pady=2)
+            ).grid(row=i, column=0, sticky=tk.W, pady=2, padx=(0, 10))
 
             value_label = ttk.Label(
                 basic_info_frame, text="No especificado", font=("Arial", 10)
             )
-            value_label.grid(row=i, column=1, sticky=tk.W, padx=(10, 0), pady=2)
+            value_label.grid(row=i, column=1, sticky="we", pady=2)
             self.info_labels[key] = value_label
 
         # Botones de acción
         button_frame = ttk.Frame(info_frame)
         button_frame.pack(fill=tk.X, pady=(10, 0))
 
+        # Configurar distribución de botones
+        button_frame.columnconfigure(0, weight=1)
+        button_frame.columnconfigure(1, weight=1)
+
         ttk.Button(
             button_frame, text="✏️ Editar Perfil", command=self.edit_profile
-        ).pack(side=tk.LEFT, padx=(0, 10))
+        ).grid(row=0, column=0, sticky="we", padx=(0, 5))
 
         ttk.Button(
             button_frame, text="📊 Ver Estadísticas", command=self.show_detailed_stats
-        ).pack(side=tk.LEFT)
+        ).grid(row=0, column=1, sticky="we", padx=(5, 0))
 
     def create_statistics_section(self):
         """Crea la sección de estadísticas"""
@@ -161,11 +189,15 @@ class UserSection:
         stats_frame = ttk.LabelFrame(
             self.scrollable_frame, text="📊 Estadísticas de Entrenamiento", padding="20"
         )
-        stats_frame.pack(fill=tk.X, padx=20, pady=10)
+        stats_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
         # Grid para estadísticas
         stats_grid = ttk.Frame(stats_frame)
-        stats_grid.pack(fill=tk.X)
+        stats_grid.pack(fill=tk.BOTH, expand=True)
+
+        # Configurar columnas del grid para distribución equitativa
+        for i in range(4):
+            stats_grid.columnconfigure(i, weight=1)
 
         # Tarjetas de estadísticas
         self.stat_cards = {}
@@ -184,7 +216,7 @@ class UserSection:
         """Crea una tarjeta de estadística individual"""
         # Frame de la tarjeta
         card = ttk.Frame(parent, relief="solid", borderwidth=1)
-        card.grid(row=0, column=index, padx=10, pady=5, sticky="ew")
+        card.grid(row=0, column=index, padx=10, pady=5, sticky="nsew")
 
         # Icono
         icon_label = ttk.Label(card, text=icon, font=("Arial", 24))
@@ -209,15 +241,19 @@ class UserSection:
         health_frame = ttk.LabelFrame(
             self.scrollable_frame, text="❤️ Métricas de Salud", padding="20"
         )
-        health_frame.pack(fill=tk.X, padx=20, pady=10)
+        health_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
         # Grid para métricas
         health_grid = ttk.Frame(health_frame)
-        health_grid.pack(fill=tk.X)
+        health_grid.pack(fill=tk.BOTH, expand=True)
+
+        # Configurar columnas para distribución equitativa
+        for i in range(3):
+            health_grid.columnconfigure(i, weight=1)
 
         # IMC
         imc_frame = ttk.Frame(health_grid)
-        imc_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+        imc_frame.grid(row=0, column=0, sticky="nsew", padx=10)
 
         ttk.Label(
             imc_frame, text="IMC (Índice de Masa Corporal)", font=("Arial", 10, "bold")
@@ -233,7 +269,7 @@ class UserSection:
 
         # Calorías recomendadas
         calories_frame = ttk.Frame(health_grid)
-        calories_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+        calories_frame.grid(row=0, column=1, sticky="nsew", padx=10)
 
         ttk.Label(
             calories_frame, text="Calorías Diarias", font=("Arial", 10, "bold")
@@ -246,7 +282,7 @@ class UserSection:
 
         # Calorías objetivo
         target_frame = ttk.Frame(health_grid)
-        target_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+        target_frame.grid(row=0, column=2, sticky="nsew", padx=10)
 
         ttk.Label(
             target_frame, text="Calorías Objetivo", font=("Arial", 10, "bold")
@@ -267,7 +303,7 @@ class UserSection:
 
         # Frame para objetivo actual
         current_goal_frame = ttk.Frame(goals_frame)
-        current_goal_frame.pack(fill=tk.X, pady=(0, 15))
+        current_goal_frame.pack(fill=tk.BOTH, expand=True, pady=(0, 15))
 
         ttk.Label(
             current_goal_frame, text="Objetivo Actual:", font=("Arial", 10, "bold")
@@ -280,7 +316,7 @@ class UserSection:
 
         # Progreso del objetivo
         progress_frame = ttk.Frame(goals_frame)
-        progress_frame.pack(fill=tk.X)
+        progress_frame.pack(fill=tk.BOTH, expand=True)
 
         ttk.Label(
             progress_frame, text="Progreso del Mes:", font=("Arial", 10, "bold")
@@ -299,17 +335,21 @@ class UserSection:
 
         # Botones de objetivos
         goals_buttons_frame = ttk.Frame(goals_frame)
-        goals_buttons_frame.pack(fill=tk.X, pady=(10, 0))
+        goals_buttons_frame.pack(fill=tk.BOTH, expand=True, pady=(10, 0))
+
+        # Configurar distribución de botones
+        goals_buttons_frame.columnconfigure(0, weight=1)
+        goals_buttons_frame.columnconfigure(1, weight=1)
 
         ttk.Button(
             goals_buttons_frame, text="➕ Nuevo Objetivo", command=self.create_new_goal
-        ).pack(side=tk.LEFT, padx=(0, 10))
+        ).grid(row=0, column=0, sticky="we", padx=(0, 5))
 
         ttk.Button(
             goals_buttons_frame,
             text="📈 Ver Progreso",
             command=self.view_detailed_progress,
-        ).pack(side=tk.LEFT)
+        ).grid(row=0, column=1, sticky="we", padx=(5, 0))
 
     def load_user_data(self):
         """Carga los datos del usuario actual"""
