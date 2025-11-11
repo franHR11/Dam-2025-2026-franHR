@@ -1,246 +1,171 @@
-# 🏃‍♂️ SmartFit - Gestor Multiplataforma de Fitness
+# 🏃‍♂️ SmartFit – Ecosistema Integral de Fitness
 
-## Descripción del Proyecto
+## 📌 Descripción del Proyecto
+SmartFit es un **software de escritorio multiplataforma** diseñado para entrenadores personales, nutricionistas y usuarios finales que desean gestionar su progreso físico y nutricional en un solo lugar. El proyecto combina una interfaz moderna en Tkinter con una base de datos relacional en SQLite, proporcionando un flujo completo desde la creación del perfil hasta la generación de informes avanzados.
 
-SmartFit es una aplicación de escritorio completa para la gestión de entrenamientos y nutrición, desarrollada como ejercicio de la milla extra para la asignatura **Desarrollo de Interfaces** del ciclo DAM (Desarrollo de Aplicaciones Multiplataforma).
+## ✨ Características Destacadas
+- 🛠️ **Arquitectura modular MVC** con separación clara entre datos, lógica y vistas.
+- 📊 **Dashboard interactivo** con indicadores dinámicos y componentes personalizados como `SmartGauge`.
+- 👥 **Gestión avanzada de usuarios** con cálculo de IMC, métricas de salud y objetivos personalizables.
+- 💪 **Planificador de entrenamientos** con rutinas, historial, seguimiento de progreso y analítica.
+- 🥗 **Control nutricional diario** con base de datos de alimentos y calculadora de macronutrientes.
+- 🧠 **Sistema de ayuda contextual** con manual interactivo, FAQs y atajos de teclado.
+- 🧪 **Suite de pruebas y entorno de verificación** para asegurar estabilidad antes de entregar el proyecto.
+- 🔐 **Persistencia local segura** con inicialización automática de datos y cierre controlado de recursos.
 
-La aplicación combina el seguimiento de actividad física con el control nutricional en una interfaz moderna e intuitiva, demostrando la aplicación práctica de todos los conocimientos de la asignatura.
+## ⚙️ Funcionalidades
+1. **Core de la Aplicación** (`main.py`)
+   - Inicialización de base de datos (`DatabaseManager`) y seed de datos de ejemplo.
+   - Gestor de usuarios (`UserManager`) y diálogo de primera ejecución.
+   - Creación de la ventana principal (`MainWindow`) y ciclo de vida de la app.
 
-## ✨ Características Principales
+2. **Interfaz principal** (`src/gui/main_window.py`)
+   - Barra superior con selector de usuario y navegación inteligente.
+   - Pestañas para dashboard, nutrición, entrenamientos, informes y ayuda.
+   - Componentes reutilizables (`ModernButton`, `InfoCard`, `SmartGauge`).
 
-### 🎯 Funcionalidades Core
-- **Gestión de usuarios**: Creación y administración de perfiles personalizados
-- **Control de entrenamientos**: Creación de rutinas y registro de sesiones
-- **Seguimiento nutricional**: Control de alimentos y calorías diarias
-- **Generación de informes**: Estadísticas y reportes detallados
-- **Sistema de ayuda**: Documentación interactiva completa
+3. **Gestión de usuarios** (`src/gui/user_section.py` & `dialogs/user_dialog.py`)
+   - Formulario validado, edición de perfiles y estadísticas personalizadas.
+   - Cálculo de IMC, calorías basales y objetivos según nivel de actividad.
 
-### 🏗️ Características Técnicas
-- **Arquitectura MVC**: Patrón Modelo-Vista-Controlador implementado
-- **Componentes personalizados**: SmartGauge reutilizable con animaciones
-- **Base de datos integrada**: SQLite con 6 tablas relacionales
-- **Interfaz moderna**: Navegación por pestañas y diseño responsive
-- **Multiplataforma**: Compatible con Windows, Linux y macOS
+4. **Entrenamientos** (`src/gui/workout_section.py`)
+   - Agenda con filtros por fecha, creación de rutinas y progreso semanal.
+   - Treeviews interactivos, exportación y analítica de entrenamientos.
 
-## 🚀 Instalación y Ejecución
+5. **Nutrición** (`src/gui/nutrition_section.py`)
+   - Registro de ingesta diaria, metas de macros y navegación por calendario.
+   - Control de alimentos propios y base de datos inicial con INSERT OR IGNORE.
 
-### Requisitos
-- Python 3.8 o superior
-- Tkinter (incluido en Python estándar)
-- 50 MB de espacio libre
+6. **Informes y ayuda** (`src/gui/reports_section.py`, `src/gui/help_section.py`)
+   - Generación de reportes, estadísticas y documentación integrada.
+   - Sistema de atajos, tutoriales paso a paso y soporte dentro de la app.
 
-### Instalación
-```bash
-# Navegar al directorio del proyecto
-cd SmartFit
+7. **Componentes y utilidades** (`src/components/smart_gauge.py`, `src/gui/widgets/`)
+   - Canvas animado para métricas clave.
+   - Widgets estilizados con ttk y gestión de temas personalizados.
 
-# Ejecutar la aplicación
-python main.py
-```
-
-### Primera Ejecución
-Al iniciar por primera vez, SmartFit:
-1. Crea automáticamente la base de datos SQLite
-2. Inserta datos de ejemplo (usuarios, ejercicios, alimentos)
-3. Presenta la interfaz principal lista para usar
+## 🔧 Tecnologías Utilizadas
+- 🐍 **Python 3.11** (compatible 3.8+)
+- 🪟 **Tkinter + ttk** para GUI nativa multiplataforma
+- 🗃️ **SQLite** como motor de persistencia local
+- 📄 **JSON** para almacenamiento ligero y configuración
+- 🧪 **unittest / scripts de verificación** en `__tests__/`
+- 📦 **Estructura modular** con paquetes `src.gui`, `src.components`, `src.models`
 
 ## 📁 Estructura del Proyecto
-
 ```
 SmartFit/
-├── main.py                      # Punto de entrada principal
-├── README.md                    # Este archivo
-├── explicacion_ejercicio.md     # Documentación completa del ejercicio
-├── src/                         # Código fuente
-│   ├── models/                  # Modelos de datos
-│   │   ├── database.py         # Gestor de base de datos
-│   │   └── user.py             # Lógica de usuarios
-│   ├── gui/                     # Interfaces gráficas
-│   │   ├── main_window.py      # Ventana principal
-│   │   ├── user_section.py     # Gestión de usuarios
-│   │   ├── workout_section.py  # Entrenamientos y rutinas
-│   │   ├── nutrition_section.py # Control nutricional
-│   │   ├── reports_section.py  # Generación de informes
-│   │   └── help_section.py     # Sistema de ayuda
-│   ├── components/              # Componentes reutilizables
-│   │   └── smart_gauge.py      # Medidor visual personalizado
-│   └── reports/                 # Generadores de reportes
-├── assets/                      # Recursos (iconos, temas, sonidos)
-├── docs/                        # Documentación adicional
-├── tests/                       # Pruebas unitarias
-└── smartfit.db                  # Base de datos SQLite (se crea automáticamente)
+├── main.py                # Punto de entrada completo
+├── main_simple.py         # Variante simplificada para pruebas rápidas
+├── main_test.py           # Runner enfocado a validaciones
+├── __tests__/             # Suite de verificación y utilidades QA
+├── src/
+│   ├── models/            # Acceso a datos (SQLite, usuarios)
+│   ├── gui/               # Interfaz modular (secciones, diálogos, widgets)
+│   └── components/        # Componentes visuales reutilizables
+├── assets/                # Recursos estáticos (iconos, temas)
+├── docs/                  # Documentación adicional y anexos
+├── explicacion_ejercicio.md
+├── smartfit.db            # Base de datos generada en primera ejecución
+└── README.md              # Documento que estás leyendo
 ```
 
-## 🛠️ Tecnologías Utilizadas
+## 🚀 Instrucciones de Uso
+### 1. Requisitos previos
+- Python 3.8 o superior
+- Tkinter incluido (en distribuciones oficiales)
+- pip actualizado (`python -m pip install --upgrade pip`)
 
-- **Lenguaje**: Python 3.8+
-- **GUI Framework**: Tkinter (nativo)
-- **Base de datos**: SQLite
-- **Arquitectura**: MVC (Modelo-Vista-Controlador)
-- **Patrones de diseño**: Singleton, Observer, Factory
-- **Componentes**: Canvas personalizado para SmartGauge
+### 2. Instalación de entorno
+```powershell
+# Crear entorno virtual (opcional pero recomendado)
+python -m venv .venv
+.\.venv\Scripts\activate
 
-## 📊 Módulos Principales
+# Instalar dependencias si se añaden requisitos
+python -m pip install -r requirements.txt  # (crear según necesidades)
+```
 
-### 1. Gestión de Usuarios (`user_section.py`)
-- Creación y edición de perfiles
-- Cálculo automático de IMC
-- Configuración de objetivos personales
-- Estadísticas de usuario
+### 3. Configuración inicial
+1. Duplica el archivo `.env.example` (si se incluye) y renómbralo a `.env`.
+2. Ajusta valores ficticios, por ejemplo:
+   ```env
+   SMARTFIT_DB_PATH=smartfit.db
+   SMARTFIT_THEME=default
+   ```
+3. Verifica permisos de escritura en el directorio para la base de datos.
 
-### 2. Entrenamientos (`workout_section.py`)
-- Creación de rutinas personalizadas
-- Registro de sesiones de entrenamiento
-- Seguimiento de progreso
-- Base de datos de ejercicios
+### 4. Ejecución local
+```powershell
+python main.py           # Versión completa
+# o
+python main_simple.py    # Interfaz reducida para demostraciones
+```
+- La primera ejecución crea `smartfit.db`, genera tablas (`usuarios`, `rutinas`, `ejercicios`, etc.) e inserta datos de ejemplo.
+- Selecciona o crea un usuario para desbloquear todas las vistas.
 
-### 3. Nutrición (`nutrition_section.py`)
-- Registro diario de alimentos
-- Base de datos nutricional
-- Seguimiento de calorías y macronutrientes
-- Objetivos nutricionales personalizados
+### 5. Scripts útiles
+```powershell
+python main_test.py      # Pruebas manuales guiadas
+python -m unittest       # Ejecuta pruebas unitarias en __tests__
+```
 
-### 4. Informes (`reports_section.py`)
-- Generación automática de estadísticas
-- Análisis de progreso
-- Exportación a múltiples formatos
-- Gráficos y visualizaciones
+### 6. Empaquetado y despliegue
+- Utiliza herramientas como `pyinstaller` o `cx_Freeze` para generar ejecutables.
+- Define iconos e instala requisitos en el instalador según plataforma.
+- Comprueba el funcionamiento en Windows, Linux y macOS antes de distribuir.
 
-### 5. Sistema de Ayuda (`help_section.py`)
-- Manual de usuario interactivo
-- Preguntas frecuentes (FAQ)
-- Atajos de teclado
-- Información técnica
-
-## 🎨 Componente SmartGauge
-
-El componente `SmartGauge` es una implementación personalizada que demuestra:
-
-- **Dibujo personalizado** con Canvas de Tkinter
-- **Animaciones fluidas** para cambios de valor
-- **Eventos personalizables** (onClick, onValueChange)
-- **Persistencia de estado** en archivos JSON
-- **Temas y colores** adaptables
-- **Efectos visuales** (pulse, flash, gradientes)
-
+## 🧪 Ejemplos de Uso
 ```python
-# Ejemplo de uso del SmartGauge
-gauge = SmartGauge(
-    parent_frame,
-    max_value=2000,
-    current_value=1500,
-    title="Calorías Quemadas",
-    unit="cal",
-    color="#4CAF50"
-)
+from src.models.database import DatabaseManager
+from src.models.user import UserManager
+
+db = DatabaseManager("smartfit.db")
+db.check_connection()
+db.create_tables()
+
+users = UserManager(db)
+user_id = users.crear_usuario("Laura Trainer", edad=29, peso=62, altura=1.70)
+perfil = users.obtener_usuario_por_id(user_id)
+
+print(perfil["nombre"], users.calcular_imc(perfil["peso"], perfil["altura"]))
 ```
+> Resultado esperado: creación de un perfil persistente y cálculo de IMC para integraciones externas.
 
-## 📈 Base de Datos
+## 📞 Soporte y Contacto
+- 📅 **Año**: 2025  
+- 📨 **Autor**: Francisco José Herreros (franHR)  
+- 📧 **Email**: [desarrollo@pcprogramacion.es](mailto:desarrollo@pcprogramacion.es)  
+- 🌐 **Web**: [https://www.pcprogramacion.es](https://www.pcprogramacion.es)  
+- 💼 **LinkedIn**: [Francisco José Herreros](https://www.linkedin.com/in/francisco-jose-herreros)  
+- 🖥️ **Portfolio**: [https://franhr.pcprogramacion.es/](https://franhr.pcprogramacion.es/)  
 
-SmartFit utiliza SQLite con las siguientes tablas:
+## 🖼️ Imágenes del Proyecto
+- 📸 *Pendiente de adjuntar capturas de la interfaz (dashboard, secciones de nutrición y entrenamientos).*  
+  Recomiendo añadir archivos en `docs/` o `assets/` y enlazarlos aquí para potenciar la presentación visual.
 
-- **usuarios**: Perfiles de usuario y datos personales
-- **rutinas**: Plantillas de entrenamientos
-- **ejercicios**: Catálogo de ejercicios disponibles
-- **entrenamientos**: Historial de sesiones completadas
-- **alimentos**: Base de datos nutricional
-- **consumo_diario**: Registro de alimentación diaria
+## 🛡️ Licencia
+### Español
+Copyright (c) 2025 Francisco José Herreros (franHR) / PCProgramación
 
-## 🧪 Testing y Validación
+Todos los derechos reservados.
 
-El proyecto incluye estrategias de prueba en la carpeta `tests/`:
+Este software es propiedad de Francisco José Herreros (franHR), desarrollador de PCProgramación (https://www.pcprogramacion.es). No está permitido copiar, modificar, distribuir o utilizar este código, ni total ni parcialmente, sin una autorización expresa y por escrito del autor.
 
-- **Pruebas unitarias**: Validación de componentes individuales
-- **Pruebas de integración**: Verificación de la interacción entre módulos
-- **Pruebas de usabilidad**: Validación de la experiencia de usuario
-- **Pruebas de rendimiento**: Optimización de velocidad y memoria
+El acceso a este repositorio tiene únicamente fines de revisión, auditoría o demostración, y no implica la cesión de ningún derecho de uso o explotación.
 
-## 📚 Documentación
+Para solicitar una licencia o permiso de uso, contacta con: desarrollo@pcprogramacion.es
 
-### Documentación Principal
-- **`explicacion_ejercicio.md`**: Documentación completa del ejercicio siguiendo la rúbrica
-- **`README.md`**: Este archivo con información general
+### English
+Copyright (c) 2025 Francisco José Herreros (franHR) / PCProgramación
 
-### Sistema de Ayuda Integrado
-- Manual de usuario con 5 capítulos
-- 12+ preguntas frecuentes categorizadas
-- Atajos de teclado organizados por funcionalidad
-- Tutoriales interactivos
+All rights reserved.
 
-## 🏆 Cumplimiento de Objetivos
+This software is the property of Francisco José Herreros (franHR), developer of PCProgramación (https://www.pcprogramacion.es). It is not allowed to copy, modify, distribute or use this code, either totally or partially, without express and written authorization from the author.
 
-Este ejercicio demuestra la aplicación de **todas las unidades** del temario:
+Access to this repository has only review, audit or demonstration purposes, and does not imply the transfer of any right of use or exploitation.
 
-### ✅ Unidad 1: Generación de interfaces de usuario
-- Creación de interfaces gráficas con patrón MVC
-- Componentes visuales reutilizables
-- Manejo de eventos y vinculación de datos
+To request a license or permission to use, contact: desarrollo@pcprogramacion.es
 
-### ✅ Unidad 2: Creación de interfaces naturales
-- Preparación para reconocimiento de voz
-- Arquitectura extensible para gestos
-- Integración de comandos naturales
-
-### ✅ Unidad 3: Creación de componentes visuales
-- Desarrollo del componente SmartGauge personalizado
-- Persistencia de estado de componentes
-- Eventos y callbacks configurables
-
-### ✅ Unidad 4: Diseño de interfaces gráficas
-- Principios de usabilidad y accesibilidad
-- Wireframes y prototipado implementados
-- Temas y personalización visual
-
-### ✅ Unidad 5: Creación de informes
-- Generación de informes dinámicos
-- Visualización de datos y estadísticas
-- Exportación de reportes
-
-### ✅ Unidad 6: Documentación de la aplicación
-- Manual de usuario interactivo
-- Sistema de ayuda contextual
-- Documentación técnica completa
-
-### ✅ Unidad 7: Distribución de la aplicación
-- Empaquetado multiplataforma preparado
-- Instaladores personalizables
-- Firma digital implementada
-
-### ✅ Unidad 8: Realización de pruebas
-- Pruebas unitarias y de integración
-- Validación de usabilidad
-- Testing de rendimiento
-
-## 👨‍💻 Autor y Créditos
-
-**Desarrollado por**: Francisco Jose Herreros
-**Asignatura**: Desarrollo de Interfaces
-**Centro**: DAM (Desarrollo de Aplicaciones Multiplataforma)
-**Año**: 2025
-
-### Características del Desarrollo
-- **Enfoque minimalista**: Código limpio y eficiente
-- **Comentarios en español**: Documentación natural y humana
-- **Arquitectura escalable**: Fácil extensión y mantenimiento
-- **Best practices**: Seguimiento de estándares de Python
-
-## 📄 Licencia
-
-Este proyecto es una demostración educativa desarrollada para la asignatura "Desarrollo de Interfaces". Está diseñado para mostrar la aplicación práctica de los conocimientos adquiridos en el curso.
-
-## 🤝 Contribuciones
-
-Este es un proyecto académico completado. Para mejoras o sugerencias, consultar con el instructor de la asignatura.
-
-## 📞 Soporte
-
-Para preguntas sobre la implementación o el código, consultar:
-- La documentación completa en `explicacion_ejercicio.md`
-- El sistema de ayuda integrado en la aplicación
-- Los comentarios en el código fuente
-
----
-
-**© 2025 - SmartFit Demo - Desarrollado por Fran (DAM)**
-
-*Aplicación de demostración para fines educativos*
+## 🔝 Hashtags Recomendados para LinkedIn
+`#SmartFit #Python #Tkinter #SQLite #DesarrolloDeInterfaces #DAM #FitnessTech #DesktopApp #SoftwareEducativo #PCProgramacion`
