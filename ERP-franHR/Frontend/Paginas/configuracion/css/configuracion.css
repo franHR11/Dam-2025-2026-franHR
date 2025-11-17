@@ -1,0 +1,241 @@
+:root {
+  --cfg-border: #e2e8f0;
+  --cfg-muted: #6b7280;
+  --cfg-bg: #f8fafc;
+  --cfg-card: #ffffff;
+  --cfg-primary: #4f46e5;
+  --cfg-success: #0f9d58;
+  --cfg-warning: #f4b400;
+  --cfg-danger: #d93025;
+}
+
+#configuracion-content {
+  padding: 1.5rem;
+  background: var(--cfg-bg);
+  min-height: calc(100vh - 160px);
+}
+
+#configuracion .toolbar {
+  background: var(--cfg-card);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: 0 10px 25px rgb(15 23 42 / 6%);
+}
+
+#configuracion .page-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+#configuracion .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-card {
+  background: var(--cfg-card);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px rgb(15 23 42 / 6%);
+}
+
+.stat-card .label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--cfg-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.configuracion-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 1200px) {
+  .configuracion-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modulos-panel,
+.detalle-panel {
+  background: var(--cfg-card);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 15px 35px rgb(15 23 42 / 8%);
+  min-height: 420px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.panel-header h5 {
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.table thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cfg-muted);
+  border-bottom-width: 1px;
+}
+
+#tabla-modulos tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+#tabla-modulos tbody tr:hover {
+  background: #f1f5f9;
+}
+
+#tabla-modulos tbody tr.active-row {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.estado-pill {
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.estado-pill i {
+  font-size: 0.65rem;
+}
+
+.estado-activo {
+  background: rgba(16, 185, 129, 0.18);
+  color: #065f46;
+}
+
+.estado-inactivo {
+  background: rgba(251, 191, 36, 0.2);
+  color: #92400e;
+}
+
+.estado-no_instalado {
+  background: rgba(248, 113, 113, 0.18);
+  color: #7f1d1d;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cfg-muted);
+}
+
+.empty-state i {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  color: #94a3b8;
+}
+
+.detalle-estado {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.detalle-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detalle-meta .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cfg-muted);
+  margin-bottom: 0.15rem;
+}
+
+.detalle-seccion + .detalle-seccion {
+  margin-top: 1.5rem;
+}
+
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.permisos-grid {
+  border: 1px solid var(--cfg-border);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.permisos-grid .permiso-row {
+  display: grid;
+  grid-template-columns: 140px repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--cfg-border);
+  align-items: center;
+}
+
+.permisos-grid .permiso-row:last-child {
+  border-bottom: none;
+}
+
+.permisos-grid .rol-label {
+  font-weight: 600;
+}
+
+.permiso-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+}
+
+#configuracion-alert {
+  border-radius: 0.75rem;
+}
+
+.config-btn {
+  font-size: 0.8rem;
+}
+
+.modal .form-label {
+  font-weight: 600;
+}

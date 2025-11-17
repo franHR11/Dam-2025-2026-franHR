@@ -1,8 +1,8 @@
-# ChatServer Seguro Distribuido - Ejercicio de Milla Extra
+# ChatServer Seguro Distribuido - Ejercicio de examen
 
 ## Introducción breve
 
-En este ejercicio he desarrollado una aplicación de chat distribuido que permite a múltiples usuarios comunicarse a través de la red de forma segura. La aplicación implementa una arquitectura cliente-servidor donde el servidor puede manejar múltiples conexiones simultáneas usando tanto multiproceso como multihilo.
+En este ejercicio de examen he desarrollado una aplicación de chat distribuido que permite a múltiples usuarios comunicarse a través de la red de forma segura. La aplicación implementa una arquitectura cliente-servidor donde el servidor puede manejar múltiples conexiones simultáneas usando tanto multiproceso como multihilo.
 
 La contextualización de este proyecto se centra en los sistemas de comunicación seguros actuales, similares a los que usan WhatsApp, Telegram o Discord, pero con un enfoque educativo para demostrar el funcionamiento interno de estos sistemas. El chat implementa criptografía para proteger las conversaciones, monitorización de procesos para mantener el sistema estable, y un sistema de logging para registrar todas las actividades.
 

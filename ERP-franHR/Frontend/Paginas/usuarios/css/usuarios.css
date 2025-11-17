@@ -1,0 +1,155 @@
+:root {
+    --usuarios-primary: #2563eb;
+    --usuarios-secondary: #1d4ed8;
+    --usuarios-muted: #94a3b8;
+    --usuarios-success: #16a34a;
+    --usuarios-danger: #dc2626;
+}
+
+#usuarios-content {
+    flex: 1;
+    width: 100%;
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 1.5rem;
+    min-height: 80vh;
+    box-shadow: 0 0 40px rgba(15, 23, 42, 0.05);
+}
+
+#usuarios-content .toolbar {
+    background: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
+    margin-bottom: 1.5rem;
+}
+
+#usuarios-content .toolbar .btn-group {
+    gap: 0.6rem;
+}
+
+#usuarios-content .toolbar .btn-group .btn {
+    border-radius: 12px;
+}
+
+#usuarios-content .form-select,
+#usuarios-content .form-control {
+    border-radius: 12px;
+}
+
+#usuarios-content .btn {
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+}
+
+#usuarios-content .btn-primary {
+    background: var(--usuarios-primary);
+    border: none;
+}
+
+#usuarios-content .btn-primary:hover {
+    background: var(--usuarios-secondary);
+}
+
+#usuarios-content .content-area {
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.05);
+}
+
+#usuarios-content table thead {
+    background: #f1f5f9;
+}
+
+#usuarios-content table th,
+#usuarios-content table td {
+    vertical-align: middle;
+}
+
+.badge-estado {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-activo {
+    background: rgba(16, 185, 129, 0.15);
+    color: #059669;
+}
+
+.badge-inactivo {
+    background: rgba(248, 113, 113, 0.15);
+    color: #dc2626;
+}
+
+.badge-rol {
+    padding: 0.3rem 0.65rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.badge-rol.admin {
+    background: rgba(251, 191, 36, 0.18);
+    color: #d97706;
+}
+
+.badge-rol.usuario {
+    background: rgba(59, 130, 246, 0.15);
+    color: #2563eb;
+}
+
+.badge-rol.gerente {
+    background: rgba(139, 92, 246, 0.15);
+    color: #7c3aed;
+}
+
+.btn-action {
+    border: none;
+    border-radius: 10px;
+    padding: 0.35rem 0.65rem;
+    margin-right: 0.25rem;
+}
+
+.btn-action i {
+    font-size: 0.95rem;
+}
+
+.btn-ver {
+    background: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+}
+
+.btn-editar {
+    background: rgba(16, 185, 129, 0.15);
+    color: #0f9d58;
+}
+
+.btn-eliminar {
+    background: rgba(239, 68, 68, 0.13);
+    color: #dc2626;
+}
+
+#no-usuarios {
+    color: var(--usuarios-muted);
+}
+
+.modal form label {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.modal form .form-control,
+.modal form .form-select {
+    border-radius: 10px;
+}
+
+.form-section-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #475569;
+    margin-bottom: 0.35rem;
+}

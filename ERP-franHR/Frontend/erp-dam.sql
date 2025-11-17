@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 08, 2025 at 05:49 PM
+-- Generation Time: Nov 17, 2025 at 04:47 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -65,7 +65,8 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`id`, `codigo`, `nombre_comercial`, `razon_social`, `nif_cif`, `direccion`, `codigo_postal`, `ciudad`, `provincia`, `pais`, `telefono`, `telefono2`, `email`, `web`, `tipo_cliente`, `forma_pago`, `dias_credito`, `limite_credito`, `importe_acumulado`, `saldo_pendiente`, `activo`, `bloqueado`, `observaciones`, `contacto_principal`, `cargo_contacto`, `created_by`, `created_at`, `updated_at`) VALUES
 (1, 'CLI0001', 'Empresa Técnica S.L.', 'Empresa Técnica Soluciones S.L.', 'B12345678', NULL, NULL, NULL, NULL, 'España', '912345678', NULL, 'info@empresa-tecnica.com', NULL, 'empresa', 'transferencia', 0, 0.00, 0.00, 0.00, 1, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (2, 'CLI0002', 'José García', 'José García Martín', '12345678Z', NULL, NULL, NULL, NULL, 'España', '600123456', NULL, 'jgarcia@email.com', NULL, 'autonomo', 'transferencia', 0, 0.00, 0.00, 0.00, 1, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
-(3, 'CLI0003', 'Municipalidad Madrid', 'Ayuntamiento de Madrid', 'P87654321', NULL, NULL, NULL, NULL, 'España', '915555555', NULL, 'contratacion@madrid.es', NULL, 'publico', 'transferencia', 0, 0.00, 0.00, 0.00, 1, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43');
+(3, 'CLI0003', 'Municipalidad Madrid', 'Ayuntamiento de Madrid', 'P87654321', NULL, NULL, NULL, NULL, 'España', '915555555', NULL, 'contratacion@madrid.es', NULL, 'publico', 'transferencia', 0, 0.00, 0.00, 0.00, 1, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
+(4, 'PAR0001', 'cliente 1', '', '04623514p', '', '', '', '', 'España', '', '', '', '', 'particular', 'contado', 0, 0.00, 0.00, 0.00, 1, 0, '', '', '', 1, '2025-11-08 23:32:01', '2025-11-08 23:32:32');
 
 -- --------------------------------------------------------
 
@@ -256,9 +257,9 @@ CREATE TABLE `modulos` (
 
 INSERT INTO `modulos` (`id`, `nombre`, `nombre_tecnico`, `descripcion`, `version`, `icono`, `categoria`, `instalado`, `activo`, `dependencias`, `rutas`, `archivos`, `permisos_por_defecto`, `autor`, `fecha_instalacion`, `fecha_activacion`, `created_at`, `updated_at`) VALUES
 (1, 'Dashboard', 'dashboard', 'Panel principal del sistema', '1.0.0', 'fas fa-tachometer-alt', 'sistema', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
-(2, 'Clientes', 'clientes', 'Gestión completa de clientes y contactos', '1.0.0', 'fas fa-users', 'crm', 1, 0, NULL, NULL, NULL, NULL, NULL, '2025-11-08 18:36:32', NULL, '2025-11-08 11:14:43', '2025-11-08 17:45:50'),
-(3, 'Proveedores', 'proveedores', 'Gestión de proveedores y contactos', '1.0.0', 'fas fa-truck', 'compras', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 11:14:43', '2025-11-08 17:48:34'),
-(4, 'Productos', 'productos', 'Catálogo de productos y control de stock', '1.0.0', 'fas fa-box', 'inventario', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 18:29:11', '2025-11-08 11:14:43', '2025-11-08 17:29:11'),
+(2, 'Clientes', 'clientes', 'Gestión completa de clientes y contactos', '1.0.0', 'fas fa-users', 'crm', 1, 1, NULL, NULL, NULL, NULL, NULL, '2025-11-08 18:36:32', '2025-11-08 18:58:09', '2025-11-08 11:14:43', '2025-11-08 17:58:09'),
+(3, 'Proveedores', 'proveedores', 'Gestión de proveedores y contactos', '1.0.0', 'fas fa-truck', 'compras', 1, 1, NULL, NULL, NULL, NULL, NULL, '2025-11-08 18:57:51', '2025-11-08 19:34:55', '2025-11-08 11:14:43', '2025-11-08 18:34:55'),
+(4, 'Productos', 'productos', 'Catálogo de productos y control de stock', '1.0.0', 'fas fa-box', 'inventario', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-14 16:27:40', '2025-11-08 11:14:43', '2025-11-14 15:27:40'),
 (5, 'Presupuestos', 'presupuestos', 'Gestión de presupuestos para clientes', '1.0.0', 'fas fa-file-invoice', 'ventas', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (6, 'Facturación', 'facturacion', 'Facturas de venta y compra', '1.0.0', 'fas fa-file-invoice-dollar', 'contabilidad', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 18:42:11', '2025-11-08 11:14:43', '2025-11-08 17:42:11'),
 (7, 'Usuarios', 'usuarios', 'Gestión de usuarios y permisos', '1.0.0', 'fas fa-user-shield', 'sistema', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
@@ -462,13 +463,19 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id`, `codigo`, `codigo_barras`, `codigo_proveedor`, `nombre`, `descripcion`, `categoria_id`, `tipo_producto`, `unidad_medida`, `precio_coste`, `precio_venta`, `precio_minorista`, `precio_mayorista`, `margen`, `iva_tipo`, `stock_actual`, `stock_minimo`, `stock_maximo`, `stock_reservado`, `control_stock`, `peso`, `dimensiones`, `imagen`, `activo`, `es_venta_online`, `requiere_receta`, `fecha_caducidad_control`, `tags`, `observaciones`, `proveedor_principal_id`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 'COMP001', NULL, NULL, 'RAM DDR4 8GB', 'Módulo de memoria RAM DDR4 8GB 3200MHz', 5, 'material', 'unidades', 25.00, 45.00, 0.00, 0.00, 0.00, '21', 75.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
+(1, 'COMP0011', '', NULL, 'RAM DDR4 8GB', 'Módulo de memoria RAM DDR4 8GB 3200MHz', 5, 'producto', 'unidades', 25.00, 45.00, 0.00, 0.00, 0.00, '21', 75.000, 0.000, 0.000, 0.000, 1, NULL, NULL, 'producto_690f94845a4c45.51425323.jpg', 1, 1, 0, 0, '', '', 4, 1, '2025-11-08 11:14:43', '2025-11-08 22:00:14'),
 (2, 'HARD001', NULL, NULL, 'Portátil HP 15\"', 'Portátil HP 15 pulgadas, 8GB RAM, 256GB SSD', 1, 'producto', 'unidades', 450.00, 699.00, 0.00, 0.00, 0.00, '21', 50.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (3, 'HARD002', NULL, NULL, 'Monitor Dell 24\"', 'Monitor Dell 24 pulgadas Full HD IPS', 1, 'producto', 'unidades', 120.00, 189.00, 0.00, 0.00, 0.00, '21', 30.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (4, 'SERV001', NULL, NULL, 'Instalación Windows', 'Servicio de instalación de Windows', 3, 'servicio', 'unidades', 0.00, 60.00, 0.00, 0.00, 0.00, '21', 0.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (5, 'SERV002', NULL, NULL, 'Soporte Técnico', 'Soporte técnico remoto por hora', 3, 'servicio', 'unidades', 0.00, 40.00, 0.00, 0.00, 0.00, '21', 0.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (6, 'SOFT001', NULL, NULL, 'Windows 11 Pro', 'Licencia Windows 11 Professional OEM', 2, 'producto', 'unidades', 45.00, 89.00, 0.00, 0.00, 0.00, '21', 100.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
-(7, 'SUMI001', NULL, NULL, 'Pack Ratón USB', 'Pack 10 ratones USB básicos', 4, 'material', 'unidades', 80.00, 150.00, 0.00, 0.00, 0.00, '21', 20.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43');
+(7, 'SUMI001', NULL, NULL, 'Pack Ratón USB', 'Pack 10 ratones USB básicos', 4, 'material', 'unidades', 80.00, 150.00, 0.00, 0.00, 0.00, '21', 20.000, 0.000, 0.000, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, 1, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
+(8, 'TEST001', NULL, NULL, 'Producto de prueba', NULL, NULL, 'producto', 'unidades', NULL, 9.99, 0.00, 0.00, NULL, '21', 5.000, NULL, NULL, 0.000, 0, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, '2025-11-08 18:38:51', '2025-11-08 18:38:51'),
+(9, 'TEST002', NULL, NULL, 'Producto de prueba 2', NULL, NULL, 'producto', 'unidades', NULL, 19.99, 0.00, 0.00, NULL, '21', 3.000, NULL, NULL, 0.000, 0, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, '2025-11-08 18:39:29', '2025-11-08 18:39:29'),
+(12, 'TEST1762628198', NULL, NULL, 'Producto de prueba', NULL, NULL, 'producto', 'unidades', NULL, 15.75, 0.00, 0.00, NULL, '21', 10.000, NULL, NULL, 0.000, 0, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, '2025-11-08 18:56:38', '2025-11-08 18:56:38'),
+(13, 'TEST1762628217', NULL, NULL, 'Producto con valores correctos', NULL, NULL, 'producto', 'unidades', NULL, 25.50, 0.00, 0.00, NULL, '21', 20.000, NULL, NULL, 0.000, 0, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, '2025-11-08 18:56:57', '2025-11-08 18:56:57'),
+(14, 'TEST1762628241', NULL, NULL, 'Producto con checkboxes', NULL, NULL, 'producto', 'unidades', NULL, 30.00, 0.00, 0.00, NULL, '21', 15.000, NULL, NULL, 0.000, 1, NULL, NULL, NULL, 1, 1, 0, 0, NULL, NULL, NULL, NULL, '2025-11-08 18:57:21', '2025-11-08 18:57:21'),
+(15, 'CEM-0015', '', NULL, 'proyectos examen', '', 5, 'producto', 'unidades', NULL, 13.00, 0.00, 0.00, NULL, '21', 13.000, NULL, NULL, 0.000, 1, NULL, NULL, 'producto_690f942819cd54.07190844.jpg', 1, 1, 0, 0, '', '', 1, NULL, '2025-11-08 19:03:58', '2025-11-08 19:04:09');
 
 -- --------------------------------------------------------
 
@@ -497,7 +504,8 @@ INSERT INTO `productos_categorias` (`id`, `nombre`, `descripcion`, `categoria_pa
 (3, 'Servicios', 'Servicios técnicos y consultoría', NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (4, 'Suministros', 'Material de oficina y consumibles', NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (5, 'Componentes', 'Piezas y recambios', NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
-(6, 'Otros', 'Otros productos no clasificados', NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43');
+(6, 'Otros', 'Otros productos no clasificados', NULL, 'uploads/categorias/categoria_1762637739_690fb7abc13da.jpg', 1, '2025-11-08 11:14:43', '2025-11-08 21:35:40'),
+(7, 'prueba1', NULL, NULL, 'uploads/categorias/categoria_1762637571_690fb7032f34b.jpg', 1, '2025-11-08 21:32:32', '2025-11-08 21:32:52');
 
 -- --------------------------------------------------------
 
@@ -567,7 +575,8 @@ CREATE TABLE `proveedores` (
 INSERT INTO `proveedores` (`id`, `codigo`, `nombre_comercial`, `razon_social`, `nif_cif`, `direccion`, `codigo_postal`, `ciudad`, `provincia`, `pais`, `telefono`, `telefono2`, `email`, `web`, `tipo_proveedor`, `forma_pago`, `cuenta_bancaria`, `swift_bic`, `dias_pago`, `descuento_comercial`, `importe_acumulado`, `saldo_pendiente`, `activo`, `bloqueado`, `certificaciones`, `es_proveedor_urgente`, `observaciones`, `contacto_principal`, `cargo_contacto`, `created_by`, `created_at`, `updated_at`) VALUES
 (1, 'PROV0001', 'Distribuidora IT', 'Distribuidora Informática Tecnológica S.L.', 'B87654321', NULL, NULL, NULL, NULL, 'España', '918765432', NULL, 'compras@distri-it.com', NULL, 'material', 'transferencia', NULL, NULL, 30, 0.00, 0.00, 0.00, 1, 0, NULL, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
 (2, 'PROV0002', 'Servicios Cloud', 'Cloud Services S.L.', 'B11223344', NULL, NULL, NULL, NULL, 'España', '900123123', NULL, 'soporte@cloud-services.es', NULL, 'servicio', 'transferencia', NULL, NULL, 30, 0.00, 0.00, 0.00, 1, 0, NULL, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
-(3, 'PROV0003', 'Transporte Rápido', 'Transportes Rápidos S.A.', 'A55667788', NULL, NULL, NULL, NULL, 'España', '933334444', NULL, 'logistica@transporte-rapido.com', NULL, 'transporte', 'transferencia', NULL, NULL, 30, 0.00, 0.00, 0.00, 1, 0, NULL, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43');
+(3, 'PROV0003', 'Transporte Rápido', 'Transportes Rápidos S.A.', 'A55667788', NULL, NULL, NULL, NULL, 'España', '933334444', NULL, 'logistica@transporte-rapido.com', NULL, 'transporte', 'transferencia', NULL, NULL, 30, 0.00, 0.00, 0.00, 1, 0, NULL, 0, NULL, NULL, NULL, 1, '2025-11-08 11:14:43', '2025-11-08 11:14:43'),
+(4, 'PROV0004', 'aluminios paiporta 2', '', '', '', '46460', 'Silla', 'Valencia', 'España', '628639355', '', 'ibericawarez2@gmail.com', '', 'material', 'transferencia', '', '', 30, 0.00, 0.00, 0.00, 1, 0, NULL, 0, '', 'pepe', '', 1, '2025-11-08 21:57:03', '2025-11-08 22:02:41');
 
 -- --------------------------------------------------------
 
@@ -630,35 +639,35 @@ INSERT INTO `usuarios` (`Identificador`, `usuario`, `email`, `contrasena`, `nomb
 -- (See below for the actual view)
 --
 CREATE TABLE `vista_clientes_saldo_pendiente` (
-`activo` tinyint(1)
-,`bloqueado` tinyint(1)
-,`cargo_contacto` varchar(100)
-,`ciudad` varchar(100)
+`id` int
 ,`codigo` varchar(20)
-,`codigo_postal` varchar(10)
-,`contacto_principal` varchar(100)
-,`created_at` timestamp
-,`created_by` int
-,`dias_credito` int
-,`direccion` varchar(255)
-,`email` varchar(150)
-,`forma_pago` enum('contado','transferencia','tarjeta','cheque','paypal')
-,`id` int
-,`importe_acumulado` decimal(12,2)
-,`limite_credito` decimal(12,2)
-,`nif_cif` varchar(20)
 ,`nombre_comercial` varchar(200)
-,`observaciones` text
-,`pais` varchar(100)
-,`provincia` varchar(100)
 ,`razon_social` varchar(200)
-,`saldo_pendiente` decimal(12,2)
-,`saldo_pendiente_facturas` decimal(35,2)
+,`nif_cif` varchar(20)
+,`direccion` varchar(255)
+,`codigo_postal` varchar(10)
+,`ciudad` varchar(100)
+,`provincia` varchar(100)
+,`pais` varchar(100)
 ,`telefono` varchar(20)
 ,`telefono2` varchar(20)
-,`tipo_cliente` enum('particular','empresa','autonomo','ong','publico')
-,`updated_at` timestamp
+,`email` varchar(150)
 ,`web` varchar(255)
+,`tipo_cliente` enum('particular','empresa','autonomo','ong','publico')
+,`forma_pago` enum('contado','transferencia','tarjeta','cheque','paypal')
+,`dias_credito` int
+,`limite_credito` decimal(12,2)
+,`importe_acumulado` decimal(12,2)
+,`saldo_pendiente` decimal(12,2)
+,`activo` tinyint(1)
+,`bloqueado` tinyint(1)
+,`observaciones` text
+,`contacto_principal` varchar(100)
+,`cargo_contacto` varchar(100)
+,`created_by` int
+,`created_at` timestamp
+,`updated_at` timestamp
+,`saldo_pendiente_facturas` decimal(35,2)
 );
 
 -- --------------------------------------------------------
@@ -668,41 +677,41 @@ CREATE TABLE `vista_clientes_saldo_pendiente` (
 -- (See below for the actual view)
 --
 CREATE TABLE `vista_productos_stock_bajo` (
-`activo` tinyint(1)
-,`categoria_id` int
+`id` int
 ,`codigo` varchar(50)
 ,`codigo_barras` varchar(50)
 ,`codigo_proveedor` varchar(50)
-,`control_stock` tinyint(1)
-,`created_at` timestamp
-,`created_by` int
-,`descripcion` text
-,`dimensiones` varchar(50)
-,`es_venta_online` tinyint(1)
-,`fecha_caducidad_control` tinyint(1)
-,`id` int
-,`imagen` varchar(255)
-,`iva_tipo` enum('21','10','4','0','exento')
-,`margen` decimal(5,2)
 ,`nombre` varchar(200)
-,`nombre_categoria` varchar(100)
-,`observaciones` text
-,`peso` decimal(10,3)
-,`precio_coste` decimal(12,2)
-,`precio_mayorista` decimal(12,2)
-,`precio_minorista` decimal(12,2)
-,`precio_venta` decimal(12,2)
-,`proveedor_principal_id` int
-,`requiere_receta` tinyint(1)
-,`stock_actual` decimal(12,3)
-,`stock_critico` int
-,`stock_maximo` decimal(12,3)
-,`stock_minimo` decimal(12,3)
-,`stock_reservado` decimal(12,3)
-,`tags` text
+,`descripcion` text
+,`categoria_id` int
 ,`tipo_producto` enum('producto','servicio','consumible','material','kit','digital')
 ,`unidad_medida` enum('unidades','kg','litros','metros','metros2','metros3','cajas','palets')
+,`precio_coste` decimal(12,2)
+,`precio_venta` decimal(12,2)
+,`precio_minorista` decimal(12,2)
+,`precio_mayorista` decimal(12,2)
+,`margen` decimal(5,2)
+,`iva_tipo` enum('21','10','4','0','exento')
+,`stock_actual` decimal(12,3)
+,`stock_minimo` decimal(12,3)
+,`stock_maximo` decimal(12,3)
+,`stock_reservado` decimal(12,3)
+,`control_stock` tinyint(1)
+,`peso` decimal(10,3)
+,`dimensiones` varchar(50)
+,`imagen` varchar(255)
+,`activo` tinyint(1)
+,`es_venta_online` tinyint(1)
+,`requiere_receta` tinyint(1)
+,`fecha_caducidad_control` tinyint(1)
+,`tags` text
+,`observaciones` text
+,`proveedor_principal_id` int
+,`created_by` int
+,`created_at` timestamp
 ,`updated_at` timestamp
+,`nombre_categoria` varchar(100)
+,`stock_critico` int
 );
 
 --
@@ -868,7 +877,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `clientes_contactos`
@@ -922,13 +931,13 @@ ALTER TABLE `presupuestos_lineas`
 -- AUTO_INCREMENT for table `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `productos_categorias`
 --
 ALTER TABLE `productos_categorias`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `productos_proveedores`
@@ -940,7 +949,7 @@ ALTER TABLE `productos_proveedores`
 -- AUTO_INCREMENT for table `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `proveedores_contactos`
