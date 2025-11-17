@@ -63,7 +63,7 @@ try {
     }
 
     // Preparar consulta para buscar el usuario
-    $stmt = $pdo->prepare("SELECT Identificador, usuario, email, contrasena FROM usuarios WHERE usuario = :username");
+    $stmt = $pdo->prepare("SELECT Identificador, usuario, email, contrasena, rol, nombre, apellidos FROM usuarios WHERE usuario = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 

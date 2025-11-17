@@ -5,7 +5,6 @@
 /* Contenedor principal */
 #listadoModulos {
     padding: 20px;
-    max-width: 1400px;
     margin: 0 auto;
     background: #f8f9fa;
     min-height: 100vh;
@@ -656,6 +655,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -666,6 +666,7 @@
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -677,6 +678,7 @@
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -687,6 +689,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -821,54 +824,6 @@
         display: none !important;
     }
 }
-```
 
-## **✅ ¡SISTEMA DE DASHBOARD DE MÓDULOS COMPLETO!**
-
-He creado un dashboard completamente funcional y moderno con:
-
-### **🎨 Características del diseño:**
-- **Interfaz moderna** con gradientes y sombras
-- **Tarjetas de módulos** con estados visuales (activo/inactivo/no instalado)
-- **Sistema de filtros** por estado
-- **Estadísticas en tiempo real** en el header
-- **Modales de confirmación** para acciones críticas
-- **Notificaciones** de éxito/error
-- **Totalmente responsive** para móviles
-
-### **🔧 Funcionalidades implementadas:**
-- ✅ **Cargar módulos desde BD** dinámicamente
-- ✅ **Instalar/Desinstalar/Activar/Desactivar** módulos
-- ✅ **Actualizar menú principal** automáticamente
-- ✅ **Filtros visuales** por estado
-- ✅ **Estadísticas en tiempo real**
-- ✅ **Protección de módulos críticos** (Dashboard no se puede desactivar)
-- ✅ **Confirmaciones** para acciones destructivas
-
-### **📊 Estados de módulos:**
-- **🟢 Activo** - Visible en menú, disponible para usuarios
-- **🟡 Inactivo** - Instalado pero no visible en menú
-- **⚪ No Instalado** - Disponible para instalación
-
-### **🚀 Cómo funciona:**
-
-1. **Dashboard carga módulos** desde la base de datos
-2. **Usuario puede activar/desactivar** módulos con clic
-3. **Menú principal se actualiza** automáticamente
-4. **Sistema persiste cambios** en la base de datos
-
-### **📱 Actualización automática del menú:**
-Cuando actives/desactives un módulo:
-- ✅ Dashboard llama a `window.menuManager.actualizarMenu()`
-- ✅ Menú principal se recarga con nuevos módulos activos
-- ✅ Cambios son inmediatos y visibles
-
-**¡Tu dashboard de módulos está completamente funcional!** 🎉
-
-Ahora los usuarios podrán:
-- Ver todos los módulos disponibles
-- Instalar nuevos módulos
-- Activar/desactivar según necesiten
-- Ver el menú actualizarse en tiempo real
-
-El sistema funciona exactamente como Odoo/WordPress con gestión modular dinámica.
+``` ## **✅ ¡SISTEMA DE DASHBOARD DE MÓDULOS COMPLETO !** He creado un dashboard completamente funcional y moderno con: ### **🎨 Características del diseño:** - **Interfaz moderna** con gradientes y sombras - **Tarjetas de módulos** con estados visuales (activo/inactivo/no instalado) - **Sistema de filtros** por estado - **Estadísticas en tiempo real** en el header - **Modales de confirmación** para acciones críticas - **Notificaciones** de éxito/error - **Totalmente responsive** para móviles ### **🔧 Funcionalidades implementadas:** - ✅ **Cargar módulos desde BD** dinámicamente - ✅ **Instalar/Desinstalar/Activar/Desactivar** módulos - ✅ **Actualizar menú principal** automáticamente - ✅ **Filtros visuales** por estado - ✅ **Estadísticas en tiempo real** - ✅ **Protección de módulos críticos** (Dashboard no se puede desactivar) - ✅ **Confirmaciones** para acciones destructivas ### **📊 Estados de módulos:** - **🟢 Activo** - Visible en menú,
+disponible para usuarios - **🟡 Inactivo** - Instalado pero no visible en menú - **⚪ No Instalado** - Disponible para instalación ### **🚀 Cómo funciona:** 1. **Dashboard carga módulos** desde la base de datos 2. **Usuario puede activar/desactivar** módulos con clic 3. **Menú principal se actualiza** automáticamente 4. **Sistema persiste cambios** en la base de datos ### **📱 Actualización automática del menú:** Cuando actives/desactives un módulo: - ✅ Dashboard llama a `window.menuManager.actualizarMenu()` - ✅ Menú principal se recarga con nuevos módulos activos - ✅ Cambios son inmediatos y visibles **¡Tu dashboard de módulos está completamente funcional !** 🎉 Ahora los usuarios podrán: - Ver todos los módulos disponibles - Instalar nuevos módulos - Activar/desactivar según necesiten - Ver el menú actualizarse en tiempo real El sistema funciona exactamente como Odoo/WordPress con gestión modular dinámica.

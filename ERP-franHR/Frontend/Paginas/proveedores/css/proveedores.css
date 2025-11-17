@@ -1,3 +1,11 @@
+/* Contenedor principal */
+#proveedores-content,
+#proveedores-content .main-content,
+#proveedores-content .content-area {
+    width: 100%;
+    max-width: none;
+}
+
 /* Toolbar */
 .toolbar {
     background: #fff;
@@ -17,6 +25,7 @@ table.table thead th {
     font-weight: 600;
     color: #495057;
 }
+
 table.table tbody td {
     vertical-align: middle;
 }
@@ -25,9 +34,11 @@ table.table tbody td {
 .badge-activo {
     background-color: #28a745;
 }
+
 .badge-inactivo {
     background-color: #dc3545;
 }
+
 .badge-bloqueado {
     background-color: #fd7e14;
 }
@@ -125,9 +136,17 @@ table.table tbody td {
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.6; }
-    100% { opacity: 1; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 /* Responsive */
@@ -152,8 +171,15 @@ table.table tbody td {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Modal específico para proveedores */
@@ -201,6 +227,11 @@ table.table tbody td {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

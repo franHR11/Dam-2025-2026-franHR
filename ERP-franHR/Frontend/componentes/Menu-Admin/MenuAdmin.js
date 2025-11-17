@@ -38,6 +38,8 @@ class MenuManager {
         return true;
       });
 
+      this.agregarModulosBase();
+
       // Guardar en localStorage para acceso rápido
       localStorage.setItem("erp_modulos", JSON.stringify(this.modulos));
       localStorage.setItem("erp_usuario", JSON.stringify(this.usuario));
@@ -49,10 +51,38 @@ class MenuManager {
       if (cachedModulos && cachedUsuario) {
         this.modulos = JSON.parse(cachedModulos);
         this.usuario = JSON.parse(cachedUsuario);
+        this.agregarModulosBase();
         console.warn("Usando caché de módulos debido a error de red:", error);
       } else {
         throw error;
       }
+    }
+  }
+
+  agregarModulosBase() {
+    const existeKanban = this.modulos.some(
+      (modulo) => modulo?.nombre_tecnico?.toLowerCase() === "kanban"
+    );
+
+    if (!existeKanban) {
+      this.modulos.push({
+        id: "mod-kanban-local",
+        nombre: "Tablero Kanban",
+        nombre_tecnico: "kanban",
+        descripcion: "Organiza tareas con columnas y tarjetas drag & drop.",
+        icono: "fas fa-columns",
+        categoria: "proyectos",
+        version: "1.0.0",
+        menu_order: 95,
+        permisos: {
+          ver: true,
+          crear: true,
+          editar: true,
+          eliminar: true,
+          listar: true,
+          configurar: true,
+        },
+      });
     }
   }
 
@@ -76,8 +106,12 @@ class MenuManager {
                     <div class="usuario-info">
                         <i class="fas fa-user-circle"></i>
                         <div class="usuario-detalles">
-                            <span class="usuario-nombre">${this.usuario?.rol || "Invitado"}</span>
-                            <span class="usuario-rol">${this.getRolDisplay(this.usuario?.rol)}</span>
+                            <span class="usuario-nombre">${
+                              this.usuario?.rol || "Invitado"
+                            }</span>
+                            <span class="usuario-rol">${this.getRolDisplay(
+                              this.usuario?.rol
+                            )}</span>
                         </div>
                     </div>
                 </div>
@@ -114,11 +148,19 @@ class MenuManager {
         const activo = this.esModuloActivo(modulo.nombre_tecnico);
 
         html += `
-                    <li class="menu-item ${activo ? "active" : ""}" data-modulo="${modulo.nombre_tecnico}">
-                        <a href="${rutaModulo}" class="menu-link" onclick="menuManager.navegarAModulo(event, '${modulo.nombre_tecnico}', '${rutaModulo}')">
+                    <li class="menu-item ${
+                      activo ? "active" : ""
+                    }" data-modulo="${modulo.nombre_tecnico}">
+                        <a href="${rutaModulo}" class="menu-link" onclick="menuManager.navegarAModulo(event, '${
+          modulo.nombre_tecnico
+        }', '${rutaModulo}')">
                             <i class="${modulo.icono}"></i>
                             <span class="modulo-nombre">${modulo.nombre}</span>
-                            ${modulo.version ? `<span class="modulo-version">v${modulo.version}</span>` : ""}
+                            ${
+                              modulo.version
+                                ? `<span class="modulo-version">v${modulo.version}</span>`
+                                : ""
+                            }
                         </a>
                         ${
                           modulo.permisos?.configurar
@@ -169,6 +211,7 @@ class MenuManager {
       contabilidad: "Contabilidad",
       rrhh: "Recursos Humanos",
       produccion: "Producción",
+      proyectos: "Proyectos",
     };
     return (
       categorias[categoria] ||
@@ -186,6 +229,7 @@ class MenuManager {
       contabilidad: "fas fa-calculator",
       rrhh: "fas fa-user-tie",
       produccion: "fas fa-industry",
+      proyectos: "fas fa-diagram-project",
     };
     return iconos[categoria] || "fas fa-folder";
   }
@@ -200,6 +244,7 @@ class MenuManager {
       facturacion: "/Paginas/facturacion/facturacion.php",
       usuarios: "/Paginas/usuarios/usuarios.php",
       configuracion: "/Paginas/configuracion/configuracion.php",
+      kanban: "/Paginas/kanban/111.php",
     };
     return (
       rutas[nombreTecnico] || `/Paginas/${nombreTecnico}/${nombreTecnico}.php`
@@ -224,7 +269,7 @@ class MenuManager {
     const categoriaElement = document.getElementById(`categoria-${categoria}`);
     const toggle =
       categoriaElement.previousElementSibling.querySelector(
-        ".categoria-toggle",
+        ".categoria-toggle"
       );
 
     if (categoriaElement.style.display === "none") {
@@ -247,7 +292,7 @@ class MenuManager {
     });
 
     const itemActual = document.querySelector(
-      `[data-modulo="${nombreTecnico}"]`,
+      `[data-modulo="${nombreTecnico}"]`
     );
     if (itemActual) {
       itemActual.classList.add("active");
@@ -268,7 +313,7 @@ class MenuManager {
       // Aquí puedes abrir un modal de configuración
       // Por ahora, mostramos una alerta simple
       alert(
-        `Configuración del módulo: ${modulo.nombre}\n\nEsta funcionalidad estará disponible próximamente.`,
+        `Configuración del módulo: ${modulo.nombre}\n\nEsta funcionalidad estará disponible próximamente.`
       );
     } catch (error) {
       console.error("Error al configurar módulo:", error);
@@ -281,7 +326,7 @@ class MenuManager {
     try {
       // Cargar el contenido dinámicamente
       const response = await fetch(
-        "/componentes/gestionModulos/gestionModulos.php",
+        "/componentes/gestionModulos/gestionModulos.php"
       );
       const html = await response.text();
 
@@ -298,14 +343,14 @@ class MenuManager {
     } catch (error) {
       console.error("Error al cargar gestión de módulos:", error);
       alert(
-        "Error al cargar la gestión de módulos. Por favor, inténtalo de nuevo.",
+        "Error al cargar la gestión de módulos. Por favor, inténtalo de nuevo."
       );
     }
   }
 
   animarMenu() {
     const items = this.menuContainer.querySelectorAll(
-      ".menu-item, .menu-categoria",
+      ".menu-item, .menu-categoria"
     );
     items.forEach((item, index) => {
       item.style.opacity = "0";

@@ -7,6 +7,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['user_rol']) && (isset($_SESSION['username']) && $_SESSION['username'] === 'admin')) {
+    $_SESSION['user_rol'] = 'admin';
+}
+
 if (!isset($_SESSION['user_rol']) || $_SESSION['user_rol'] !== 'admin') {
     http_response_code(403);
     echo json_encode([
@@ -57,11 +61,11 @@ try {
 
     $modulos = [];
     while ($row = $modulosStmt->fetch(PDO::FETCH_ASSOC)) {
-        $row['instalado'] = (bool)$row['instalado'];
-        $row['activo'] = (bool)$row['activo'];
+        $row['instalado'] = (bool) $row['instalado'];
+        $row['activo'] = (bool) $row['activo'];
         $row['configuraciones'] = [];
         $row['permisos'] = [];
-        $modulos[(int)$row['id']] = $row;
+        $modulos[(int) $row['id']] = $row;
     }
 
     if ($modulos) {
@@ -78,17 +82,17 @@ try {
             ORDER BY mc.modulo_id ASC, mc.clave ASC");
 
         while ($config = $configStmt->fetch(PDO::FETCH_ASSOC)) {
-            $moduloId = (int)$config['modulo_id'];
+            $moduloId = (int) $config['modulo_id'];
             if (!isset($modulos[$moduloId])) {
                 continue;
             }
-            $config['editable'] = (bool)$config['editable'];
+            $config['editable'] = (bool) $config['editable'];
             $modulos[$moduloId]['configuraciones'][] = $config;
         }
 
         $permisosStmt = $pdo->query("SELECT modulo_id, rol, permiso, concedido FROM modulo_permisos");
         while ($permiso = $permisosStmt->fetch(PDO::FETCH_ASSOC)) {
-            $moduloId = (int)$permiso['modulo_id'];
+            $moduloId = (int) $permiso['modulo_id'];
             if (!isset($modulos[$moduloId])) {
                 continue;
             }
@@ -96,7 +100,7 @@ try {
             if (!isset($modulos[$moduloId]['permisos'][$rol])) {
                 $modulos[$moduloId]['permisos'][$rol] = [];
             }
-            $modulos[$moduloId]['permisos'][$rol][$permiso['permiso']] = (bool)$permiso['concedido'];
+            $modulos[$moduloId]['permisos'][$rol][$permiso['permiso']] = (bool) $permiso['concedido'];
         }
     }
 
@@ -121,7 +125,7 @@ try {
                 if (!isset($modulo['permisos'][$rol][$permiso])) {
                     $modulo['permisos'][$rol][$permiso] = false;
                 } else {
-                    $modulo['permisos'][$rol][$permiso] = (bool)$modulo['permisos'][$rol][$permiso];
+                    $modulo['permisos'][$rol][$permiso] = (bool) $modulo['permisos'][$rol][$permiso];
                 }
             }
         }
