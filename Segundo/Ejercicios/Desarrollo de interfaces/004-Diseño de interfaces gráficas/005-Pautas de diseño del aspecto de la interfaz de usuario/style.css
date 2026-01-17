@@ -1,0 +1,180 @@
+:root {
+    --bg-color: #f8f9fa;
+    --sidebar-bg: #ffffff;
+    --accent-color: #4f46e5;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --hover-color: #f1f5f9;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Sidebar / Toolbar */
+.toolbar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-shadow: var(--shadow);
+    z-index: 10;
+}
+
+.toolbar h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.tool-section h2 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.tool-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.tool-btn:hover {
+    background-color: var(--hover-color);
+    transform: translateX(2px);
+}
+
+.tool-btn.active {
+    background-color: #e0e7ff;
+    color: var(--accent-color);
+    font-weight: 600;
+    border-color: #c7d2fe;
+}
+
+.delete-btn:hover {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.icon-shape {
+    width: 20px;
+    height: 20px;
+    border: 2px solid currentColor;
+    margin-right: 12px;
+}
+
+.rect {
+    border-radius: 2px;
+}
+
+.pill {
+    border-radius: 10px;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.icon {
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+/* Bottom buttons */
+.tool-section.bottom {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-align: center;
+}
+
+.save {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.load {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.action-btn:hover {
+    opacity: 0.9;
+}
+
+/* Workspace */
+.workspace {
+    flex: 1;
+    position: relative;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    cursor: crosshair;
+}
+
+.help-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    font-size: 0.9rem;
+    pointer-events: none;
+    border: 1px solid var(--border-color);
+}
+
+#currentMode {
+    font-weight: 600;
+    color: var(--accent-color);
+}

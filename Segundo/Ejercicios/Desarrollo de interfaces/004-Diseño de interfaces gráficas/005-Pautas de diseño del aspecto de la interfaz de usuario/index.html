@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Diagramas Interactivo</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts para un look moderno -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Barra de Herramientas -->
+        <aside class="toolbar">
+            <h1>Diagramas</h1>
+
+            <div class="tool-section">
+                <h2>Formas</h2>
+                <button class="tool-btn" onclick="setMode('rect')" title="Rectángulo">
+                    <div class="icon-shape rect"></div> Rectángulo
+                </button>
+                <button class="tool-btn" onclick="setMode('pill')" title="Píldora">
+                    <div class="icon-shape pill"></div> Píldora
+                </button>
+                <button class="tool-btn" onclick="setMode('circle')" title="Círculo">
+                    <div class="icon-shape circle"></div> Círculo
+                </button>
+            </div>
+
+            <div class="tool-section">
+                <h2>Herramientas</h2>
+                <button class="tool-btn" onclick="setMode('connect')" title="Conectar">
+                    <span class="icon">🔗</span> Conectar
+                </button>
+                <button class="tool-btn" onclick="setMode('select')" title="Seleccionar/Mover">
+                    <span class="icon">👆</span> Mover
+                </button>
+                <button class="tool-btn delete-btn" onclick="deleteSelected()" title="Borrar Seleccionado">
+                    <span class="icon">🗑️</span> Borrar
+                </button>
+            </div>
+
+            <div class="tool-section bottom">
+                <button class="action-btn save" onclick="saveDiagram()">💾 Guardar JSON</button>
+                <label for="fileInput" class="action-btn load">📂 Cargar JSON</label>
+                <input type="file" id="fileInput" accept=".json" onchange="loadDiagram(this)" style="display: none;">
+            </div>
+        </aside>
+
+        <!-- Área de Trabajo -->
+        <main class="workspace">
+            <canvas id="editorCanvas"></canvas>
+            <div class="help-text">
+                <p>Modo actual: <span id="currentMode">Seleccionar</span></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

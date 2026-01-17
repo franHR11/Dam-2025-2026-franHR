@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Waveform</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        canvas { border: 1px solid #ccc; background-color: #f9f9f9; }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Visualizador de Audio: 0802.mp3</h1>
+    <p>Haz clic en "Cargar y Visualizar" para ver la forma de onda.</p>
+    
+    <button id="loadBtn">Cargar y Visualizar</button>
+    <br><br>
+    <canvas id="waveformCanvas" width="800" height="200"></canvas>
+
+    <script>
+        const canvas = document.getElementById('waveformCanvas');
+        const ctx = canvas.getContext('2d');
+        const loadBtn = document.getElementById('loadBtn');
+
+        loadBtn.addEventListener('click', loadAudio);
+
+        async function loadAudio() {
+            try {
+                // Paso 3: Cargar el archivo y dibujar waveform
+                const response = await fetch('0802.mp3');
+                if (!response.ok) throw new Error('No se pudo cargar el archivo MP3');
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                
+                drawWaveform(audioBuffer);
+            } catch (error) {
+                console.error(error);
+                alert("Error cargando el audio. Asegúrate de que el archivo 0802.mp3 está en la misma carpeta y ejecutando un servidor local (o usa Firefox/Chrome con flags para archivos locales).");
+            }
+        }
+
+        function drawWaveform(audioBuffer) {
+            const rawData = audioBuffer.getChannelData(0); // Usamos el primer canal
+            const samples = 800; // Número de puntos a dibujar (ancho del canvas)
+            const blockSize = Math.floor(rawData.length / samples);
+            const filteredData = [];
+
+            // Discretizar los datos para visualización
+            for (let i = 0; i < samples; i++) {
+                let blockStart = blockSize * i;
+                let sum = 0;
+                for (let j = 0; j < blockSize; j++) {
+                    sum = sum + Math.abs(rawData[blockStart + j]);
+                }
+                filteredData.push(sum / blockSize);
+            }
+
+            // Dibujar
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#007bff';
+            ctx.beginPath();
+
+            const width = canvas.width;
+            const height = canvas.height;
+
+            for (let i = 0; i < filteredData.length; i++) {
+                const x = i; // Pixel actual
+                const y = (1 - filteredData[i]) * height / 2; // Escala básica, centrada
+                // Ajuste simple para centrar la onda
+                const amplitude = filteredData[i] * height * 2; 
+                ctx.moveTo(x, height / 2 - amplitude / 2);
+                ctx.lineTo(x, height / 2 + amplitude / 2);
+            }
+            ctx.stroke();
+            console.log("Waveform dibujado.");
+        }
+    </script>
+</body>
+</html>
