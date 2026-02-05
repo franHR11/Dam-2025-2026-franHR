@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reproducción en Bucle y Temporizador</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #tiempo {
+            font-size: 3em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Reproductor en Bucle</h1>
+
+    <!-- Modificado: Atributo loop añadido para repetición automática -->
+    <audio id="miAudio" src="../audio.mp3" loop controls></audio>
+
+    <div id="tiempo">00:00:00</div>
+    <p>Estado: <span id="estado">Esperando...</span></p>
+
+    <script>
+        const audio = document.getElementById('miAudio');
+        const displayTiempo = document.getElementById('tiempo');
+        const estado = document.getElementById('estado');
+
+        // Modificado: Actualización rápida del temporizador
+        setInterval(() => {
+            if (!audio.paused) {
+                const h = Math.floor(audio.currentTime / 3600).toString().padStart(2, '0');
+                const m = Math.floor((audio.currentTime % 3600) / 60).toString().padStart(2, '0');
+                const s = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+                const ms = Math.floor((audio.currentTime % 1) * 100).toString().padStart(2, '0');
+
+                displayTiempo.textContent = `${h}:${m}:${s}:${ms}`;
+            }
+        }, 50); // Intervalo de 50ms para mayor precisión
+
+        audio.addEventListener('play', () => estado.textContent = "Reproduciendo en bucle 🔄");
+        audio.addEventListener('pause', () => estado.textContent = "Pausado ⏸️");
+
+        // Evento extra para confirmar el bucle
+        audio.addEventListener('seeked', () => {
+            if (audio.currentTime === 0 && !audio.paused) {
+                console.log("El audio ha reiniciado el bucle");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Barra de Progreso Personalizada</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #contenedor-barra {
+            width: 80%;
+            height: 20px;
+            background-color: #ddd;
+            margin: 20px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #progreso {
+            width: 0%;
+            height: 100%;
+            background-color: #2ecc71;
+            /* Modificado: Color verde esmeralda */
+            transition: width 0.1s linear;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Control de Progreso de Audio</h1>
+    <audio id="miAudio" src="../audio.mp3"></audio>
+    <button onclick="document.getElementById('miAudio').play()">Reproducir</button>
+    <button onclick="document.getElementById('miAudio').pause()">Pausar</button>
+
+    <div id="contenedor-barra" onclick="seek(event)">
+        <div id="progreso"></div>
+    </div>
+
+    <script>
+        const audio = document.getElementById('miAudio');
+        const barra = document.getElementById('progreso');
+        const contenedor = document.getElementById('contenedor-barra');
+
+        // Modificado: Actualización más fluida usando timeupdate
+        audio.addEventListener('timeupdate', () => {
+            const porcentaje = (audio.currentTime / audio.duration) * 100;
+            barra.style.width = porcentaje + '%';
+        });
+
+        function seek(e) {
+            const rect = contenedor.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const ancho = rect.width;
+            const nuevoTiempo = (x / ancho) * audio.duration;
+            audio.currentTime = nuevoTiempo;
+        }
+    </script>
+</body>
+
+</html>

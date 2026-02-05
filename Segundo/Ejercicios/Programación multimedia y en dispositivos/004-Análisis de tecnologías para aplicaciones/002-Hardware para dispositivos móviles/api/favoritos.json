@@ -1,0 +1,14 @@
+{
+    "favorites": [
+        {
+            "artist": "The Midnight",
+            "image": "img/artista1.svg",
+            "song": "Sunset"
+        },
+        {
+            "artist": "Gunship",
+            "image": "img/artista2.svg",
+            "song": "Tech Noir"
+        }
+    ]
+}

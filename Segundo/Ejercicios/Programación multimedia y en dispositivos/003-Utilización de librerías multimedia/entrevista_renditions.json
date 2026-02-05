@@ -1,0 +1,16 @@
+{
+  "renditions": [
+    {
+      "label": "1080p",
+      "src": "video_1080.mp4"
+    },
+    {
+      "label": "720p",
+      "src": "video_720.mp4"
+    },
+    {
+      "label": "480p",
+      "src": "video_480.mp4"
+    }
+  ]
+}

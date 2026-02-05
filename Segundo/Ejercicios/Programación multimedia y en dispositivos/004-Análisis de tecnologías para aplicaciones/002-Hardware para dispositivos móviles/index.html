@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Artistas Favoritos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #ff00cc;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #d900ad;
+        }
+
+        #favoritos {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        article {
+            background: #333;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        article:hover {
+            transform: scale(1.05);
+            background: #444;
+        }
+
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            margin: 10px 0;
+            color: #00ccff;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .pantalla-oculta {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <button onclick="mostrarPantalla('favoritos')">Lista de Artistas</button>
+        <button onclick="mostrarPantalla('reproductor')">Reproductor</button>
+    </header>
+
+    <section id="favoritos">
+        <!-- Los artistas se cargarán aquí -->
+    </section>
+
+    <section id="reproductor" class="pantalla-oculta">
+        <h2>Reproduciendo música</h2>
+        <div id="info-cancion">Selecciona un artista para escuchar</div>
+        <audio id="audioPlayer" controls></audio>
+    </section>
+
+    <script>
+        // Función para cambiar entre pantallas
+        function mostrarPantalla(id) {
+            document.getElementById('favoritos').classList.add('pantalla-oculta');
+            document.getElementById('reproductor').classList.add('pantalla-oculta');
+            document.getElementById(id).classList.remove('pantalla-oculta');
+        }
+
+        // Cargar datos desde la API
+        fetch('api/favoritos.json')
+            .then(response => response.json())
+            .then(data => {
+                const contenedor = document.getElementById('favoritos');
+                data.favorites.forEach(item => {
+                    const article = document.createElement('article');
+                    article.innerHTML = `
+                        <img src="${item.image}" alt="${item.artist}">
+                        <h3>${item.artist}</h3>
+                        <p>Canción: ${item.song}</p>
+                    `;
+                    // Evento al hacer click en el artista
+                    article.onclick = () => {
+                        mostrarPantalla('reproductor');
+                        document.getElementById('info-cancion').innerText = `Reproduciendo: ${item.song} - ${item.artist}`;
+                        // Aquí simularíamos la carga de la canción real
+                        // document.getElementById('audioPlayer').src = item.audio_url; 
+                    };
+                    contenedor.appendChild(article);
+                });
+            })
+            .catch(error => console.error('Error cargando datos:', error));
+    </script>
+
+</body>
+
+</html>

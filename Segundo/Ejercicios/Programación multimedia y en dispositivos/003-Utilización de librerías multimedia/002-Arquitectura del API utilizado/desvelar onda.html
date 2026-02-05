@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizador de Onda de Audio</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #222;
+            color: white;
+        }
+
+        canvas {
+            border: 1px solid #444;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Visualización de Onda</h1>
+    <audio id="miAudio" src="../audio.mp3" controls></audio>
+    <br>
+    <canvas id="lienzo" width="600" height="300"></canvas>
+
+    <script>
+        const audio = document.getElementById('miAudio');
+        const canvas = document.getElementById('lienzo');
+        const ctx = canvas.getContext('2d');
+        let contextoAudio, analizador, fuente;
+        let inicializado = false;
+
+        audio.onplay = () => {
+            if (!inicializado) {
+                contextoAudio = new (window.AudioContext || window.webkitAudioContext)();
+                analizador = contextoAudio.createAnalyser();
+                fuente = contextoAudio.createMediaElementSource(audio);
+                fuente.connect(analizador);
+                analizador.connect(contextoAudio.destination);
+                analizador.fftSize = 256;
+                inicializado = true;
+                animar();
+            }
+            contextoAudio.resume();
+        };
+
+        function animar() {
+            requestAnimationFrame(animar);
+            const bufferLength = analizador.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analizador.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#222';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const anchoBarra = (canvas.width / bufferLength) * 2.5;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                const barHeight = dataArray[i];
+
+                // Modificado: Gradiente de colores cian a morado
+                const r = 50 + (barHeight + (255 - barHeight)) * 0.2;
+                const g = 255 - barHeight;
+                const b = 255;
+
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.fillRect(x, canvas.height - barHeight, anchoBarra, barHeight);
+
+                x += anchoBarra + 1;
+            }
+        }
+    </script>
+</body>
+
+</html>

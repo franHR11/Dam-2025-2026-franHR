@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reproductor Avanzado Multi-archivo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .playlist {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .playlist li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .playlist li:hover {
+            background: #eef;
+        }
+
+        .playlist li.active {
+            background: #d0e1ff;
+            font-weight: bold;
+        }
+
+        #log-eventos {
+            height: 100px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            background: #f0f0f0;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9em;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Reproductor Avanzado</h1>
+
+    <audio id="reproductor" controls style="width: 100%; margin-bottom: 20px;"></audio>
+
+    <h3>Lista de Reproducción</h3>
+    <ul class="playlist" id="lista">
+        <!-- Se llenará con JS -->
+    </ul>
+
+    <h3>Log de Eventos</h3>
+    <div id="log-eventos"></div>
+
+    <script>
+        const canciones = [
+            { nombre: "Pista 1 (Demo)", url: "../audio.mp3" },
+            { nombre: "Pista 2 (Ejemplo)", url: "../audio.mp3" }, // Usamos el mismo para demo
+            { nombre: "Pista 3 (Final)", url: "../audio.mp3" }
+        ];
+
+        let indiceActual = 0;
+        const audio = document.getElementById('reproductor');
+        const listaUl = document.getElementById('lista');
+        const logDiv = document.getElementById('log-eventos');
+
+        function log(msg) {
+            const linea = document.createElement('div');
+            linea.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            logDiv.prepend(linea);
+        }
+
+        function cargarCancion(index) {
+            indiceActual = index;
+            audio.src = canciones[index].url;
+            log(`Cargando: ${canciones[index].nombre}`);
+            renderizarLista();
+            audio.play().catch(e => log("Esperando interacción para reproducir"));
+        }
+
+        function renderizarLista() {
+            listaUl.innerHTML = '';
+            canciones.forEach((cancion, i) => {
+                const li = document.createElement('li');
+                li.textContent = cancion.nombre;
+                if (i === indiceActual) li.classList.add('active');
+                li.onclick = () => cargarCancion(i);
+                listaUl.appendChild(li);
+            });
+        }
+
+        // Manejo de eventos (Funcionalidad extra)
+        audio.addEventListener('ended', () => {
+            log("Audio finalizado. Pasando a siguiente pista...");
+            let siguienteIndex = indiceActual + 1;
+            if (siguienteIndex >= canciones.length) siguienteIndex = 0; // Bucle de lista
+            cargarCancion(siguienteIndex);
+        });
+
+        audio.addEventListener('play', () => log("Evento: Reproducción iniciada"));
+        audio.addEventListener('pause', () => log("Evento: Pausa"));
+        audio.addEventListener('volumechange', () => log(`Evento: Volumen ${Math.round(audio.volume * 100)}%`));
+
+        // Iniciar
+        renderizarLista();
+        // audio.src = canciones[0].url; // Pre-carga inicial
+    </script>
+</body>
+
+</html>

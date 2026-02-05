@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Video Personalizado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Reproductor de Video</h1>
+
+        <video id="miVideo" width="640" height="360" controls>
+            <source src="video_1080.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+
+        <div class="controls">
+            <div class="buttons">
+                <button id="rebobinar">Rebobinar</button>
+                <button id="menosdiez">-10s</button>
+                <button id="reproducir">Reproducir</button>
+                <button id="parar">Parar</button>
+                <button id="masdiez">+10s</button>
+            </div>
+
+            <div class="settings">
+                <label for="volumen">Volumen:</label>
+                <input id="volumen" type="range" min="0" max="1" step="0.01" value="1">
+
+                <label for="resolucion">Resolución:</label>
+                <select id="resolucion">
+                    <option value="">Cargando...</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

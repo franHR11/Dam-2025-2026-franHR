@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor Móvil - Práctica Completa</title>
+    <style>
+        /* Estilos generales para centrar y dar aspecto de app */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Contenedor principal: Simula el reproductor */
+        #reproductor {
+            background: white;
+            width: 90%;
+            max-width: 350px;
+            /* Tamaño tipo móvil */
+            margin: auto;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            cursor: pointer;
+            /* Feedback visual para el clic */
+            transition: transform 0.2s;
+        }
+
+        #reproductor:active {
+            transform: scale(0.98);
+        }
+
+        /* 
+           EJERCICIO 004: Evitar reescalado deforme.
+           Uso object-fit: cover para que la carátula ocupe su espacio
+           sin perder proporciones, cortando los bordes si es necesario.
+        */
+        img {
+            width: 100%;
+            height: 250px;
+            /* Altura fija para forzar el ajuste */
+            border-radius: 10px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* Estilos de texto */
+        h3 {
+            margin: 10px 0;
+            color: #333;
+        }
+
+        p {
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        /* Estilo del elemento audio nativo */
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            outline: none;
+        }
+
+        /* 
+           EJERCICIO 007: Lista de reproducción.
+           Diseño simple tipo lista de spotify/apple music.
+        */
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 90%;
+            max-width: 350px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        li {
+            background: white;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 
+         Zona del Reproductor 
+         Al hacer clic aquí se activará la pantalla completa
+    -->
+    <div id="reproductor" title="Haz clic para pantalla completa">
+        <!-- Imagen de prueba que simula una carátula de álbum -->
+        <img src="https://placehold.co/400x400/222/fff?text=Cover+Art" alt="Portada del Álbum">
+
+        <h3>Canción Actual</h3>
+        <p>Artista Desconocido</p>
+
+        <audio controls>
+            <source src="audio.mp3" type="audio/mp3">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+
+    <!-- Lista de Favoritos -->
+    <ul>
+        <li>
+            <span>🎵 Canción Favorita 1</span>
+            <small>3:45</small>
+        </li>
+        <li>
+            <span>🎵 Canción Favorita 2</span>
+            <small>4:20</small>
+        </li>
+        <li>
+            <span>🎵 Canción Favorita 3</span>
+            <small>2:50</small>
+        </li>
+    </ul>
+
+    <script>
+        /*
+           EJERCICIO 008: Funcionalidad de Pantalla Completa.
+           Detectamos el clic en el contenedor principal.
+        */
+        var reproductor = document.getElementById('reproductor');
+
+        reproductor.addEventListener('click', function () {
+            // Comprobamos si ya estamos en pantalla completa para alternar
+            if (!document.fullscreenElement) {
+                // Entrar en pantalla completa (Cross-browser básico)
+                if (reproductor.requestFullscreen) {
+                    reproductor.requestFullscreen();
+                } else if (reproductor.webkitRequestFullscreen) { /* Safari */
+                    reproductor.webkitRequestFullscreen();
+                }
+            } else {
+                // Salir de pantalla completa
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

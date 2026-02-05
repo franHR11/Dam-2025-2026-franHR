@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot POO JS</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f0f0f0; }
+        canvas { background: white; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <canvas id="simulation" width="400" height="400"></canvas>
+    <script src="script.js"></script>
+    <script>
+        // Inicialización simple para demostración visual
+        const canvas = document.getElementById('simulation');
+        const ctx = canvas.getContext('2d');
+        const robot = new Robot(200, 200, 0);
+        
+        // Obstáculos simulados (simples rectángulos para el ejemplo)
+        const obstacles = [
+            {x: 100, y: 100, w: 50, h: 50},
+            {x: 250, y: 250, w: 100, h: 20}
+        ];
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dibujar obstáculos
+            ctx.fillStyle = '#666';
+            obstacles.forEach(obs => ctx.fillRect(obs.x, obs.y, obs.w, obs.h));
+
+            // Actualizar y dibujar robot
+            // Simulamos input para movimiento automático en círculos
+            robot.update(1, 0.02); 
+            robot.draw(ctx);
+            
+            // Sensores (visualización en consola por simplicidad)
+            const detection = robot.checkSensors(obstacles);
+            if (detection) {
+                ctx.fillStyle = 'red';
+                ctx.fillText('¡Obstáculo!', 10, 20);
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+        
+        gameLoop();
+    </script>
+</body>
+</html>
