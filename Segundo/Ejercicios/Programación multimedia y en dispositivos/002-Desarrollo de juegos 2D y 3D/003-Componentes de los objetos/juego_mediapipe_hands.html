@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego con MediaPipe Hands</title>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <style>
+        body { margin: 0; display: flex; flex-direction: column; align-items: center; background: #1a1a2e; font-family: Arial, sans-serif; color: white; }
+        canvas { border: 3px solid #4a4a6a; margin-top: 20px; background: linear-gradient(to bottom, #1a1a2e, #16213e); }
+        .info { margin-top: 20px; text-align: center; }
+        h1 { color: #e94560; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+    <h1>Juego de Captura con la Mano</h1>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div class="info">
+        <p>Puntuación: <span id="score">0</span> | Vidas: <span id="lives">3</span></p>
+        <p id="statusText">Mueve la mano para controlar la paleta roja y atrapar los objetos azules</p>
+        <video id="inputVideo" style="display:none"></video>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreEl = document.getElementById('score');
+        const livesEl = document.getElementById('lives');
+        const video = document.getElementById('inputVideo');
+        const statusText = document.getElementById('statusText');
+
+        let score = 0, lives = 3;
+        let paddleX = canvas.width / 2, paddleY = canvas.height - 60;
+        let objects = [];
+        let handX = canvas.width / 2, handY = canvas.height - 60;
+        let handDetected = false;
+        let useMouse = false;
+
+        const hands = new Hands({locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
+        hands.setOptions({maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.7, minTrackingConfidence: 0.5});
+        hands.onResults(results => {
+            if (results.multiHandLandmarks && results.multiHandLandmarks[0]) {
+                handDetected = true;
+                handX = (1 - results.multiHandLandmarks[0][8].x) * canvas.width;
+                handY = results.multiHandLandmarks[0][8].y * canvas.height;
+            } else {
+                handDetected = false;
+            }
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (useMouse) {
+                const rect = canvas.getBoundingClientRect();
+                handX = e.clientX - rect.left;
+                handY = e.clientY - rect.top;
+                handDetected = true;
+            }
+        });
+
+        function spawnObject() {
+            if (Math.random() < 0.01) {
+                objects.push({x: Math.random() * (canvas.width - 40) + 20, y: -20, radius: 15, speed: 1 + Math.random() * 0.5});
+            }
+        }
+
+        function update() {
+            paddleX += (handX - paddleX) * 0.05;
+            paddleY += (handY - paddleY) * 0.05;
+            paddleX = Math.max(30, Math.min(canvas.width - 30, paddleX));
+            paddleY = Math.max(30, Math.min(canvas.height - 30, paddleY));
+
+            spawnObject();
+            objects = objects.filter(obj => {
+                obj.y += obj.speed;
+                if (obj.y > canvas.height) { lives--; livesEl.textContent = lives; return false; }
+                const dist = Math.hypot(paddleX - obj.x, paddleY - obj.y);
+                if (dist < 35) { score++; scoreEl.textContent = score; return false; }
+                return true;
+            });
+
+            if (lives <= 0) {
+                alert('Game Over! Puntuación final: ' + score);
+                location.reload();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            objects.forEach(obj => {
+                ctx.beginPath();
+                ctx.arc(obj.x, obj.y, obj.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#4a9eff';
+                ctx.fill();
+                ctx.strokeStyle = '#2d7dd2';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            });
+
+            ctx.beginPath();
+            ctx.arc(paddleX, paddleY, 25, 0, Math.PI * 2);
+            ctx.fillStyle = handDetected ? '#e94560' : '#666';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
+            video.srcObject = stream;
+            video.play();
+            const camera = new Camera(video, {onFrame: async () => await hands.send({image: video}), width: 640, height: 480});
+            camera.start();
+            gameLoop();
+        }).catch(err => {
+            useMouse = true;
+            statusText.textContent = 'MODO MOUSE: Usa el ratón para controlar la paleta roja y atrapar los objetos azules';
+            console.log('Cámara no disponible, usando mouse:', err);
+            gameLoop();
+        });
+    </script>
+</body>
+</html>

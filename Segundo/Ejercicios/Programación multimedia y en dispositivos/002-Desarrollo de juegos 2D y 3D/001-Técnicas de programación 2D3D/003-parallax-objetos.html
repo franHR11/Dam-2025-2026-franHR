@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    .info { position: fixed; bottom: 20px; left: 20px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 15px; color: white; border-radius: 8px; font-size: 14px; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <strong>Mueve la camara</strong><br>
+    Usa WASD para moverte y arrastra para mirar. Observa como objetos diferentes se mueven a distintas velocidades.
+  </div>
+  
+  <a-scene>
+    <a-sky color="#0f0f23"></a-sky>
+    <a-camera position="0 1.6 0" wasd-controls="enabled: true">
+      <a-cursor color="yellow"></a-cursor>
+    </a-camera>
+    
+    <script>
+      AFRAME.registerComponent('parallax-layer', {
+        schema: { layer: { type: 'number', default: 1 } },
+        init: function() {
+          this.data.original = this.el.object3D.position.clone();
+        },
+        tick: function() {
+          const camera = document.querySelector('[camera]');
+          const camPos = camera.object3D.position;
+          const speed = this.data.layer * 0.15;
+          const original = this.data.original;
+          this.el.object3D.position.x = original.x - camPos.x * speed;
+          this.el.object3D.position.z = original.z - camPos.z * speed;
+        }
+      });
+    </script>
+    
+    <!-- Capa lejana (layer 1) -->
+    <a-box position="-5 1 -15" color="#e74c3c" scale="4 4 4" parallax-layer="layer: 1"></a-box>
+    <a-sphere position="5 2 -18" color="#9b59b6" radius="2" parallax-layer="layer: 1"></a-sphere>
+    <a-cylinder position="0 1.5 -20" color="#3498db" radius="1" height="4" parallax-layer="layer: 1"></a-cylinder>
+    
+    <!-- Capa media (layer 2) -->
+    <a-box position="-3 1 -8" color="#f39c12" scale="2 2 2" parallax-layer="layer: 2"></a-box>
+    <a-sphere position="3 1.5 -10" color="#2ecc71" radius="1.2" parallax-layer="layer: 2"></a-sphere>
+    
+    <!-- Capa cercana (layer 3) -->
+    <a-box position="-1 0.5 -3" color="#e91e63" scale="1 1 1" parallax-layer="layer: 3"></a-box>
+    <a-sphere position="1 0.5 -3.5" color="#00bcd4" radius="0.5" parallax-layer="layer: 3"></a-sphere>
+    <a-cylinder position="0 0.5 -4" color="#ff9800" radius="0.3" height="1" parallax-layer="layer: 3"></a-cylinder>
+  </a-scene>
+</body>
+</html>

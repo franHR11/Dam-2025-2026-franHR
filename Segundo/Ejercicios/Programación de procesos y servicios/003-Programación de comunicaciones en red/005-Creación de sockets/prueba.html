@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat de Pesca - WebSocket</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f8ff; padding: 20px; }
+        #chat-container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #0077be; text-align: center; } 
+        #mensajes { height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #fafafa; }
+        .mensaje { padding: 5px; border-bottom: 1px solid #eee; }
+        .controles { display: flex; gap: 10px; }
+        input[type="text"] { flex-grow: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; background-color: #0077be; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #005f9e; }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <h1>🎣 Radio de Pescadores</h1>
+    <div id="mensajes"></div>
+    <div class="controles">
+        <input type="text" id="textoInput" placeholder="Reporta tu captura (ej: Trucha de 2kg)...">
+        <button onclick="enviarMensaje()">Lanzar Mensaje</button>
+    </div>
+</div>
+
+<script>
+    // Conexión al servidor WebSocket
+    const socket = new WebSocket("ws://localhost:8765");
+
+    socket.onopen = function(e) {
+        agregarAlChat("<i>Conectado al canal de radio...</i>");
+    };
+
+    socket.onmessage = function(event) {
+        try {
+            // Recibimos el JSON y lo convertimos a objeto
+            const datos = JSON.parse(event.data);
+            agregarAlChat(`<strong>Pescador:</strong> ${datos.mensaje}`);
+        } catch (e) {
+            console.error("Error al parsear JSON", e);
+        }
+    };
+
+    socket.onclose = function(event) {
+        if (event.wasClean) {
+            agregarAlChat(`<i>Conexión cerrada limpiamente.</i>`);
+        } else {
+            agregarAlChat(`<i>Conexión perdida (sedal roto).</i>`);
+        }
+    };
+
+    socket.onerror = function(error) {
+        agregarAlChat(`<i>Error: ${error.message}</i>`);
+    };
+
+    function enviarMensaje() {
+        const input = document.getElementById("textoInput");
+        const texto = input.value;
+        
+        if (texto.trim() === "") return;
+
+        // Creamos el objeto JSON
+        const objetoMensaje = {
+            tipo: "chat",
+            mensaje: texto,
+            timestamp: new Date().toISOString()
+        };
+
+        // Convertimos a string JSON y enviamos
+        socket.send(JSON.stringify(objetoMensaje));
+        
+        input.value = ""; // Limpiar campo
+    }
+
+    function agregarAlChat(html) {
+        const div = document.getElementById("mensajes");
+        const p = document.createElement("div");
+        p.className = "mensaje";
+        p.innerHTML = html;
+        div.appendChild(p);
+        div.scrollTop = div.scrollHeight; // Auto-scroll
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estrategia Business Plan - Tech Valencia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            background-color: #0f172a;
+        }
+
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            padding: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .gradient-bg {
+            background: radial-gradient(circle at top right, #065f46, #0f172a);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #10b981;
+            z-index: 100;
+            transition: width 0.4s ease;
+        }
+
+        .nav-btn {
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        th { text-align: left; padding: 12px; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; }
+        td { padding: 12px; background: rgba(255, 255, 255, 0.05); }
+        td:first-child { border-radius: 8px 0 0 8px; font-weight: 600; }
+        td:last-child { border-radius: 0 8px 8px 0; text-align: right; }
+    </style>
+</head>
+<body class="text-slate-200">
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- SLIDE 1: PORTADA REFORZADA -->
+    <div class="slide active gradient-bg">
+        <div class="max-w-5xl mx-auto text-center">
+            <span class="px-4 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-bold tracking-widest uppercase mb-6 inline-block">Propuesta Técnica 2024</span>
+            <h1 class="text-7xl font-extrabold mb-6 leading-tight">Software con <span class="text-emerald-400">Huella Cero</span></h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-12">Plan de transformación digital y sostenibilidad desde el origen para una agencia de desarrollo en Valencia.</p>
+            <div class="flex justify-center gap-6">
+                <div class="flex items-center gap-2"><i class="fas fa-microchip text-emerald-500"></i> Digital-First</div>
+                <div class="flex items-center gap-2"><i class="fas fa-leaf text-emerald-500"></i> Eco-Responsable</div>
+                <div class="flex items-center gap-2"><i class="fas fa-euro-sign text-emerald-500"></i> Rentable</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: DE 0 A 100 - EL PROCESO -->
+    <div class="slide bg-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                <i class="fas fa-route text-emerald-500"></i> Roadmap de Implementación "Desde Cero"
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="glass-card p-6">
+                    <div class="text-emerald-500 font-bold mb-2">Fase 1: Cimientos</div>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Elección de Proveedor Cloud Verde (Google/Azure).</li>
+                        <li>• Configuración de Stack Serverless.</li>
+                        <li>• Política de Trabajo Remoto 100%.</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-6 border-t-4 border-emerald-500">
+                    <div class="text-emerald-500 font-bold mb-2">Fase 2: Operativa</div>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Digitalización de procesos legales (Firma digital).</li>
+                        <li>• Implementación de Metodologías Ágiles.</li>
+                        <li>• Formación en Green Coding.</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-6">
+                    <div class="text-emerald-500 font-bold mb-2">Fase 3: Optimización</div>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Auditoría de eficiencia de código.</li>
+                        <li>• Registro Huella de Carbono (MITECO).</li>
+                        <li>• Alianza con Ecosistema Valencia Tech.</li>
+                    </ul>
+                </div>
+                <div class="glass-card p-6">
+                    <div class="text-emerald-500 font-bold mb-2">Fase 4: Escala</div>
+                    <ul class="text-sm text-slate-400 space-y-2">
+                        <li>• Certificación B-Corp.</li>
+                        <li>• Agente Digitalizador (Kit Digital).</li>
+                        <li>• Expansión de servicios sostenibles.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: ANÁLISIS ECONÓMICO (INVERSIÓN) -->
+    <div class="slide bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-2">Inversión y Costes Estructura</h2>
+            <p class="text-slate-500 mb-8 italic">Estimación para una agencia de 5-10 empleados en la C. Valenciana</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-emerald-400 font-bold mb-4 uppercase text-xs tracking-widest">CAPEX / Inversión Inicial</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Costo Est.</th></tr></thead>
+                        <tbody>
+                            <tr><td>Hardware Reacondicionado (Laptops)</td><td>€6.500</td></tr>
+                            <tr><td>Setup Ciberseguridad & VPN</td><td>€1.200</td></tr>
+                            <tr><td>Consultoría Sostenibilidad e ISO</td><td>€2.500</td></tr>
+                            <tr><td>Marketing Digital (Lanzamiento)</td><td>€3.000</td></tr>
+                            <tr class="text-emerald-400"><td>Total Inversión</td><td>€13.200</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3 class="text-emerald-400 font-bold mb-4 uppercase text-xs tracking-widest">OPEX / Gastos Mensuales</h3>
+                    <table>
+                        <thead><tr><th>Concepto</th><th>Mensual</th></tr></thead>
+                        <tbody>
+                            <tr><td>Suscripciones SaaS (Jira, Slack, Figma)</td><td>€350</td></tr>
+                            <tr><td>Infraestructura Cloud (Pago x uso)</td><td>€200</td></tr>
+                            <tr><td>Coworking Valencia (Uso puntual)</td><td>€450</td></tr>
+                            <tr><td>Seguros y Gestoría Digital</td><td>€150</td></tr>
+                            <tr class="text-emerald-400"><td>Coste Fijo Digital</td><td>€1.150</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: SUBVENCIONES (EL FACTOR VALENCIA) -->
+    <div class="slide bg-slate-900">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-12">Financiación: El "Filtro" Valencia</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 border border-emerald-500/30 rounded-3xl bg-emerald-500/5">
+                    <div class="text-5xl font-bold text-emerald-400 mb-4">€12k</div>
+                    <h3 class="font-bold mb-2">Kit Digital</h3>
+                    <p class="text-sm text-slate-400">Subvención directa para implementar soluciones digitales (web, RRSS, BI).</p>
+                </div>
+                <div class="p-8 border border-emerald-500/30 rounded-3xl bg-emerald-500/5">
+                    <div class="text-5xl font-bold text-emerald-400 mb-4">40%</div>
+                    <h3 class="font-bold mb-2">IVACE Digitaliza</h3>
+                    <p class="text-sm text-slate-400">Ayudas para proyectos de innovación tecnológica en pymes valencianas.</p>
+                </div>
+                <div class="p-8 border border-emerald-500/30 rounded-3xl bg-emerald-500/5">
+                    <div class="text-5xl font-bold text-emerald-400 mb-4">Deducción</div>
+                    <h3 class="font-bold mb-2">I+D+i</h3>
+                    <p class="text-sm text-slate-400">Bonificaciones en Seguridad Social y deducciones fiscales por desarrollo propio.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: CRONOGRAMA DE TRANSFORMACIÓN -->
+    <div class="slide bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center">Tiempo de Ejecución: 12 Meses</h2>
+            <div class="relative">
+                <div class="absolute h-1 bg-slate-800 w-full top-1/2 transform -translate-y-1/2"></div>
+                <div class="grid grid-cols-4 gap-4 relative z-10">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">1</div>
+                        <h4 class="font-bold text-sm">Mes 1-2</h4>
+                        <p class="text-xs text-slate-400">Alta, Web y Setup Cloud.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">2</div>
+                        <h4 class="font-bold text-sm">Mes 3-6</h4>
+                        <p class="text-xs text-slate-400">Desarrollo primer MVP y formación Green IT.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">3</div>
+                        <h4 class="font-bold text-sm">Mes 7-9</h4>
+                        <p class="text-xs text-slate-400">Solicitud ayudas IVACE y certificación.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 font-bold">4</div>
+                        <h4 class="font-bold text-sm">Mes 10-12</h4>
+                        <p class="text-xs text-slate-400">Escalabilidad y rentabilidad neta.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: CONCLUSIÓN / VALOR AÑADIDO -->
+    <div class="slide bg-slate-900">
+        <div class="max-w-4xl mx-auto glass-card p-12 text-center">
+            <h2 class="text-4xl font-bold mb-8">Por qué este modelo funciona</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="flex gap-4">
+                    <i class="fas fa-chart-line text-emerald-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold">Ahorro del 60%</h4>
+                        <p class="text-sm text-slate-400">En costes operativos vs una oficina física tradicional.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <i class="fas fa-user-plus text-emerald-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold">Atracción de Talento</h4>
+                        <p class="text-sm text-slate-400">Los seniors prefieren empresas con valores éticos y remoto.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <i class="fas fa-handshake text-emerald-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold">Venta Consultiva</h4>
+                        <p class="text-sm text-slate-400">Clientes internacionales buscan partners con sellos de sostenibilidad.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <i class="fas fa-globe-europe text-emerald-500 text-2xl"></i>
+                    <div>
+                        <h4 class="font-bold">Ecosistema</h4>
+                        <p class="text-sm text-slate-400">Sinergia con la Capitalidad Verde Europea de Valencia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-8 bg-slate-800/80 backdrop-blur px-6 py-3 rounded-full border border-slate-700">
+        <button onclick="prev()" class="nav-btn text-slate-400 hover:text-white"><i class="fas fa-arrow-left"></i></button>
+        <span class="text-xs font-bold tracking-tighter" id="counter">1 / 6</span>
+        <button onclick="next()" class="nav-btn text-slate-400 hover:text-white"><i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const bar = document.getElementById('progressBar');
+        const counter = document.getElementById('counter');
+
+        function update() {
+            slides.forEach((s, i) => s.classList.toggle('active', i === current));
+            bar.style.width = ((current + 1) / slides.length * 100) + '%';
+            counter.innerText = `${current + 1} / ${slides.length}`;
+        }
+
+        function next() { if (current < slides.length - 1) { current++; update(); } }
+        function prev() { if (current > 0) { current--; update(); } }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') next();
+            if (e.key === 'ArrowLeft') prev();
+        });
+    </script>
+</body>
+</html>

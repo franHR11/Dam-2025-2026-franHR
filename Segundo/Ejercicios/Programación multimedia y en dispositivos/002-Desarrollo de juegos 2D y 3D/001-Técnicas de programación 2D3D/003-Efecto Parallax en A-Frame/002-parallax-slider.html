@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    .control { position: fixed; top: 20px; left: 20px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 15px; color: white; border-radius: 8px; }
+    .control label { display: block; margin-bottom: 10px; }
+    .control input { width: 200px; }
+  </style>
+</head>
+<body>
+  <div class="control">
+    <label>Intensidad Parallax: <span id="valor">1.0</span></label>
+    <input type="range" id="parallax" min="0" max="2" step="0.1" value="1">
+  </div>
+  
+  <a-scene>
+    <a-sky color="#1a1a2e"></a-sky>
+    <a-camera position="0 1.6 5">
+      <a-cursor color="lime"></a-cursor>
+    </a-camera>
+    
+    <script>
+      AFRAME.registerComponent('parallax', {
+        schema: { intensity: { type: 'number', default: 1 } },
+        tick: function() {
+          const camera = document.querySelector('[camera]');
+          const camPos = camera.object3D.position;
+          const basePos = this.data.originalPos || this.el.object3D.position.clone();
+          if (!this.data.originalPos) this.data.originalPos = basePos.clone();
+          this.el.object3D.position.x = basePos.x - camPos.x * 0.1 * this.data.intensity;
+          this.el.object3D.position.z = basePos.z - camPos.z * 0.1 * this.data.intensity;
+        }
+      });
+    </script>
+    
+    <a-box position="-3 1 -10" color="#e74c3c" scale="2 2 2" parallax="intensity: 0.5"></a-box>
+    <a-sphere position="3 1 -12" color="#9b59b6" radius="1.2" parallax="intensity: 0.3"></a-sphere>
+    <a-box position="0 1 -8" color="#3498db" scale="1.5 1.5 1.5" parallax="intensity: 0.8"></a-box>
+    <a-cylinder position="-1 0.5 -4" color="#2ecc71" radius="0.5" height="1.5" parallax="intensity: 1.2"></a-cylinder>
+    <a-sphere position="1 0.5 -3" color="#f39c12" radius="0.6" parallax="intensity: 1.5"></a-sphere>
+  </a-scene>
+  
+  <script>
+    document.getElementById('parallax').addEventListener('input', (e) => {
+      const val = e.target.value;
+      document.getElementById('valor').textContent = val;
+      document.querySelectorAll('[parallax]').forEach(el => {
+        el.setAttribute('parallax', 'intensity', val);
+      });
+    });
+  </script>
+</body>
+</html>

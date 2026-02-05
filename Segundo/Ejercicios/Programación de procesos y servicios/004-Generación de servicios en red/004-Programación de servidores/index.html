@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Práctica de Aplicación</title>
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 1em;
+        }
+
+        /* Estilo extra para diferenciar hobbies dinámicos */
+        .dinamico {
+            color: #0056b3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Práctica de Aplicación</h1>
+    </header>
+    <main>
+        <!-- Sección para mostrar la información del día -->
+        <section id="día">
+            <h2>Día: <span id="fecha"></span></h2>
+            <p>Esta es una sección que mostrará la fecha actual.</p>
+        </section>
+
+        <!-- Sección para mostrar la información de la sesión -->
+        <section id="sesión">
+            <h2>Sesión:</h2>
+            <ul>
+                <li>Título: <span id="título"></span></li>
+                <li>Descripción: <span id="descripcion"></span></li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Sección para mostrar la información de los hobbies -->
+    <section id="hobbies">
+        <h2>Hobbies:</h2>
+        <!-- La lista se modificará mediante JS para demostrar dinamismo -->
+        <ol id="lista-hobbies">
+            <li>Pesca</li>
+            <li>Caza</li>
+            <li>Naturaleza</li>
+            <li>Saltar con la Bicicleta</li>
+            <li>Saltar con la Moto</li>
+        </ol>
+    </section>
+
+    <!-- Script para mostrar la información del día y la sesión -->
+    <script src="script.js"></script>
+</body>
+
+</html>

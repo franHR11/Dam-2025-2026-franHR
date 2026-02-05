@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    canvas { display: block; margin: auto; background: #1a1a2e; }
+    body { background: #16213e; margin: 0; }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particulas = [];
+    const numParticulas = 50;
+
+    class Particula {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 4;
+        this.vy = (Math.random() - 0.5) * 4;
+        this.radio = 5 + Math.random() * 5;
+        this.color = `hsl(${Math.random() * 60 + 180}, 70%, 60%)`;
+      }
+
+      actualizar() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < this.radio || this.x > canvas.width - this.radio) this.vx *= -1;
+        if (this.y < this.radio || this.y > canvas.height - this.radio) this.vy *= -1;
+      }
+
+      dibujar() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radio, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < numParticulas; i++) particulas.push(new Particula());
+
+    function aplicarFuerzas() {
+      for (let i = 0; i < particulas.length; i++) {
+        for (let j = i + 1; j < particulas.length; j++) {
+          const dx = particulas[j].x - particulas[i].x;
+          const dy = particulas[j].y - particulas[i].y;
+          const distancia = Math.sqrt(dx * dx + dy * dy);
+
+          if (distancia < 100 && distancia > 20) {
+            const fuerza = 0.01 / distancia;
+            particulas[i].vx += dx * fuerza;
+            particulas[j].vx -= dx * fuerza;
+            particulas[i].vy += dy * fuerza;
+            particulas[j].vy -= dy * fuerza;
+          }
+
+          if (distancia < 20) {
+            particulas[i].vx -= dx * 0.05;
+            particulas[j].vx += dx * 0.05;
+            particulas[i].vy -= dy * 0.05;
+            particulas[j].vy += dy * 0.05;
+          }
+        }
+      }
+    }
+
+    function animar() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      aplicarFuerzas();
+      particulas.forEach(p => { p.actualizar(); p.dibujar(); });
+      requestAnimationFrame(animar);
+    }
+    animar();
+  </script>
+</body>
+</html>
